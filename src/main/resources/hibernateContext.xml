@@ -28,9 +28,9 @@
 	<bean id="dataSource"
 		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
-		<property name="url" value="jdbc:mysql://localhost:3306" />
+		<property name="url" value="jdbc:mysql://localhost:3306/db" />
 		<property name="username" value="root" />
-		<property name="password" value="" />
+		<property name="password" value="P@55w0rd" />
 	</bean>
 	<bean id="transactionManager"
 		class="org.springframework.orm.hibernate5.HibernateTransactionManager">
