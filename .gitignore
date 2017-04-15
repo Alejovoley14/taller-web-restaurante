@@ -74,9 +74,6 @@ $RECYCLE.BIN/
 *.iws
 out/
 
-# Mac
-.DS_Store
-
 # Maven
 log/
 target/
