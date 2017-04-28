@@ -10,19 +10,20 @@ import org.springframework.stereotype.Service;
 import ar.edu.unlam.tallerweb1.modelo.Usuario;
 
 @Service("usuarioDao")
-public class UsuarioDaoImpl implements UsuarioDao {
+public class UsuarioDaoImpl extends BaseDaoImpl<Usuario> implements UsuarioDao{
 
 	@Inject
     private SessionFactory sessionFactory;
 
-	@Override
-	public Usuario consultarUsuario(Usuario usuario) {
-
-		final Session session = sessionFactory.openSession();
-		return (Usuario) session.createCriteria(Usuario.class)
-				.add(Restrictions.eq("email", usuario.getEmail()))
-				.add(Restrictions.eq("password", usuario.getPassword()))
-				.uniqueResult();
-	}
+	//@Override
+//	public Usuario consultarUsuario(Usuario usuario) {
+////
+////		final Session session = sessionFactory.openSession();
+////		return (Usuario) session.createCriteria(Usuario.class)
+////				.add(Restrictions.eq("email", usuario.getEmail()))
+////				.add(Restrictions.eq("password", usuario.getPassword()))
+////				.uniqueResult();
+//
+//	}
 
 }
