@@ -17,35 +17,34 @@ public class ServicioImpl<T extends Entidad> implements Servicio<T> {
     private BaseDao<T> servicioBaseDao;
 
 
+    @Override
+    public T get(final Class<T> type, final Long id) {
+
+        return servicioBaseDao.get(type, id);
+    }
 
     @Override
-    public <T> T save(final T item) {
+    public List<T> getAll(final Class<T> type) {
+        return servicioBaseDao.getAll(type);
+    }
+
+    @Override
+    public  T save(final T item) {
         return servicioBaseDao.save(item);
     }
 
     @Override
-    public void delete(final T item){
+    public void delete(final T item) {
         servicioBaseDao.delete(item);
     }
 
     @Override
-    public <T> T merge(final T item) {
+    public T merge(final T item) {
         return servicioBaseDao.merge(item);
     }
 
     @Override
-    public <T> void saveOrUpdate(final T item) {
+    public void saveOrUpdate(final T item) {
         servicioBaseDao.saveOrUpdate(item);
     }
-
-
-    protected List<T> getAllItems(final Class<T> type,List<Criterion> criterions) {
-        return servicioBaseDao.getAll(type,criterions);
-    }
-
-    protected T getItem(final Class<T> type,List<Criterion> criterions) {
-        return servicioBaseDao.get(type,criterions);
-    }
-
-
 }

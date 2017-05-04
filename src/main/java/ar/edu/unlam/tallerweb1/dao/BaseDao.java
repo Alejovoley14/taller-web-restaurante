@@ -10,13 +10,17 @@ import java.util.List;
  */
 public interface BaseDao<T extends Entidad> {
 
-    <T> T save(final T item);
-    void delete(final T item);
-    <T> T get(final Class<T> type,final Long id);
-    <T> T get(final Class<T> type,List<Criterion> criterions);
-    <T> T merge(final T item);
-    <T> void saveOrUpdate(final T item);
-    <T> List<T> getAll(final Class<T> type);
-    <T> List<T> getAll(final Class<T> type,List<Criterion> criterions);
+    T save(final T item);
 
+    void delete(final T item);
+
+    T get(final Class<T> type, final Long id);
+
+    T get(final Class<T> type, List<Criterion> criterions);
+
+    T merge(final T item);
+
+    void saveOrUpdate(final T item);
+
+    List<T> getAll(final Class<T> type);
 }

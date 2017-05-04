@@ -27,15 +27,7 @@ public class ServicioLoginImpl extends ServicioImpl<Usuario> implements Servicio
 
 	@Override
 	public Usuario consultarUsuario (Usuario usuario) {
-
-//		return servicioLoginDao.consultarUsuario(usuario);
-
-		List<Criterion> criterios = new LinkedList<Criterion>();
-
-		criterios.add(Restrictions.eq("email", usuario.getEmail()));
-		criterios.add(Restrictions.eq("password", usuario.getPassword()));
-
-		return super.getItem(Usuario.class,criterios);
+		return servicioLoginDao.consultarUsuario(usuario);
 	}
 
 }
