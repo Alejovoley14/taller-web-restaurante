@@ -2,16 +2,25 @@ package ar.edu.unlam.tallerweb1.servicios;
 
 import javax.inject.Inject;
 
+import org.hibernate.Criteria;
+import org.hibernate.HibernateException;
+import org.hibernate.criterion.CriteriaQuery;
+import org.hibernate.criterion.Criterion;
+import org.hibernate.criterion.Restrictions;
+import org.hibernate.engine.spi.TypedValue;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import ar.edu.unlam.tallerweb1.dao.UsuarioDao;
 import ar.edu.unlam.tallerweb1.modelo.Usuario;
 
+import java.util.LinkedList;
+import java.util.List;
+
 
 @Service("servicioLogin")
 @Transactional
-public class ServicioLoginImpl implements ServicioLogin {
+public class ServicioLoginImpl extends ServicioImpl<Usuario> implements ServicioLogin {
 
 	@Inject
 	private UsuarioDao servicioLoginDao;
