@@ -1,6 +1,6 @@
 package ar.edu.unlam.tallerweb1.modelo;
 
-import clojure.lang.IFn;
+//import clojure.lang.IFn;
 
 import javax.persistence.*;
 import java.util.ArrayList;
