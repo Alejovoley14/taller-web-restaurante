@@ -22,13 +22,15 @@ public class ControladorLogin {
 	public ModelAndView irALogin() {
 
 		ModelMap modelo = new ModelMap();
-		Usuario usuario = new Usuario();
-		modelo.put("usuario", usuario);
+		Usuario usuario = new Usuario(); //instancio el modelo que el formulario necesita para la peticion tipo post
+		modelo.put("usuario", usuario);	//asigno esa instancia al modelMap con key "usuario"
 		return new ModelAndView("login", modelo);
 	}
 
-	@RequestMapping(path = "/validar-login", method = RequestMethod.POST)
+	@RequestMapping(path = "/validar-login", method = RequestMethod.POST)//method determina el tipo de metodo http
 	public ModelAndView validarLogin(@ModelAttribute("usuario") Usuario usuario) {
+		//@ModelAttribute recibe el modelAttribute del form con los datos asignados por el usuario y lo guardo en un objeto del mismo tipo(modelo)
+		//luego se lo manipula por medio de getters y setters
 		ModelMap model = new ModelMap();
 
 		if (servicioLogin.consultarUsuario(usuario) != null) {
@@ -36,7 +38,7 @@ public class ControladorLogin {
 		} else {
 			model.put("error", "Usuario o clave incorrecta");
 		}
-		return new ModelAndView("login", model);
+		return new ModelAndView("login", model); //al final se retorna la vista correspondiente y los atributos del ModelAttribute se toman con ${}
 	}
 	
 	@RequestMapping(path = "/home", method = RequestMethod.GET)

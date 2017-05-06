@@ -5,11 +5,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
-@Entity
+@Entity //indica que esto se procesara en una base de datos
 public class Usuario {
 	
-	@Id 
-	@GeneratedValue(strategy = GenerationType.IDENTITY) 
+	@Id //indica la primary key de la tabla en que se guardara
+	@GeneratedValue(strategy = GenerationType.IDENTITY) //esto ganera el id en los registro de la bd de forma autoincremental
 	private Long id;
 	private String email;
 	private String password;
