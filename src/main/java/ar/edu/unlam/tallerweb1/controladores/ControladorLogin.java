@@ -2,6 +2,7 @@ package ar.edu.unlam.tallerweb1.controladores;
 
 import javax.inject.Inject;
 
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -18,7 +19,7 @@ public class ControladorLogin {
 	@Inject
 	private ServicioLogin servicioLogin;
 	
-	@RequestMapping("/login")
+	@RequestMapping("/autenticar")
 	public ModelAndView irALogin() {
 
 		ModelMap modelo = new ModelMap();
@@ -38,14 +39,19 @@ public class ControladorLogin {
 		}
 		return new ModelAndView("login", model);
 	}
-	
-	@RequestMapping(path = "/home", method = RequestMethod.GET)
-	public ModelAndView irAHome() {
-		return new ModelAndView("home");
-	}
-	
+
+//	@Secured("")
+//	@RequestMapping(path = "/home", method = RequestMethod.GET)
+//	public ModelAndView irAHome() {
+//		return new ModelAndView("home");
+//	}
+//
 	@RequestMapping(path = "/", method = RequestMethod.GET)
 	public ModelAndView inicio() {
-		return new ModelAndView("redirect:/login");
+		ModelMap model = new ModelMap();
+		Usuario user = new Usuario();
+		model.put("user",user);
+		return new ModelAndView("home",model);
+//		return new ModelAndView("redirect:/login");
 	}
 }

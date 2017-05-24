@@ -5,6 +5,7 @@ import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Criterion;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.inject.Inject;
 import java.util.List;
@@ -12,10 +13,13 @@ import java.util.List;
 /**
  * Created by Sebastian on 26/04/2017.
  */
+
 public class BaseDaoImpl<T extends Entidad> implements BaseDao<T> {
 
     @Inject
-    private SessionFactory sessionFactory;
+    protected SessionFactory sessionFactory;
+
+
 
     @Override
     public T save(final T item) {
@@ -60,11 +64,4 @@ public class BaseDaoImpl<T extends Entidad> implements BaseDao<T> {
         return crit.list();
     }
 
-
-    protected List<T> getAll(final Class<T> type, List<Criterion> criterions) {
-        final Session session = sessionFactory.getCurrentSession();
-        final Criteria criteria = session.createCriteria(type);
-        criterions.forEach(c -> criteria.add(c));
-        return criteria.list();
-    }
 }

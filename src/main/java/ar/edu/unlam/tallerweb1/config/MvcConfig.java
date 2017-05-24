@@ -17,9 +17,7 @@ import org.springframework.web.servlet.view.JstlView;
  */
 @Configuration
 @EnableWebMvc
-@EnableTransactionManagement
-@ComponentScan({"ar.edu.unlam.tallerweb1.dao","ar.edu.unlam.tallerweb1.controladores","ar.edu.unlam.tallerweb1.servicios"})
-public class ServletConfig extends WebMvcConfigurerAdapter {
+public class MvcConfig extends WebMvcConfigurerAdapter {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/css/**")

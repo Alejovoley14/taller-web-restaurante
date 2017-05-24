@@ -29,7 +29,7 @@ public class Usuario extends Entidad {
     private String googleRefreshToken;
     @OneToMany(mappedBy = "usuario")
     private Collection<Restaurant> restaurants = new ArrayList<>();
-    @OneToOne
+    @OneToOne(mappedBy = "usuario")
     private Cliente cliente;
 
     public String getFacebookId() {

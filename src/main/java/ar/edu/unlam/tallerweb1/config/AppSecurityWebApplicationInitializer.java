@@ -5,5 +5,5 @@ package ar.edu.unlam.tallerweb1.config;
  */
 import org.springframework.security.web.context.*;
 
-public class MessageSecurityWebApplicationInitializer extends AbstractSecurityWebApplicationInitializer {
+public class AppSecurityWebApplicationInitializer extends AbstractSecurityWebApplicationInitializer {
 }
