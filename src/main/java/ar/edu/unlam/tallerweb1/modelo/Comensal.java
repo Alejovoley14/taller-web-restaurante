@@ -8,7 +8,7 @@ import java.util.Collection;
  * Created by Sebastian on 04/05/2017.
  */
 @Entity(name = "Comensal")
-public class Comensal extends Entidad {
+public class Comensal  {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -19,12 +19,12 @@ public class Comensal extends Entidad {
     @ManyToOne(optional = false)
     private Reserva reserva;
 
-    @Override
+
     public Long getId() {
         return id;
     }
 
-    @Override
+
     public void setId(Long id) {
         this.id = id;
     }

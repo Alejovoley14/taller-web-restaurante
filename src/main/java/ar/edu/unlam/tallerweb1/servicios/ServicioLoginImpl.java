@@ -20,7 +20,7 @@ import java.util.List;
 
 @Service("servicioLogin")
 @Transactional
-public class ServicioLoginImpl extends ServicioImpl<Usuario> implements ServicioLogin, UserDetailsService {
+public class ServicioLoginImpl implements ServicioLogin, UserDetailsService {
 
 
     @Inject
@@ -33,7 +33,7 @@ public class ServicioLoginImpl extends ServicioImpl<Usuario> implements Servicio
 
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
-        Usuario user = servicioLoginDao.getByUserName(s);
+        Usuario user = servicioLoginDao.getByName(s);
 
         if (user == null) {
 
@@ -41,7 +41,7 @@ public class ServicioLoginImpl extends ServicioImpl<Usuario> implements Servicio
             nuevo.setEmail("prueba2");
             nuevo.setPassword("prueba2");
             servicioLoginDao.save(nuevo);
-            user = servicioLoginDao.getByUserName(nuevo.getEmail());
+            user = servicioLoginDao.getByName(nuevo.getEmail());
 
             if (user == null)
                 throw new UsernameNotFoundException("No se encontro el usuario");

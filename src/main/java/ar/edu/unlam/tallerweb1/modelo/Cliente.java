@@ -1,24 +1,28 @@
 package ar.edu.unlam.tallerweb1.modelo;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.Collection;
 
 /**
  * Created by Sebastian on 04/05/2017.
  */
 @Entity(name = "Cliente")
-public class Cliente extends Entidad{
+public class Cliente {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(nullable = false,length = 200)
+    @Column(nullable = false, length = 200)
     private String nombre;
-    @Column(nullable = false,length = 200)
+    @Column(nullable = false, length = 200)
     private String apellido;
-    @Column(nullable = false,length = 40)
+    @Column(nullable = false, length = 40)
     private String telefono;
-    @OneToOne(optional = false,mappedBy = "cliente")
-    private Domicilio domicilio;
-    @OneToOne(optional = false,mappedBy = "cliente")
+
+    @OneToMany(mappedBy = "cliente")
+    private Collection<Domicilio> domicilios = new ArrayList<>();
+
+    @ManyToOne(optional = false)
     private Usuario usuario;
 
     public String getNombre() {
@@ -45,14 +49,6 @@ public class Cliente extends Entidad{
         this.telefono = telefono;
     }
 
-    public Domicilio getDomicilio() {
-        return domicilio;
-    }
-
-    public void setDomicilio(Domicilio domicilio) {
-        this.domicilio = domicilio;
-    }
-
     public Usuario getUsuario() {
         return usuario;
     }
@@ -61,13 +57,21 @@ public class Cliente extends Entidad{
         this.usuario = usuario;
     }
 
-    @Override
+
     public Long getId() {
         return id;
     }
 
-    @Override
+
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Collection<Domicilio> getDomicilios() {
+        return domicilios;
+    }
+
+    public void setDomicilios(Collection<Domicilio> domicilios) {
+        this.domicilios = domicilios;
     }
 }

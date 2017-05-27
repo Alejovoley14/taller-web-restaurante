@@ -10,7 +10,7 @@ import java.util.Collection;
  * Created by Sebastian on 04/05/2017.
  */
 @Entity(name = "Carta")
-public class Carta extends Entidad{
+public class Carta {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -27,12 +27,12 @@ public class Carta extends Entidad{
     @ManyToMany
     private Collection<Comensal> comensales = new ArrayList<>();
 
-    @Override
+
     public Long getId() {
         return id;
     }
 
-    @Override
+
     public void setId(Long id) {
         this.id = id;
     }

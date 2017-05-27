@@ -6,7 +6,7 @@ import javax.persistence.*;
  * Created by Sebastian on 04/05/2017.
  */
 @Entity(name = "Mesa")
-public class Mesa extends Entidad{
+public class Mesa {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -17,12 +17,12 @@ public class Mesa extends Entidad{
     @ManyToOne(optional = false)
     private Restaurant restaurant;
 
-    @Override
+
     public Long getId() {
         return id;
     }
 
-    @Override
+
     public void setId(Long id) {
         this.id = id;
     }

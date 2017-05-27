@@ -1,6 +1,7 @@
 package ar.edu.unlam.tallerweb1.dao;
 
 import ar.edu.unlam.tallerweb1.modelo.Usuario;
+import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Criterion;
@@ -13,29 +14,33 @@ import java.util.LinkedList;
 import java.util.List;
 
 @Service("usuarioDao")
-public class UsuarioDaoImpl extends BaseDaoImpl<Usuario> implements UsuarioDao{
+public class UsuarioDaoImpl implements UsuarioDao {
 
-    @Autowired
-    protected SessionFactory sessionFactory;
-
-    @Override
-	public Usuario consultarUsuario(Usuario usuario) {
-        List<Criterion> criterios = new LinkedList<Criterion>();
-
-        criterios.add(Restrictions.eq("email", usuario.getEmail()));
-        criterios.add(Restrictions.eq("password", usuario.getPassword()));
-
-        return super.get(Usuario.class,criterios);
-	}
+    @Inject
+    private SessionFactory sessionFactory;
 
     @Override
-    public Usuario getByUserName(String username) {
+    public Usuario consultarUsuario(Usuario usuario) {
+
         final Session session = sessionFactory.openSession();
         return (Usuario) session.createCriteria(Usuario.class)
-                .add(Restrictions.eq("email",username))
+                .add(Restrictions.eq("email", usuario.getEmail()))
+                .add(Restrictions.eq("password", usuario.getPassword()))
                 .uniqueResult();
     }
 
+    @Override
+    public Usuario getByName(String name) {
+        final Session session = sessionFactory.openSession();
+        return (Usuario) session.createCriteria(Usuario.class)
+                .add(Restrictions.eq("email", name))
+                .uniqueResult();
+    }
+
+    @Override
+    public void save(Usuario item) {
+        sessionFactory.getCurrentSession().save(item);
+    }
 
 
 }

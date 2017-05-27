@@ -2,8 +2,11 @@ package ar.edu.unlam.tallerweb1.dao;
 
 import ar.edu.unlam.tallerweb1.modelo.Usuario;
 
-public interface UsuarioDao extends BaseDao<Usuario> {
-	
-	Usuario consultarUsuario (Usuario usuario);
-	Usuario getByUserName (String username);
+public interface UsuarioDao {
+
+    Usuario consultarUsuario(Usuario usuario);
+
+    Usuario getByName(String name);
+
+    void save(Usuario item);
 }

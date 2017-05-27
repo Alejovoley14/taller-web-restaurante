@@ -8,7 +8,7 @@ import java.util.Collection;
  * Created by Sebastian on 04/05/2017.
  */
 @Entity(name = "Provincia")
-public class Provincia extends Entidad {
+public class Provincia  {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -17,12 +17,12 @@ public class Provincia extends Entidad {
     @OneToMany(mappedBy = "provincia")
     private Collection<Departamento> departamentos=new ArrayList<>();
 
-    @Override
+
     public Long getId() {
         return id;
     }
 
-    @Override
+
     public void setId(Long id) {
         this.id = id;
     }

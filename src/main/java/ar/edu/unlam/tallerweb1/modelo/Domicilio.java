@@ -7,7 +7,7 @@ import java.util.Collection;
  * Created by Sebastian on 04/05/2017.
  */
 @Entity(name = "Domicilio")
-public class Domicilio extends Entidad {
+public class Domicilio  {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -21,7 +21,7 @@ public class Domicilio extends Entidad {
     private Double Longitud;
     @ManyToOne(optional = false)
     private Localidad localidad;
-    @OneToOne
+    @ManyToOne
     private Cliente cliente;
     @ManyToOne
     private Restaurant restaurant;

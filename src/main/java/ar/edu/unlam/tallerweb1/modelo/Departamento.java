@@ -9,7 +9,7 @@ import java.util.Collection;
  * Created by Sebastian on 04/05/2017.
  */
 @Entity(name = "Departamento")
-public class Departamento extends Entidad {
+public class Departamento  {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -20,12 +20,12 @@ public class Departamento extends Entidad {
     @OneToMany(mappedBy = "departamento")
     private Collection<Localidad> localidades=new ArrayList<>();
 
-    @Override
+
     public Long getId() {
         return id;
     }
 
-    @Override
+
     public void setId(Long id) {
         this.id = id;
     }

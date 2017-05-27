@@ -10,7 +10,7 @@ import java.util.Collection;
  * Created by Sebastian on 04/05/2017.
  */
 @Entity(name = "MedioPago")
-public class MedioPago extends Entidad {
+public class MedioPago  {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -21,12 +21,12 @@ public class MedioPago extends Entidad {
     @ManyToMany
     private Collection<Restaurant> restaurants = new ArrayList<>();
 
-    @Override
+
     public Long getId() {
         return id;
     }
 
-    @Override
+
     public void setId(Long id) {
         this.id = id;
     }

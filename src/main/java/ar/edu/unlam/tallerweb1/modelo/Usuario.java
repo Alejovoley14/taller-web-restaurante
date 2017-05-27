@@ -1,18 +1,11 @@
 package ar.edu.unlam.tallerweb1.modelo;
 
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Collection;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-
-@Entity(name = "Usuario")
-public class Usuario extends Entidad {
+@Entity
+@Table(name = "usuario")
+public class Usuario  {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,8 +22,8 @@ public class Usuario extends Entidad {
     private String googleRefreshToken;
     @OneToMany(mappedBy = "usuario")
     private Collection<Restaurant> restaurants = new ArrayList<>();
-    @OneToOne(mappedBy = "usuario")
-    private Cliente cliente;
+    @OneToMany(mappedBy = "usuario")
+    private Collection<Cliente> cliente = new ArrayList<>();
 
     public String getFacebookId() {
         return facebookId;
@@ -112,12 +105,12 @@ public class Usuario extends Entidad {
         this.restaurants = restaurants;
     }
 
-    public Cliente getCliente() {
+
+    public Collection<Cliente> getCliente() {
         return cliente;
     }
 
-    public void setCliente(Cliente cliente) {
+    public void setCliente(Collection<Cliente> cliente) {
         this.cliente = cliente;
     }
-
 }
