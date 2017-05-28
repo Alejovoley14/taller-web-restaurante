@@ -11,4 +11,5 @@
             authenticated as <security:authentication property="principal.username" />
         </security:authorize>
     </jsp:body>
+
 </t:layout>

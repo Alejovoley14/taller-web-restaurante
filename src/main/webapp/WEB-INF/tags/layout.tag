@@ -1,7 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@tag description="Overall Page template" pageEncoding="UTF-8" %>
-<%@attribute name="header" fragment="true" %>
-<%@attribute name="footer" fragment="true" %>
+<%@attribute name="styles" fragment="true" %>
+<%@attribute name="scripts" fragment="true" %>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -12,7 +12,7 @@
     <link href="/css/bootstrap.min.css" rel="stylesheet" type="text/css">
     <link href="/css/bootstrap-theme.min.css" rel="stylesheet" type="text/css">
     <link href="/css/site.css" rel="stylesheet" type="text/css">
-
+    <jsp:invoke fragment="styles" />
 </head>
 <body>
 <jsp:include page="../vistas/common/navigation.jsp"></jsp:include>
@@ -25,5 +25,7 @@
 
 <script src="/js/jquery-1.11.3.min.js" type="text/javascript"></script>
 <script src="/js/bootstrap.min.js" type="text/javascript"></script>
+
+<jsp:invoke fragment="scripts" />
 </body>
 </html>

@@ -5,6 +5,17 @@
 
 
 <t:layout>
+    <jsp:attribute name="styles">
+        <style type="text/css">
+                /*SI FUERA NECESARIO AGREGAR JQUERY O ESTILOS ESTA ES LA MANERA USANDO LOS ATTRIBUTOS DEL LAYOUT*/
+        </style>
+    </jsp:attribute>
+     <jsp:attribute name="scripts">
+        <script type="text/javascript">
+                //SI FUERA NECESARIO AGREGAR JQUERY O ESTILOS ESTA ES LA MANERA USANDO LOS ATTRIBUTOS DEL LAYOUT
+        </script>
+    </jsp:attribute>
+
     <jsp:body>
         <div class="container">
             <div class="row">
@@ -65,4 +76,5 @@
             </div>
         </div>
     </jsp:body>
+
 </t:layout>
