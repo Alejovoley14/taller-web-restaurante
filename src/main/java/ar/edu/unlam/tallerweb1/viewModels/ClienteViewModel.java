@@ -24,6 +24,8 @@ public class ClienteViewModel {
     private Double Latitud;
     private Double Longitud;
     private Long localidadId;
+    private Long provinciaId;
+    private Long departamentoId;
 
 
     public Long getId() {
@@ -99,12 +101,18 @@ public class ClienteViewModel {
     }
 
 
-    public Cliente toCliente(Cliente cliente, Localidad localidad) {
+    public Cliente toCliente(Cliente cliente) {
         cliente.setApellido(this.apellido);
         cliente.setNombre(this.nombre);
         cliente.setTelefono(this.telefono);
 
-        Domicilio domicilio = new Domicilio();
+
+
+        return cliente;
+    }
+
+    public Domicilio toDomicilio(Domicilio domicilio, Localidad localidad){
+
         domicilio.setCalle(this.calle);
         domicilio.setNumero(this.numero);
         domicilio.setLatitud(this.Latitud);
@@ -112,12 +120,7 @@ public class ClienteViewModel {
 
         domicilio.setLocalidad(localidad);
 
-        Collection<Domicilio> domicilios = new ArrayList<Domicilio>();
-        domicilios.add(domicilio);
-
-        cliente.setDomicilios(domicilios);
-
-        return cliente;
+        return domicilio;
     }
 
     public ClienteViewModel toViewModel(Cliente cliente) {
@@ -134,7 +137,25 @@ public class ClienteViewModel {
         model.setLatitud(domicilio.getLatitud());
         model.setLongitud(domicilio.getLongitud());
         model.setLocalidadId(domicilio.getLocalidad().getId());
+        model.setDepartamentoId(domicilio.getLocalidad().getDepartamento().getId());
+        model.setProvinciaId(domicilio.getLocalidad().getDepartamento().getProvincia().getId());
 
         return model;
+    }
+
+    public Long getProvinciaId() {
+        return provinciaId;
+    }
+
+    public void setProvinciaId(Long provinciaId) {
+        this.provinciaId = provinciaId;
+    }
+
+    public Long getDepartamentoId() {
+        return departamentoId;
+    }
+
+    public void setDepartamentoId(Long departamentoId) {
+        this.departamentoId = departamentoId;
     }
 }

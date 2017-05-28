@@ -1,13 +1,16 @@
 package ar.edu.unlam.tallerweb1.servicios;
 
 import ar.edu.unlam.tallerweb1.dao.ClienteDao;
+import ar.edu.unlam.tallerweb1.dao.DomicilioDao;
 import ar.edu.unlam.tallerweb1.dao.UsuarioDao;
 import ar.edu.unlam.tallerweb1.modelo.Cliente;
+import ar.edu.unlam.tallerweb1.modelo.Domicilio;
 import ar.edu.unlam.tallerweb1.modelo.Usuario;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
+import java.util.ArrayList;
 import java.util.Collection;
 
 /**
@@ -20,15 +23,28 @@ public class ClienteServicioImpl implements ClienteServicio {
     private ClienteDao clienteDao;
     @Inject
     private UsuarioDao usuarioDao;
+    @Inject
+    private DomicilioDao domicilioDao;
 
     @Override
-    public void add(Cliente item) {
+    public void add(Cliente item, Domicilio domicilio) {
+
+
+//        Collection<Domicilio> domicilios = new ArrayList<Domicilio>();
+//        domicilios.add(domicilio);
+//        item.setDomicilios(domicilios);
+
         clienteDao.add(item);
+
+        domicilio.setCliente(item);
+
+        domicilioDao.add(domicilio);
     }
 
     @Override
-    public void update(Cliente item) {
+    public void update(Cliente item, Domicilio domicilio) {
         clienteDao.update(item);
+        domicilioDao.update(domicilio);
     }
 
     @Override

@@ -1,6 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
-<script>
+<script type="text/javascript">
 
     var map;
     function initMap() {
@@ -11,31 +12,27 @@
             draggable: false
         });
     }
+
     $(document).ready(function () {
+
 
         var marker;
 
-        $('.input-group.date').datepicker({
-            format: "yyyy-mm-dd",
-            language: "es"
-        });
-
         function getLocalidades(departamentoId) {
-            return $.get("/localidad/" + departamentoId + "/departamento").done(function (data) {
+            return $.get("/localidad/" + departamentoId + "/all").done(function (data) {
                 var localidades = '<option>Seleccione una localidad...</option>';
                 for (i = 0; i < data.length; i++) {
                     localidades = localidades + '<option value="' + data[i].id + '">' + data[i].descripcion + '</option>';
                 }
-                $("#localidad_id").html(localidades);
+                $("#localidadId").html(localidades);
             });
         }
 
 
         function getDepartamentos(provinciaId) {
 
-            return $.get("/departamento/" + provinciaId + "/provincia").done(function (data) {
+            return $.get("/departamento/" + provinciaId + "/all").done(function (data) {
                 var deptos = '<option>Seleccione un departamento...</option>';
-                ;
                 for (i = 0; i < data.length; i++) {
                     deptos = deptos + '<option value="' + data[i].id + '">' + data[i].descripcion + '</option>';
                 }
@@ -50,7 +47,7 @@
             } else {
                 marker.setAnimation(google.maps.Animation.BOUNCE);
             }
-        };
+        }
 
 
         function setMarker() {
@@ -60,7 +57,7 @@
 
             var address = $("#provinciaId option:selected").text() + ',' +
                 $("#departamentoId option:selected").text() + ',' +
-                $("#localidad_id option:selected").text() + ',' + $("#calle").val() + ' ' + $("#numero").val();
+                $("#localidadId option:selected").text() + ',' + $("#calle").val() + ' ' + $("#numero").val();
             var latLng;
             return $.get("https://maps.googleapis.com/maps/api/geocode/json", {
                 address: address,
@@ -135,12 +132,12 @@
         });
 
         <c:choose>
-        <c:when test="!${empty(cliente.provinciaId) && !empty(cliente.departamentoId) && !empty(cliente.localidadId)}">
+        <c:when test="${!empty(cliente.provinciaId) && !empty(cliente.departamentoId) && !empty(cliente.localidadId)}">
         modal.showPleaseWait();
         $.when(getDepartamentos(${cliente.provinciaId}), getLocalidades(${cliente.departamentoId}))
             .done(function (deptos, localidades) {
                 $("#provinciaId").val(${cliente.provinciaId});
-                $("#localidad_id").val(${cliente.localidadId});
+                $("#localidadId").val(${cliente.localidadId});
                 $("#departamentoId").val(${cliente.departamentoId});
                 $.when(setMarker()).always(function () {
                     modal.hidePleaseWait();
@@ -150,7 +147,7 @@
         });
 
 
-        map.setCenter(new google.maps.LatLng('{{$domicilio->lat}}', '{{$domicilio->long}}'));
+        map.setCenter(new google.maps.LatLng('${cliente.latitud}', '${cliente.longitud}'));
 
         </c:when>
         <c:when test="${empty(cliente.provinciaId) && empty(cliente.departamentoId) && empty(cliente.localidadId)}">
@@ -164,7 +161,9 @@
                 map.setCenter(pos);
             });
         }
-    </c:when>
-    </c:choose>
-
-
+        </c:when>
+        </c:choose>
+    });
+</script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDzfaxwXl0xql_XMHVs7e2m62Evn8avK3U&callback=initMap"
+        async defer></script>

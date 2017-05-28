@@ -1,5 +1,7 @@
 package ar.edu.unlam.tallerweb1.modelo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -15,6 +17,7 @@ public class Provincia  {
     @Column(nullable = false,length = 200)
     private String descripcion;
     @OneToMany(mappedBy = "provincia")
+    @JsonIgnore
     private Collection<Departamento> departamentos=new ArrayList<>();
 
 

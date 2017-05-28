@@ -10,8 +10,10 @@
         <jsp:include page="scripts.jsp"></jsp:include>
     </jsp:attribute>
     <jsp:body>
-        <th:form class="form-horizontal" action="/cliente/add" method="POST" modelAttribute="cliente">
-            <jsp:include page="createeditpartial.jsp"></jsp:include>
-        </th:form>
+        <div class="container">
+            <th:form class="form-horizontal" action="/cliente/add" method="POST" modelAttribute="cliente">
+                <jsp:include page="createeditpartial.jsp"></jsp:include>
+            </th:form>
+        </div>
     </jsp:body>
 </t:layout>

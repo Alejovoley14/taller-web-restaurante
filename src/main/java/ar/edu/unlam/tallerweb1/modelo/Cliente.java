@@ -19,7 +19,7 @@ public class Cliente {
     @Column(nullable = false, length = 40)
     private String telefono;
 
-    @OneToMany(mappedBy = "cliente")
+    @OneToMany(mappedBy = "cliente",fetch = FetchType.EAGER)
     private Collection<Domicilio> domicilios = new ArrayList<>();
 
     @ManyToOne(optional = false)

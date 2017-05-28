@@ -1,5 +1,7 @@
 package ar.edu.unlam.tallerweb1.modelo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -13,10 +15,11 @@ public class Localidad  {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(nullable = false,length = 200)
-    private String Descripcion;
+    private String descripcion;
     @ManyToOne(optional = false)
     private Departamento departamento;
     @OneToMany(mappedBy = "localidad")
+    @JsonIgnore
     private Collection<Domicilio> domicilios = new ArrayList<>();
 
 
@@ -30,11 +33,11 @@ public class Localidad  {
     }
 
     public String getDescripcion() {
-        return Descripcion;
+        return descripcion;
     }
 
     public void setDescripcion(String descripcion) {
-        Descripcion = descripcion;
+        descripcion = descripcion;
     }
 
     public Departamento getDepartamento() {

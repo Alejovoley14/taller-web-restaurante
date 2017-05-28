@@ -104,22 +104,61 @@
 <jsp:doBody/>
 
 
-<footer class="navbar navbar-default navbar-fixed-bottom">
-    <div class="container">
-        <p class="navbar-text pull-left">©  <fmt:formatDate value="${date}" pattern="yyyy" /> - MesaVIP
-            <a href="#" target="_blank" >Icono facebook</a>
-        </p>
+<%--<footer class="navbar navbar-default navbar-fixed-bottom">--%>
+    <%--<div class="container">--%>
+        <%--<p class="navbar-text pull-left">©  <fmt:formatDate value="${date}" pattern="yyyy" /> - MesaVIP--%>
+            <%--<a href="#" target="_blank" >Icono facebook</a>--%>
+        <%--</p>--%>
 
-        <a href="#" class="navbar-btn btn-danger btn pull-right">
-            <span class="glyphicon glyphicon-star"></span>  Boton derecha</a>
+        <%--<a href="#" class="navbar-btn btn-danger btn pull-right">--%>
+            <%--<span class="glyphicon glyphicon-star"></span>  Boton derecha</a>--%>
+    <%--</div>--%>
+
+
+<%--</footer>--%>
+
+
+<div class="modal fade" id="alertModal" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title" id="alertModalHeader"></h4>
+            </div>
+            <div class="modal-body" id="alertModalContent">
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn" data-dismiss="modal" id="btnAertModal"></button>
+            </div>
+        </div>
+
     </div>
+</div>
 
+<div class="modal fade" id="alertModal" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title" id="alertModalHeader"></h4>
+            </div>
+            <div class="modal-body" id="alertModalContent">
 
-</footer>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn" data-dismiss="modal" id="btnAertModal"></button>
+            </div>
+        </div>
 
+    </div>
+</div>
 
 <script src="/js/jquery-1.11.3.min.js" type="text/javascript"></script>
 <script src="/js/bootstrap.min.js" type="text/javascript"></script>
+<script src="/js/site.js" type="text/javascript"></script>
 
 <jsp:invoke fragment="scripts" />
 </body>

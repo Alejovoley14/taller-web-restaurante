@@ -1,6 +1,7 @@
 package ar.edu.unlam.tallerweb1.controladores;
 
 import ar.edu.unlam.tallerweb1.modelo.Cliente;
+import ar.edu.unlam.tallerweb1.modelo.Domicilio;
 import ar.edu.unlam.tallerweb1.modelo.Localidad;
 import ar.edu.unlam.tallerweb1.modelo.Usuario;
 import ar.edu.unlam.tallerweb1.servicios.ClienteServicio;
@@ -53,7 +54,11 @@ public class ClienteController extends BaseController {
 
         Localidad localidad = localidadServicio.get(viewModel.getLocalidadId());
 
-        clienteServicio.add(viewModel.toCliente(new Cliente(), localidad));
+        Cliente cliente = viewModel.toCliente(new Cliente());
+
+        cliente.setUsuario(getCurrentUser(principal));
+
+        clienteServicio.add(cliente,viewModel.toDomicilio(new Domicilio(),localidad));
 
         //Validar
         return new ModelAndView("redirect:/cliente");
@@ -67,8 +72,9 @@ public class ClienteController extends BaseController {
 
         Usuario user = getCurrentUser(principal);
         Cliente cliente = clienteServicio.get(user.getId());
+        Domicilio domicilio = cliente.getDomicilios().iterator().next();
 
-        clienteServicio.update(viewModel.toCliente(cliente, localidad));
+        clienteServicio.update(viewModel.toCliente(cliente),viewModel.toDomicilio(domicilio,localidad));
         //Validar
         return new ModelAndView("redirect:/cliente");
 

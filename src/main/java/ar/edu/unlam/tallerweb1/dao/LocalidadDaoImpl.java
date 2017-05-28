@@ -1,10 +1,12 @@
 package ar.edu.unlam.tallerweb1.dao;
 
+import ar.edu.unlam.tallerweb1.modelo.Departamento;
 import ar.edu.unlam.tallerweb1.modelo.Localidad;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
+import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Repository;
 
 import javax.inject.Inject;
@@ -24,8 +26,8 @@ public class LocalidadDaoImpl extends GenericDaoImpl<Localidad, Long> implements
 
         final Session session = sessionFactory.openSession();
         return session.createCriteria(Localidad.class)
-                .add(Restrictions.eq("departamento_id", departamentoId))
                 .addOrder(Order.desc("descripcion"))
-                .list();
+                .createCriteria("departamento")
+                .add(Restrictions.eq("id", departamentoId)).list();
     }
 }
