@@ -17,8 +17,7 @@ public class HomeController {
     @RequestMapping(path = "/", method = RequestMethod.GET)
     public ModelAndView irAHome() {
         ModelMap modelo = new ModelMap();
-        Usuario usuario = new Usuario();
-        modelo.put("usuario", usuario);
+
         return new ModelAndView("home", modelo);
 
     }

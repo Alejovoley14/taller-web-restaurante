@@ -18,4 +18,8 @@ public interface GenericDao<E, K> {
     E find(K key);
 
     List<E> getAll();
+
+    List<E> getAllOrderBy(String field);
+
+    List<E> getAllOrderBy(String field, Boolean desc);
 }

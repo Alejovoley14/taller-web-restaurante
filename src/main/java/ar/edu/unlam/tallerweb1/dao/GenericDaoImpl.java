@@ -2,6 +2,7 @@ package ar.edu.unlam.tallerweb1.dao;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Order;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -60,5 +61,18 @@ public abstract class GenericDaoImpl<E, K extends Serializable>
     @Override
     public List<E> getAll() {
         return currentSession().createCriteria(daoType).list();
+    }
+
+    @Override
+    public List<E> getAllOrderBy(String field, Boolean desc) {
+        if (desc) {
+            return currentSession().createCriteria(daoType).addOrder(Order.desc(field)).list();
+        }
+        return currentSession().createCriteria(daoType).addOrder(Order.asc(field)).list();
+    }
+
+    @Override
+    public List<E> getAllOrderBy(String field) {
+        return currentSession().createCriteria(daoType).addOrder(Order.desc(field)).list();
     }
 }
