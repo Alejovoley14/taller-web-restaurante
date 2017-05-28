@@ -60,6 +60,11 @@ public class ServicioLoginImpl implements ServicioLogin, UserDetailsService {
         return user != null;
     }
 
+    @Override
+    public Usuario getByName(String username) {
+        return usuarioDao.getByName(username);
+    }
+
     private List<GrantedAuthority> getGrantedAuthorities(Usuario user) {
         List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
 

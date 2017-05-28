@@ -10,4 +10,5 @@ public interface ServicioLogin{
 	void crearUsuario(Usuario usuario);
 
 	Boolean userExist(String username);
+	Usuario getByName(String username);
 }

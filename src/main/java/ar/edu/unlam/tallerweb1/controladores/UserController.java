@@ -26,7 +26,7 @@ public class UserController {
 
         if(servicioLogin.userExist(usuario.getEmail())){
             model.put("error", "Ya existe el usuario");
-        }else if(usuario.getPassword() != usuario.getVerifyPassword()){
+        }else if(!usuario.getPassword().equals(usuario.getVerifyPassword())){
             model.put("error", "Las contraseñas no coinciden");
             model.put("usuario",usuario);
         }else{
