@@ -14,18 +14,13 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class HomeController {
 
-//    @RequestMapping(path = "/", method = RequestMethod.GET)
-//    public ModelAndView irAHome() {
-//        ModelMap modelo = new ModelMap();
-//        Usuario usuario = new Usuario();
-//        modelo.put("usuario", usuario);
-//        return new ModelAndView("home", modelo);
-//
-//    }
-//
-//    @RequestMapping(path = "/validate-credentials",method = RequestMethod.POST)
-//    public ModelAndView validateCredentials(Usuario usuario){
-//
-//    }
+    @RequestMapping(path = "/", method = RequestMethod.GET)
+    public ModelAndView irAHome() {
+        ModelMap modelo = new ModelMap();
+        Usuario usuario = new Usuario();
+        modelo.put("usuario", usuario);
+        return new ModelAndView("home", modelo);
+
+    }
 
 }

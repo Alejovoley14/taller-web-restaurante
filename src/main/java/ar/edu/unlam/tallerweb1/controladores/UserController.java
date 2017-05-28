@@ -1,7 +1,8 @@
 package ar.edu.unlam.tallerweb1.controladores;
 
-import ar.edu.unlam.tallerweb1.modelo.Usuario;
 import ar.edu.unlam.tallerweb1.servicios.ServicioLogin;
+import ar.edu.unlam.tallerweb1.viewModels.UsuarioViewModel;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,20 +14,24 @@ import javax.inject.Inject;
 /**
  * Created by Sebastian on 27/05/2017.
  */
+@Controller
 public class UserController {
 
     @Inject
     private ServicioLogin servicioLogin;
 
-    @RequestMapping(value = "CrearUsuario",method = RequestMethod.POST)
-    public ModelAndView crearUsuario(@ModelAttribute("usuario") Usuario usuario){
+    @RequestMapping(value = "/CrearUsuario",method = RequestMethod.POST)
+    public ModelAndView crearUsuario(@ModelAttribute("usuario") UsuarioViewModel usuario){
         ModelMap model = new ModelMap();
 
         if(servicioLogin.userExist(usuario.getEmail())){
             model.put("error", "Ya existe el usuario");
+        }else if(usuario.getPassword() != usuario.getVerifyPassword()){
+            model.put("error", "Las contraseñas no coinciden");
+            model.put("usuario",usuario);
         }else{
             model.put("success", "Usuario creado con exito, ya puede iniciar sesión");
-            servicioLogin.crearUsuario(usuario);
+            servicioLogin.crearUsuario(usuario.ToUsuario());
         }
         return new ModelAndView("login", model);
     }

@@ -1,11 +1,11 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="th" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 
 <nav class="navbar navbar-inverse">
     <div class="container-fluid">
-        <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header">
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
                     data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
@@ -16,8 +16,7 @@
             </button>
             <a class="navbar-brand" href="#">Mesa VIP</a>
         </div>
-        <c:choose>
-            <c:when test="${httpServletRequest.remoteUser == null}">
+        <security:authorize access="!isAuthenticated()">
                 <ul class="nav navbar-nav navbar-right">
                     <li><p class="navbar-text">Ya tiene cuenta?</p></li>
                     <li class="dropdown">
@@ -33,8 +32,7 @@
                                             <a href="#" class="btn btn-tw"><i class="fa fa-twitter"></i> Twitter</a>
                                         </div>
                                         o
-                                        <form name="f" th:action="@{/login}" method="post" accept-charset="UTF-8"
-                                              id="login-nav">
+                                        <th:form class="form-horizontal" action="login" method="POST" id="login-nav">
                                             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                                             <div class="form-group">
                                                 <label class="sr-only" for="username">Username</label>
@@ -49,7 +47,8 @@
                                                 </div>
                                             </div>
                                             <div class="form-group">
-                                                <button type="submit" class="btn btn-primary btn-block">Iniciar Sesión</button>
+                                                <button type="submit" class="btn btn-primary btn-block">Iniciar Sesión
+                                                </button>
                                             </div>
                                             <c:choose>
                                                 <c:when test="${param.error != null}">
@@ -63,18 +62,24 @@
                                                     </div>
                                                 </c:when>
                                             </c:choose>
-
-                                        </form>
+                                        </th:form>
                                     </div>
                                 </div>
                             </li>
                         </ul>
                     </li>
                 </ul>
-            </c:when>
-        </c:choose>
-
-
-    </div><!-- /.navbar-collapse -->
-    </div><!-- /.container-fluid -->
+        </security:authorize>
+        <security:authorize access="isAuthenticated()">
+            <ul class="nav navbar-nav navbar-right">
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><security:authentication property="principal.username" /> <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="/logout">Cerrar Sesión</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </security:authorize>
+    </div>
+    </div>
 </nav>

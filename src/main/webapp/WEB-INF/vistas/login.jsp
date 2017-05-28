@@ -1,6 +1,7 @@
 <%@ taglib prefix="th" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 
 <t:layout>
@@ -11,49 +12,45 @@
                     <div class="panel panel-default">
                         <div class="panel-heading">Registrarse</div>
                         <div class="panel-body">
-
-
-                            <th:form class="form-horizontal" action="CrearUsuario" method="POST" modelAttribute="usuario">
-                                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-
+                            <th:form class="form-horizontal" action="CrearUsuario" method="POST"
+                                     modelAttribute="usuario">
                                 <div class="form-group">
                                     <label for="email" class="col-md-4 control-label">Usuario</label>
                                     <div class="col-md-6">
-                                        <%--<form:input path="email" id="email" type="email" class="form-control" />--%>
-
-                                        <input id="email" type="email" class="form-control" name="email" value=""
-                                               required>
+                                        <c:choose>
+                                            <c:when test="${usuario == null}">
+                                                <input id="email" type="email" class="form-control" name="email"
+                                                       value="" required>
+                                            </c:when>
+                                            <c:when test="${usuario != null}">
+                                                <th:input path="email" cssClass="form-control"></th:input>
+                                            </c:when>
+                                        </c:choose>
                                     </div>
                                 </div>
-
                                 <div class="form-group">
                                     <label for="password" class="col-md-4 control-label">Contraseña</label>
                                     <div class="col-md-6">
-                                        <%--<form:input path="password" type="password" id="password" class="form-control" />--%>
-                                        <input id="password" type="password" class="form-control" name="password"
-                                               >
+                                        <input id="password" type="password" class="form-control" name="password">
                                     </div>
                                 </div>
-
                                 <div class="form-group">
-                                    <label for="password-confirm" class="col-md-4 control-label">Confirmar Contraseña</label>
+                                    <label for="verifyPassword" class="col-md-4 control-label">Confirmar Contraseña</label>
                                     <div class="col-md-6">
-                                        <input id="password-confirm" type="password" class="form-control"
-                                               name="password_confirmation" required>
+                                        <input id="verifyPassword" type="password" class="form-control"
+                                               name="verifyPassword" required>
                                     </div>
                                 </div>
-
                                 <c:if test="${not empty error}">
                                     <div class="alert alert-danger">
-                                        <h4><span>${error}</span></h4>
+                                        <h4><span class="glyphicon glyphicon-exclamation-sign"></span> ${error}</h4>
                                     </div>
                                 </c:if>
                                 <c:if test="${not empty success}">
                                     <div class="alert alert-success">
-                                        <h4><span>${success}</span></h4>
+                                        <h4><span class="glyphicon glyphicon-exclamation-sign"></span> ${success}</h4>
                                     </div>
                                 </c:if>
-
                                 <div class="form-group">
                                     <div class="col-md-6 col-md-offset-4">
                                         <button type="submit" class="btn btn-info">
