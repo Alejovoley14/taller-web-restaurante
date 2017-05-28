@@ -22,4 +22,9 @@ public class LocalidadServicioImpl implements LocalidadServicio {
     public List<Localidad> getAllByDepartamentoId(Long departamentoId) {
         return localidadDao.getAllByDepartamentoId(departamentoId);
     }
+
+    @Override
+    public Localidad get(Long id) {
+        return localidadDao.find(id);
+    }
 }

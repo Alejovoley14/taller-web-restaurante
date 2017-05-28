@@ -81,3 +81,4 @@ out/
 log/
 target/
 !/src/main/java/ar/edu/unlam/tallerweb1/dao/UsuarioDao.java
+!/src/main/java/ar/edu/unlam/tallerweb1/controladores/ClienteController.java

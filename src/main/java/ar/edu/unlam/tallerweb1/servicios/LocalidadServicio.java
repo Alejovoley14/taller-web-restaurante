@@ -1,6 +1,7 @@
 package ar.edu.unlam.tallerweb1.servicios;
 
 import ar.edu.unlam.tallerweb1.modelo.Localidad;
+import org.springframework.cglib.core.Local;
 
 import java.util.List;
 
@@ -9,4 +10,5 @@ import java.util.List;
  */
 public interface LocalidadServicio {
     List<Localidad> getAllByDepartamentoId(Long departamentoId);
+    Localidad get (Long id);
 }
