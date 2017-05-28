@@ -35,7 +35,7 @@ public class PersonaController {
 		ModelMap model = new ModelMap();
 		model.put("listaFiltrada", listaFiltrada);
 		
-		return new ModelAndView("personas",model);
+		return new ModelAndView("WEB-INF/vistas/personas.jsp",model);
 	}
 	
 	
