@@ -42,6 +42,6 @@ public class ClienteServicioImpl implements ClienteServicio {
     public Boolean exist(Long userId) {
         Usuario usuario = usuarioDao.find(userId);
         Collection<Cliente> cliente = usuario.getCliente();
-        return cliente.isEmpty();
+        return !cliente.isEmpty();
     }
 }
