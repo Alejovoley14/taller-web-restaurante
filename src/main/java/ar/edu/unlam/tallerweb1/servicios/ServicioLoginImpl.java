@@ -1,8 +1,10 @@
 package ar.edu.unlam.tallerweb1.servicios;
 
+import ar.edu.unlam.tallerweb1.dao.GenericDao;
 import ar.edu.unlam.tallerweb1.dao.UsuarioDao;
 import ar.edu.unlam.tallerweb1.modelo.Usuario;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -11,9 +13,9 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import sun.plugin.util.UserProfile;
 
 import javax.inject.Inject;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,31 +25,35 @@ import java.util.List;
 public class ServicioLoginImpl implements ServicioLogin, UserDetailsService {
 
 
+
     @Inject
-    private UsuarioDao servicioLoginDao;
+    private UsuarioDao usuarioDao;
 
     @Override
     public Usuario consultarUsuario(Usuario usuario) {
-        return servicioLoginDao.consultarUsuario(usuario);
+        return usuarioDao.consultarUsuario(usuario);
+    }
+
+    @Override
+    public void crearUsuario(Usuario usuario) {
+        usuarioDao.add(usuario);
     }
 
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
-        Usuario user = servicioLoginDao.getByName(s);
+        Usuario user = usuarioDao.getByName(s);
 
-        if (user == null) {
+        if (user == null)
+            throw new UsernameNotFoundException("No se encontro el usuario");
 
-            Usuario nuevo = new Usuario();
-            nuevo.setEmail("prueba2");
-            nuevo.setPassword("prueba2");
-            servicioLoginDao.save(nuevo);
-            user = servicioLoginDao.getByName(nuevo.getEmail());
-
-            if (user == null)
-                throw new UsernameNotFoundException("No se encontro el usuario");
-        }
         return new User(user.getEmail(), user.getPassword(),
                 true, true, true, true, getGrantedAuthorities(user));
+    }
+
+    @Override
+    public Boolean userExist(String username){
+        Usuario user = usuarioDao.getByName(username);
+        return user != null;
     }
 
     private List<GrantedAuthority> getGrantedAuthorities(Usuario user) {

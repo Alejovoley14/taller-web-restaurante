@@ -1,7 +1,33 @@
 package ar.edu.unlam.tallerweb1.controladores;
 
+import ar.edu.unlam.tallerweb1.modelo.Usuario;
+import ar.edu.unlam.tallerweb1.servicios.ServicioLogin;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
+
+import javax.inject.Inject;
+
 /**
  * Created by Sebastian on 27/05/2017.
  */
 public class UserController {
+
+    @Inject
+    private ServicioLogin servicioLogin;
+
+    @RequestMapping(value = "CrearUsuario",method = RequestMethod.POST)
+    public ModelAndView crearUsuario(@ModelAttribute("usuario") Usuario usuario){
+        ModelMap model = new ModelMap();
+
+        if(servicioLogin.userExist(usuario.getEmail())){
+            model.put("error", "Ya existe el usuario");
+        }else{
+            model.put("success", "Usuario creado con exito, ya puede iniciar sesión");
+            servicioLogin.crearUsuario(usuario);
+        }
+        return new ModelAndView("login", model);
+    }
 }

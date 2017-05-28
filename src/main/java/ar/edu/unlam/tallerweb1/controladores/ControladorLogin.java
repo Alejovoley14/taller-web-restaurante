@@ -25,7 +25,7 @@ public class ControladorLogin {
 		ModelMap modelo = new ModelMap();
 		Usuario usuario = new Usuario();
 		modelo.put("usuario", usuario);
-		return new ModelAndView("login", modelo);
+		return new ModelAndView("welcome", modelo);
 	}
 
 	@RequestMapping(path = "/validar-login", method = RequestMethod.POST)
@@ -40,18 +40,5 @@ public class ControladorLogin {
 		return new ModelAndView("login", model);
 	}
 
-//	@Secured("")
-//	@RequestMapping(path = "/home", method = RequestMethod.GET)
-//	public ModelAndView irAHome() {
-//		return new ModelAndView("home");
-//	}
-//
-	@RequestMapping(path = "/", method = RequestMethod.GET)
-	public ModelAndView inicio() {
-		ModelMap model = new ModelMap();
-		Usuario user = new Usuario();
-		model.put("user",user);
-		return new ModelAndView("home",model);
-//		return new ModelAndView("redirect:/login");
-	}
+
 }

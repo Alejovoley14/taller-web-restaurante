@@ -1,30 +1,29 @@
-<%@tag description="Overall Page template" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@tag description="Overall Page template" pageEncoding="UTF-8" %>
 <%@attribute name="header" fragment="true" %>
 <%@attribute name="footer" fragment="true" %>
-<html>
+<!DOCTYPE html>
+<html lang="es">
 <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Title</title>
     <link href="/css/bootstrap.min.css" rel="stylesheet" type="text/css">
     <link href="/css/bootstrap-theme.min.css" rel="stylesheet" type="text/css">
+    <link href="/css/site.css" rel="stylesheet" type="text/css">
 
 </head>
 <body>
 <jsp:include page="../vistas/common/navigation.jsp"></jsp:include>
-<%--<c:when test="${userAuthenticated}">--%>
-    <%--<jsp:include page="../vistas/common/authenticatedNav.jsp"></jsp:include>--%>
 
-<%--</c:when>--%>
-<%--<c:when test="${!userAuthenticated}">--%>
-    <%--<jsp:include page="../vistas/common/unauthenticatedNav.jsp"></jsp:include>--%>
-<%--</c:when>--%>
-<div id="body">
-    <jsp:doBody/>
-</div>
+
+<jsp:doBody/>
 
 
 <jsp:include page="../vistas/common/footer.jsp"></jsp:include>
 
-<script src="/js/bootstrap.min.js" type="text/javascript"></script>
 <script src="/js/jquery-1.11.3.min.js" type="text/javascript"></script>
+<script src="/js/bootstrap.min.js" type="text/javascript"></script>
 </body>
 </html>

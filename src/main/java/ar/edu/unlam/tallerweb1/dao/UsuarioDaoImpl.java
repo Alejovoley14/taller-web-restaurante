@@ -7,14 +7,15 @@ import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
 import java.util.LinkedList;
 import java.util.List;
 
-@Service("usuarioDao")
-public class UsuarioDaoImpl implements UsuarioDao {
+@Repository
+public class UsuarioDaoImpl extends GenericDaoImpl<Usuario,Long> implements UsuarioDao {
 
     @Inject
     private SessionFactory sessionFactory;
@@ -35,11 +36,6 @@ public class UsuarioDaoImpl implements UsuarioDao {
         return (Usuario) session.createCriteria(Usuario.class)
                 .add(Restrictions.eq("email", name))
                 .uniqueResult();
-    }
-
-    @Override
-    public void save(Usuario item) {
-        sessionFactory.getCurrentSession().save(item);
     }
 
 
