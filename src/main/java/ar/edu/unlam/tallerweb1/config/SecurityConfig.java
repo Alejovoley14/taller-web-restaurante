@@ -40,6 +40,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/fonts/**").permitAll()
                 .antMatchers("/login").permitAll()
                 .antMatchers("/CrearUsuario").permitAll()
+                .antMatchers("/socialLogin").permitAll()
+                .antMatchers("/connect/**").permitAll()
                 .anyRequest()
                 .fullyAuthenticated().and().formLogin().loginPage("/login")
                 .failureUrl("/login?error").and().logout()

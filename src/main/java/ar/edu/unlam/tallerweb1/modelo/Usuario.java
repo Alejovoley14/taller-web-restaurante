@@ -16,7 +16,7 @@ public class Usuario  {
     private String password;
     private String facebookId;
     private String facebookAccessToken;
-    private String facebookRefreshToken;
+    private Long facebookExpiresIn;
     private String googleId;
     private String googleAceesToken;
     private String googleRefreshToken;
@@ -41,12 +41,12 @@ public class Usuario  {
         this.facebookAccessToken = facebookAccessToken;
     }
 
-    public String getFacebookRefreshToken() {
-        return facebookRefreshToken;
+    public Long getFacebookExpiresIn() {
+        return facebookExpiresIn;
     }
 
-    public void setFacebookRefreshToken(String facebookRefreshToken) {
-        this.facebookRefreshToken = facebookRefreshToken;
+    public void setFacebookExpiresIn(Long facebookExpiresIn) {
+        this.facebookExpiresIn = facebookExpiresIn;
     }
 
     public String getGoogleId() {

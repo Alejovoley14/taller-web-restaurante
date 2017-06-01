@@ -1,5 +1,6 @@
 package ar.edu.unlam.tallerweb1.config;
 
+
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
 /**
@@ -11,7 +12,7 @@ public class AppWebApplicationInitializer
 
     @Override
     protected Class<?>[] getRootConfigClasses() {
-        return new Class[] { RootConfiguration.class,SecurityConfig.class };
+        return new Class[] { RootConfiguration.class,SecurityConfig.class};
     }
 
     @Override

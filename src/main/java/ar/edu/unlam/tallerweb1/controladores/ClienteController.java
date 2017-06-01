@@ -7,11 +7,11 @@ import ar.edu.unlam.tallerweb1.modelo.Usuario;
 import ar.edu.unlam.tallerweb1.servicios.ClienteServicio;
 import ar.edu.unlam.tallerweb1.servicios.LocalidadServicio;
 import ar.edu.unlam.tallerweb1.servicios.ProvinciaServicio;
-import ar.edu.unlam.tallerweb1.servicios.ServicioLogin;
 import ar.edu.unlam.tallerweb1.viewModels.ClienteViewModel;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -58,7 +58,7 @@ public class ClienteController extends BaseController {
 
         cliente.setUsuario(getCurrentUser(principal));
 
-        clienteServicio.add(cliente,viewModel.toDomicilio(new Domicilio(),localidad));
+        clienteServicio.add(cliente, viewModel.toDomicilio(new Domicilio(), localidad));
 
         //Validar
         return new ModelAndView("redirect:/cliente");
@@ -74,7 +74,7 @@ public class ClienteController extends BaseController {
         Cliente cliente = clienteServicio.get(user.getId());
         Domicilio domicilio = cliente.getDomicilios().iterator().next();
 
-        clienteServicio.update(viewModel.toCliente(cliente),viewModel.toDomicilio(domicilio,localidad));
+        clienteServicio.update(viewModel.toCliente(cliente), viewModel.toDomicilio(domicilio, localidad));
         //Validar
         return new ModelAndView("redirect:/cliente");
 

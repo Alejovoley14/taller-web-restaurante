@@ -1,5 +1,6 @@
 package ar.edu.unlam.tallerweb1.config;
 
+import ar.edu.unlam.tallerweb1.interceptors.CheckClienteInterceptor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -16,6 +17,17 @@ import org.springframework.web.servlet.view.JstlView;
 @Configuration
 @EnableWebMvc
 public class MvcConfig extends WebMvcConfigurerAdapter {
+
+    @Bean
+    public CheckClienteInterceptor checkClienteInterceptor() {
+        return new CheckClienteInterceptor();
+    }
+
+    @Override
+    public  void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(checkClienteInterceptor()).addPathPatterns("/reserva/*");
+    }
+
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/css/**")
