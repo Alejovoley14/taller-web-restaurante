@@ -4,6 +4,7 @@ package ar.edu.unlam.tallerweb1.config;
  * Created by Sebastian on 13/05/2017.
  */
 
+import ar.edu.unlam.tallerweb1.servicios.SocialUserDetalServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
@@ -16,6 +17,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.social.security.SocialUserDetailsService;
+import org.springframework.social.security.SpringSocialConfigurer;
 
 
 @Configuration
@@ -31,27 +34,52 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
     }
 
-
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests()
-                .antMatchers("/css/**").permitAll()
-                .antMatchers("/js/**").permitAll()
-                .antMatchers("/fonts/**").permitAll()
-                .antMatchers("/login").permitAll()
-                .antMatchers("/CrearUsuario").permitAll()
-                .antMatchers("/socialLogin").permitAll()
-                .antMatchers("/connect/**").permitAll()
-                .anyRequest()
-                .fullyAuthenticated().and().formLogin().loginPage("/login")
-                .failureUrl("/login?error").and().logout()
-                .logoutRequestMatcher(new AntPathRequestMatcher("/logout")).and()
-                .exceptionHandling().accessDeniedPage("/access?error");
+//        http.authorizeRequests()
+//                .antMatchers("/css/**","/js/**","/fonts/**","/login","/CrearUsuario","/connect/**").permitAll()
+//                .anyRequest().fullyAuthenticated().and().formLogin().loginPage("/login")
+//                .failureUrl("/login?error").and().logout()
+//                .logoutRequestMatcher(new AntPathRequestMatcher("/logout")).and()
+//                .exceptionHandling().accessDeniedPage("/access?error");
+
+        http
+                .formLogin()
+                .loginPage("/login")
+                .loginProcessingUrl("/login/authenticate")
+                .failureUrl("/login?error")
+                .and()
+                .logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                .and()
+                .exceptionHandling().accessDeniedPage("/access?error")
+                .and()
+                .authorizeRequests()
+                .antMatchers(
+                        "/css/**",
+                        "/js/**",
+                        "/fonts/**",
+                        "/login",
+                        "/CrearUsuario",
+                        "/auth/**",
+                        "/signup/**",
+                        "/user/register/**",
+                        "/connect/**"
+                ).permitAll()
+                //The rest of the our application is protected.
+                .antMatchers("/**").hasRole("USER")
+                //Adds the SocialAuthenticationFilter to Spring Security's filter chain.
+                .and()
+                .apply(new SpringSocialConfigurer());
     }
 
     @Bean
     public PasswordEncoder passwordEncoder(){
         PasswordEncoder encoder = new BCryptPasswordEncoder();
         return encoder;
+    }
+
+    @Bean
+    public SocialUserDetailsService socialUserDetailsService() {
+        return new SocialUserDetalServiceImpl(userDetailsService());
     }
 }

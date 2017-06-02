@@ -14,6 +14,7 @@ public class MedioPago  {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private MedioPagoEnum tipo;
     @Column(nullable = false,length = 200)

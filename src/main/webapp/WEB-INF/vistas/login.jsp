@@ -1,6 +1,7 @@
 <%@ taglib prefix="th" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 
@@ -14,81 +15,6 @@
     <jsp:attribute name="scripts">
         <script type="text/javascript">
             //SI FUERA NECESARIO AGREGAR JQUERY O ESTILOS ESTA ES LA MANERA USANDO LOS ATTRIBUTOS DEL LAYOUT
-
-
-            <%--function statusChangeCallback(response) {--%>
-
-
-                <%--if (response.status === 'connected') {--%>
-<%--console.log(response);--%>
-                    <%--FB.api('/me', {locale: 'es_LA', fields: 'name, email'},--%>
-                        <%--function (responseApi) {--%>
-                            <%--console.log(response);--%>
-                            <%--var data = {--%>
-                                <%--id: responseApi.id,--%>
-                                <%--email: responseApi.email,--%>
-                                <%--accessToken: response.authResponse.accessToken,--%>
-                                <%--expiresIn: response.authResponse.expiresIn,--%>
-                                <%--socialType: "facebook",--%>
-                                <%--_csrf:"${_csrf.token}"--%>
-                            <%--};--%>
-<%--//                            $.post( "/socialLogin", data);--%>
-<%--//                            $.get( "/usuario/social"); contentType: "application/x-www-form-urlencoded; charset=UTF-8",--%>
-                            <%--$.ajax({--%>
-                                <%--url: 'usuario/social',--%>
-                                <%--type: "POST",--%>
-                                <%--contentType: "application/json",--%>
-                                <%--data:data,--%>
-                                <%--success: function (resposeJsonObject) {--%>
-                                    <%--// Success Action--%>
-                                <%--}--%>
-                            <%--});--%>
-                        <%--}--%>
-                    <%--);--%>
-
-
-                <%--} else {--%>
-
-                <%--}--%>
-            <%--}--%>
-
-
-            <%--function checkLoginState() {--%>
-                <%--FB.getLoginStatus(function (response) {--%>
-                    <%--statusChangeCallback(response);--%>
-                <%--});--%>
-            <%--}--%>
-
-
-            <%--window.fbAsyncInit = function () {--%>
-                <%--FB.init({--%>
-                    <%--appId: '269884806811458',--%>
-                    <%--cookie: true,--%>
-                    <%--xfbml: true,--%>
-                    <%--version: 'v2.9'--%>
-                <%--});--%>
-
-                <%--FB.getLoginStatus(function (response) {--%>
-                    <%--statusChangeCallback(response);--%>
-                <%--});--%>
-
-<%--//                FB.login(function (response) {--%>
-<%--//                    console.log(response);--%>
-<%--//                }, {scope: 'email'});--%>
-
-            <%--};--%>
-
-            <%--// Load the SDK asynchronously--%>
-            <%--(function (d, s, id) {--%>
-                <%--var js, fjs = d.getElementsByTagName(s)[0];--%>
-                <%--if (d.getElementById(id)) return;--%>
-                <%--js = d.createElement(s);--%>
-                <%--js.id = id;--%>
-                <%--js.src = "//connect.facebook.net/es_LA/sdk.js";--%>
-                <%--fjs.parentNode.insertBefore(js, fjs);--%>
-            <%--}(document, 'script', 'facebook-jssdk'));--%>
-
-
         </script>
     </jsp:attribute>
 
@@ -158,20 +84,30 @@
                                 </p>
                             </div>
                             <div class="row">
-                                <div class="col-md-4">
-                                        <%--<div class="fb-login-button" data-max-rows="1" data-size="medium"--%>
-                                        <%--data-button-type="continue_with" data-show-faces="true"--%>
-                                        <%--data-auto-logout-link="false" data-use-continue-as="true"></div>--%>
-                                    <form action="/connect/facebook" method="POST">
-                                        <input type="hidden" name="scope" value="user_posts" />
-                                        <div class="formInfo">
-                                            <p>You aren't connected to Facebook yet. Click the button to connect this application with your Facebook account.</p>
-                                        </div>
-                                        <p><button type="submit">Connect to Facebook</button></p>
-                                    </form>
-                                        <%--<fb:login-button scope="public_profile,email" onlogin="checkLoginState();">--%>
-                                        <%--</fb:login-button>--%>
+
+                                <div class="col-md-2">
+                                    <!-- Add Facebook sign in button -->
+                                    <a href="${pageContext.request.contextPath}/auth/facebook?scope=email">
+                                        <button class="btn btn-primary"><i class="fa fa-facebook"></i> |
+                                            Facebook
+                                        </button>
+                                    </a>
                                 </div>
+                                <div class="col-md-2">
+                                    <a href="${pageContext.request.contextPath}/auth/twitter?socipe=email">
+                                        <button class="btn btn-info"><i class="fa fa-twitter"></i> |
+                                            Tiwtter
+                                        </button>
+                                    </a>
+                                </div>
+                                <div class="col-md-2">
+                                    <a href="${pageContext.request.contextPath}/auth/twitter?socipe=email">
+                                        <button class="btn btn-danger"><i class="fa fa-google"></i> |
+                                            Google
+                                        </button>
+                                    </a>
+                                </div>
+
                             </div>
                         </div>
                     </div>

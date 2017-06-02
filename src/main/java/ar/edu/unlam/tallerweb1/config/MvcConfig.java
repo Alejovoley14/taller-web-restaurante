@@ -56,6 +56,8 @@ public class MvcConfig extends WebMvcConfigurerAdapter {
         viewResolver.setPrefix("/WEB-INF/vistas/");
         viewResolver.setSuffix(".jsp");
 
+
+
         return viewResolver;
     }
 }

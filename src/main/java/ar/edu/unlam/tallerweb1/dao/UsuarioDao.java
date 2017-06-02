@@ -6,4 +6,5 @@ public interface UsuarioDao extends GenericDao<Usuario,Long>{
 
     Usuario consultarUsuario(Usuario usuario);
     Usuario getByName(String name);
+    Usuario saveAndGet(Usuario item);
 }

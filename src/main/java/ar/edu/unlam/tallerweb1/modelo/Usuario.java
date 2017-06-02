@@ -3,75 +3,25 @@ package ar.edu.unlam.tallerweb1.modelo;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Collection;
+
 @Entity
 @Table(name = "usuario")
-public class Usuario  {
+public class Usuario {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(nullable = false,length = 300)
+    @Column(nullable = false, length = 300)
     private String email;
-    @Column(nullable = false,length = 64)
+    @Column(length = 64)
     private String password;
-    private String facebookId;
-    private String facebookAccessToken;
-    private Long facebookExpiresIn;
-    private String googleId;
-    private String googleAceesToken;
-    private String googleRefreshToken;
+    private String provider;
     @OneToMany(mappedBy = "usuario")
     private Collection<Restaurant> restaurants = new ArrayList<>();
     @OneToMany(mappedBy = "usuario")
     private Collection<Cliente> cliente = new ArrayList<>();
 
-    public String getFacebookId() {
-        return facebookId;
-    }
 
-    public void setFacebookId(String facebookId) {
-        this.facebookId = facebookId;
-    }
-
-    public String getFacebookAccessToken() {
-        return facebookAccessToken;
-    }
-
-    public void setFacebookAccessToken(String facebookAccessToken) {
-        this.facebookAccessToken = facebookAccessToken;
-    }
-
-    public Long getFacebookExpiresIn() {
-        return facebookExpiresIn;
-    }
-
-    public void setFacebookExpiresIn(Long facebookExpiresIn) {
-        this.facebookExpiresIn = facebookExpiresIn;
-    }
-
-    public String getGoogleId() {
-        return googleId;
-    }
-
-    public void setGoogleId(String googleId) {
-        this.googleId = googleId;
-    }
-
-    public String getGoogleAceesToken() {
-        return googleAceesToken;
-    }
-
-    public void setGoogleAceesToken(String googleAceesToken) {
-        this.googleAceesToken = googleAceesToken;
-    }
-
-    public String getGoogleRefreshToken() {
-        return googleRefreshToken;
-    }
-
-    public void setGoogleRefreshToken(String googleRefreshToken) {
-        this.googleRefreshToken = googleRefreshToken;
-    }
 
     public Long getId() {
         return id;
@@ -112,5 +62,13 @@ public class Usuario  {
 
     public void setCliente(Collection<Cliente> cliente) {
         this.cliente = cliente;
+    }
+
+    public String getProvider() {
+        return provider;
+    }
+
+    public void setProvider(String provider) {
+        this.provider = provider;
     }
 }

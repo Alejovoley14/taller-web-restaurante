@@ -1,30 +1,23 @@
 package ar.edu.unlam.tallerweb1.controladores;
 
+import ar.edu.unlam.tallerweb1.modelo.Usuario;
 import ar.edu.unlam.tallerweb1.servicios.ServicioLogin;
-import ar.edu.unlam.tallerweb1.viewModels.SocialSigInViewModel;
+import ar.edu.unlam.tallerweb1.utils.SecurityUtil;
 import ar.edu.unlam.tallerweb1.viewModels.UsuarioViewModel;
-import org.apache.commons.httpclient.HttpClient;
-import org.apache.commons.httpclient.HttpMethod;
-import org.apache.commons.httpclient.methods.GetMethod;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.HttpClientBuilder;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.web.authentication.WebAuthenticationDetails;
+import org.springframework.social.connect.Connection;
+import org.springframework.social.connect.ConnectionKey;
+import org.springframework.social.connect.UserProfile;
+import org.springframework.social.connect.web.ProviderSignInUtils;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.inject.Inject;
-import javax.servlet.http.HttpServletRequest;
-
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-
-import static org.apache.http.protocol.HTTP.USER_AGENT;
 
 /**
  * Created by Sebastian on 27/05/2017.
@@ -34,7 +27,8 @@ public class UserController {
 
     @Inject
     private ServicioLogin servicioLogin;
-
+    @Inject
+    private ProviderSignInUtils providerSignInUtils;
 
     @RequestMapping(value = "CrearUsuario", method = RequestMethod.POST)
     public ModelAndView crearUsuario(@ModelAttribute("usuario") UsuarioViewModel usuario) {
@@ -52,29 +46,43 @@ public class UserController {
         return new ModelAndView("login", model);
     }
 
-    @RequestMapping(value = "socialLogin", method = RequestMethod.POST,headers = "Accept=application/json")
-    @ResponseBody
-    public ModelAndView logInSocial(@RequestParam SocialSigInViewModel model) {
+    @RequestMapping(value = "/access",method = RequestMethod.GET)
+    public ModelAndView acces(WebRequest request){
 
-
-
-        if (!servicioLogin.userExist(model.getEmail())) {
-            servicioLogin.crearUsuario(model.getUsuario());
-        }
-
-        doAutoLogin(model.getEmail());
+        String[] bits = request.getDescription(true).split(";");
+        String username = bits[bits.length-1].replace("user=","");
+        Usuario user = servicioLogin.getByName(username);
+        SecurityUtil.logInUser(user);
 
         return new ModelAndView("redirect:/");
-
     }
 
+    @RequestMapping(value = "/signup",method = RequestMethod.GET)
+    public ModelAndView registerAndSignIn(WebRequest request, Model model){
+        Connection<?> connection = providerSignInUtils.getConnectionFromSession(request);
 
-    private void doAutoLogin(String username) {
+        Usuario user = doSocialRegister(connection);
 
-        Authentication authentication = new UsernamePasswordAuthenticationToken(username, null);
-        SecurityContextHolder.getContext().setAuthentication(authentication);
+        SecurityUtil.logInUser(user);
+        providerSignInUtils.doPostSignUp(user.getEmail(), request);
 
+        return new ModelAndView("redirect:/cliente");
     }
 
+    private Usuario doSocialRegister(Connection<?> connection){
+        UserProfile socialMediaProfile = connection.fetchUserProfile();
+
+        ConnectionKey providerKey = connection.getKey();
+
+        if(!servicioLogin.userExist(socialMediaProfile.getEmail())){
+            Usuario user = new Usuario();
+            user.setEmail(socialMediaProfile.getEmail());
+            user.setProvider(providerKey.getProviderId());
+            user.setPassword("");
+            return servicioLogin.crearUsuario(user);
+        }
+
+        return servicioLogin.getByName(socialMediaProfile.getEmail());
+    }
 
 }

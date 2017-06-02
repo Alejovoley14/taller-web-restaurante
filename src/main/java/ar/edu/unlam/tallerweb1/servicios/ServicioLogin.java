@@ -7,7 +7,7 @@ public interface ServicioLogin{
 
 	Usuario consultarUsuario(Usuario usuario);
 
-	void crearUsuario(Usuario usuario);
+	Usuario crearUsuario(Usuario usuario);
 
 	Boolean userExist(String username);
 	Usuario getByName(String username);

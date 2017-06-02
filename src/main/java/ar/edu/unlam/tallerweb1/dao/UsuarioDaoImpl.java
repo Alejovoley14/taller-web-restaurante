@@ -38,5 +38,11 @@ public class UsuarioDaoImpl extends GenericDaoImpl<Usuario,Long> implements Usua
                 .uniqueResult();
     }
 
+    @Override
+    public Usuario saveAndGet(Usuario item){
+        currentSession().save(item);
+        return item;
+    }
+
 
 }

@@ -1,7 +1,11 @@
 package ar.edu.unlam.tallerweb1.servicios;
 
+import ar.edu.unlam.tallerweb1.Social.MesaVipSocialUser;
+import ar.edu.unlam.tallerweb1.Social.Role;
 import ar.edu.unlam.tallerweb1.dao.GenericDao;
 import ar.edu.unlam.tallerweb1.dao.UsuarioDao;
+import ar.edu.unlam.tallerweb1.modelo.Cliente;
+import ar.edu.unlam.tallerweb1.modelo.Restaurant;
 import ar.edu.unlam.tallerweb1.modelo.Usuario;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -36,11 +40,15 @@ public class ServicioLoginImpl implements ServicioLogin, UserDetailsService {
     }
 
     @Override
-    public void crearUsuario(Usuario usuario) {
-        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-        String hashedPassword = passwordEncoder.encode(usuario.getPassword());
-        usuario.setPassword(hashedPassword);
-        usuarioDao.add(usuario);
+    public Usuario crearUsuario(Usuario usuario) {
+        if(usuario.getPassword() == null){
+            usuario.setPassword("");
+        }
+            BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+            String hashedPassword = passwordEncoder.encode(usuario.getPassword());
+            usuario.setPassword(hashedPassword);
+
+        return usuarioDao.saveAndGet(usuario);
     }
 
     @Override
