@@ -36,40 +36,40 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-//        http.authorizeRequests()
-//                .antMatchers("/css/**","/js/**","/fonts/**","/login","/CrearUsuario","/connect/**").permitAll()
-//                .anyRequest().fullyAuthenticated().and().formLogin().loginPage("/login")
-//                .failureUrl("/login?error").and().logout()
-//                .logoutRequestMatcher(new AntPathRequestMatcher("/logout")).and()
-//                .exceptionHandling().accessDeniedPage("/access?error");
-
-        http
-                .formLogin()
-                .loginPage("/login")
-                .loginProcessingUrl("/login/authenticate")
-                .failureUrl("/login?error")
-                .and()
-                .logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-                .and()
+        http.authorizeRequests()
+                .antMatchers("/css/**","/js/**","/fonts/**","/login","/CrearUsuario","/connect/**").permitAll()
+                .anyRequest().fullyAuthenticated().and().formLogin().loginPage("/login")
+                .failureUrl("/login?error").and().logout()
+                .logoutRequestMatcher(new AntPathRequestMatcher("/logout")).and()
                 .exceptionHandling().accessDeniedPage("/access?error")
-                .and()
-                .authorizeRequests()
-                .antMatchers(
-                        "/css/**",
-                        "/js/**",
-                        "/fonts/**",
-                        "/login",
-                        "/CrearUsuario",
-                        "/auth/**",
-                        "/signup/**",
-                        "/user/register/**",
-                        "/connect/**"
-                ).permitAll()
-                //The rest of the our application is protected.
-                .antMatchers("/**").hasRole("USER")
-                //Adds the SocialAuthenticationFilter to Spring Security's filter chain.
-                .and()
-                .apply(new SpringSocialConfigurer());
+                .and().apply(new SpringSocialConfigurer());
+
+//        http
+//                .formLogin()
+//                .loginPage("/login")
+//                .failureUrl("/login?error")
+//                .and()
+//                .logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+//                .and()
+//                .exceptionHandling().accessDeniedPage("/access?error")
+//                .and()
+//                .authorizeRequests()
+//                .antMatchers(
+//                        "/css/**",
+//                        "/js/**",
+//                        "/fonts/**",
+//                        "/login",
+//                        "/CrearUsuario",
+//                        "/auth/**",
+//                        "/signup/**",
+//                        "/user/register/**",
+//                        "/connect/**"
+//                ).permitAll()
+//                //The rest of the our application is protected.
+//                .antMatchers("/**").hasRole("USER")
+//                //Adds the SocialAuthenticationFilter to Spring Security's filter chain.
+//                .and()
+//                .apply(new SpringSocialConfigurer());
     }
 
     @Bean
