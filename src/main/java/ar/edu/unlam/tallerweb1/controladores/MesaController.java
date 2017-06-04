@@ -1,6 +1,9 @@
 package ar.edu.unlam.tallerweb1.controladores;
 
 import java.util.ArrayList;
+
+import javax.inject.Inject;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -10,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import ar.edu.unlam.tallerweb1.modelo.Mesa;
+import ar.edu.unlam.tallerweb1.servicios.ServicioMesa;
 
 @Controller
 public class MesaController {
@@ -19,6 +23,8 @@ public class MesaController {
 	
 	//defino datos de prueba
 	//private Long idRestaurant = (long) 24;
+	@Inject
+	private ServicioMesa servicoMesa;
 	
 	private ArrayList<Mesa> listaPrueba(){
 		
@@ -61,21 +67,7 @@ public class MesaController {
 		
 		return new ModelAndView("mesas",model);
 	}
-	
-	/*
-	@RequestMapping(value = "/mesas")
-	public ModelAndView grillaDeMesas(){
-		
-		ModelMap model = new ModelMap();
 
-		ArrayList<Mesa> listadoDeMesas = new ArrayList<Mesa>();
-		listadoDeMesas = listaPrueba(); //solo se utiliza para insertar datos de prueba
-		model.put("listadoDeMesas",listadoDeMesas); //se le pasara una coleccion de mesas para usar dentro de un foreach
-		//model.put("idRestaurant", idRestaurant);
-		
-		return new ModelAndView("mesas",model);
-	}
-	*/
 	
 	@RequestMapping(value="/mesa-nueva/{idRestaurant}")
 	public ModelAndView nuevaMesa(@PathVariable("idRestaurant") Long idRestaurant){
@@ -83,23 +75,27 @@ public class MesaController {
 		ModelMap model = new ModelMap();
 		Mesa mesaNueva = new Mesa(); //esta mesa es la que se envia como ModelAttribute
 		model.put("mesaNueva",mesaNueva);
+		model.put("idRestaurant", idRestaurant);
 		
 		return new ModelAndView("mesa-nueva",model);
 	}
 	
-	@RequestMapping(value = "/registrar-mesa", method = RequestMethod.POST)
-	public ModelAndView registrarMesa(@ModelAttribute("mesaNueva") Mesa mesaNueva){
+	@RequestMapping(value = "/registrar-mesa/{idRestaurant}", method = RequestMethod.POST)
+	public ModelAndView registrarMesa(@ModelAttribute("mesaNueva") Mesa mesaNueva,
+			@PathVariable("idRestaurant") Long idRestaurant){
+
 		
 		System.out.printf("numero: %d\tposicion: %s\n", mesaNueva.getNumero(), mesaNueva.getAfuera());
 		
-		return new ModelAndView("redirect:/mesas");
+		return new ModelAndView("redirect:/mesas/" + idRestaurant);
 	}
 	
-	@RequestMapping(value="/eliminar-mesa/{id}", method = RequestMethod.GET)
-	public ModelAndView eliminarMesa(@PathVariable("id")Long idMesa){
+	@RequestMapping(value="/eliminar-mesa/{idRestaurant}/{numeroMesa}", method = RequestMethod.GET)
+	public ModelAndView eliminarMesa(@PathVariable("numeroMesa") Integer numeroMesa,
+			@PathVariable("idRestaurant") Long idRestaurant){
 		
-		System.out.println("se eliminará la mesa " + idMesa);
-		return new ModelAndView("redirect:/mesas");
+		System.out.println("se eliminará la mesa " + numeroMesa);
+		return new ModelAndView("redirect:/mesas/" + idRestaurant);
 	}
 	
 	@RequestMapping(value="/editar-mesa/{idRestaurant}/{numeroMesa}")
@@ -116,16 +112,19 @@ public class MesaController {
 		mesaDePrueba.setAfuera(false);
 		
 		model.put("mesa", mesaDePrueba);
+		model.put("idRestaurant", idRestaurant);
+		model.put("numeroMesa", numeroMesa);
 		
 		return new ModelAndView("editar-mesa",model);
 	}
 	
-	@RequestMapping(value="modificar-mesa/{idRestaurant}", method = RequestMethod.POST)
+	@RequestMapping(value="modificar-mesa/{idRestaurant}/{numeroMesa}", method = RequestMethod.POST)
 	public ModelAndView modificarMesa(
 			@ModelAttribute("mesa") Mesa mesa,
-			@PathVariable("idRestaurant") Long idRestaurant){
+			@PathVariable("idRestaurant") Long idRestaurant,
+			@PathVariable("numeroMesa") Integer numeroMesa){
 		
-		System.out.println("se cambio la mesa");
+		System.out.println("se cambio la mesa" + numeroMesa);
 		
 		return new ModelAndView("redirect:/mesas/" + idRestaurant);
 	}
