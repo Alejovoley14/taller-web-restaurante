@@ -26,7 +26,7 @@
 					<div class="panel panel-default">
 						<div class="panel-heading"><h1 class="panel-title text-center">Editar mesa</h1></div>
 							<div class="panel-body">
-								<form:form method="POST" action="${context}/modificar-mesa/${idRestaurant}/${numeroMesa}" modelAttribute="mesa" cssClass="form form-horizontal">
+								<form:form method="POST" action="${context}/modificar-mesa/${idRestaurant}/${idMesa}" modelAttribute="mesa" cssClass="form form-horizontal">
 									<label class="col-xs-9">Ingrese número de mesa</label>
 									<div class="form-group col-xs-3">
 										<form:input path="numero" cssClass="form-control"/>

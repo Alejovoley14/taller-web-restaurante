@@ -1,36 +1,49 @@
 package ar.edu.unlam.tallerweb1.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
-import ar.edu.unlam.tallerweb1.modelo.Cliente;
+
 import ar.edu.unlam.tallerweb1.modelo.Mesa;
-import ar.edu.unlam.tallerweb1.modelo.Usuario;
 
 @Repository
 public class MesaDaoImpl extends GenericDaoImpl<Mesa,Long> implements MesaDao{
 
 	@Inject
     private SessionFactory sessionFactory;//un servicio que fabrica sesiones
-	
-	
-	
-	/*
-	public List getMesas(){
 
-		return null;
-	}
-	*/
 	@Override
-	public void saveMesa(Mesa mesa){
+	public ArrayList<Mesa> getMesas(Long idRestaurante){
 		
-		final Session session = sessionFactory.openSession(); //esto genera una sesion en la base de datos. La sesion es de la interfaz de hibernate
-		session.save(mesa);
+		final Session session = sessionFactory.openSession();
+		
+		ArrayList<Mesa> listaDeMesas = new ArrayList<Mesa>();
+		
+		listaDeMesas.add((Mesa) session.createCriteria(Mesa.class).list());
+	
+		return listaDeMesas;
+		/*
+		return (List<Mesa>) session.createCriteria(Mesa.class)
+				.add(Restrictions.eq("",idRestaurante))//val1  val2 es el valor a buscar
+				.list();
+		*/
 	}
+	
+	//los metodos de generic dao no me traen las cosas que quiero, defino nuevo metodo
+	
+	@Override
+	public Mesa getMesa(Long idMesa){
+		
+		final Session session = sessionFactory.openSession();
 
+		return (Mesa) session.createCriteria(Mesa.class)
+				.add(Restrictions.eq("id", idMesa)).uniqueResult();
+	}
 }

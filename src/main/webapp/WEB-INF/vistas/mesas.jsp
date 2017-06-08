@@ -37,7 +37,9 @@
 							<tr>
 								<td>${mesa.getNumero()}</td>
 								<td></td>
-								<td>${mesa.getAfuera()}</td>
+								<td>
+									${mesa.getAfuera()}
+								</td>
 								<td>
 									<a href="${context}/editar-mesa/${idRestaurant}/${mesa.getId()}"><span class="glyphicon glyphicon-pencil"></span></a>
 									<a href="${context}/eliminar-mesa/${idRestaurant}/${mesa.getId()}"><span class="glyphicon glyphicon-remove"></span></a>

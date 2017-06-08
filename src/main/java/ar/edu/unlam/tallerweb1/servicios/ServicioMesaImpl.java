@@ -1,8 +1,9 @@
 package ar.edu.unlam.tallerweb1.servicios;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,32 +17,32 @@ public class ServicioMesaImpl implements ServicioMesa{
 	@Inject
 	private MesaDao mesaDao;
 	
-	/*
-	public void getMesas(){
+	
+	public List<Mesa> getMesas(Long idRestaurant){
 		
-		System.out.println("se traeran las mesas");
+		//return mesaDao.getMesas();
+		return mesaDao.getAll();
 	}
 
-	public Mesa getMesa(){
-		
-		
-		
-		return null;
+	public Mesa getMesa(Long idMesa){
+
+		return mesaDao.getMesa(idMesa);
 	}
-	*/	
+	
 	@Override
 	public void saveMesa(Mesa mesa){
 		
-		mesaDao.saveMesa(mesa);
-	}
-	/*
-	public void deleteMesa(){
-		
-		
+		mesaDao.add(mesa);
 	}
 	
-	public void updateMesa(){
+	public void deleteMesa(Mesa mesa){
 		
+		mesaDao.remove(mesa);
 	}
-*/
+	
+	public void update(Mesa mesa){
+		
+		mesaDao.update(mesa);
+	}
+
 }
