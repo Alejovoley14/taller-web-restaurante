@@ -21,7 +21,7 @@ public class RestaurantViewModel {
 	    private Long localidadId;
 	    private Long provinciaId;
 	    private Long departamentoId;
-	    
+	    private Long[] medioDePagoIds;
 
 	    public Long getId() {
 	        return id;
@@ -154,4 +154,14 @@ public class RestaurantViewModel {
 	        
 	        return model;
 	    }
+
+		public Long[] getMedioDePagoIds() {
+			return medioDePagoIds;
+		}
+
+		public void setMedioDePagoIds(Long[] medioDePagoIds) {
+			this.medioDePagoIds = medioDePagoIds;
+		}
+
+		
 }

@@ -1,7 +1,7 @@
 <%@ taglib prefix="th" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-
+<%@ taglib prefix="th" uri="http://www.springframework.org/tags/form" %>
 
 <th:input path="Latitud" type="hidden" id="lat"></th:input>
 <th:input path="Longitud" type="hidden" id="long"></th:input>
@@ -44,6 +44,19 @@
                     <%--@endif--%>
                 </div>
             </div>
+            
+            
+             <div class="form-group">
+                <label for="cuit" class="col-sm-2 col-md-3 control-label">Medios de Pago</label>
+               <div class="col-sm-10 col-md-9">
+                    
+                    <th:select path="medioDePagoIds" multiple="true" items="${medioPagos}" itemLabel="descripcion" itemValue="id"/>
+                     
+                </div>
+            </div>
+            
+            
+            
         </div>
     </div>
     <div class="col-sm-12 col-md-offset-1 col-md-5">
@@ -98,6 +111,7 @@
                     <%--<span class="help-block"><strong>{{ $errors->first('numero') }}</strong></span>--%>
                     <%--@endif--%>
                 </div>
+                
                 <div class="col-sm-1">
                     <button type="button" id="btnSetMarker" class="btn btn-info"><span
                             class="glyphicon glyphicon-map-marker"></span></button>

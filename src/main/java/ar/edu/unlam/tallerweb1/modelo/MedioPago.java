@@ -14,7 +14,8 @@ public class MedioPago  {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Enumerated(EnumType.STRING)
+    
+    @Enumerated(EnumType.ORDINAL)
     @Column(nullable = false)
     private MedioPagoEnum tipo;
     @Column(nullable = false,length = 200)
@@ -47,7 +48,7 @@ public class MedioPago  {
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
     }
-
+    @ManyToMany(mappedBy="mediopago")
     public Collection<Restaurant> getRestaurants() {
         return restaurants;
     }

@@ -7,18 +7,19 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 
 <t:layout>
-
     <jsp:body>
 		 <div class="row">
 		 	<th:form class="form-horizontal pull-left" action="/taller-web-restaurante/restaurant/create" method="GET" modelAttribute="restaurant">
 	             <div class="col-sm-offset-9 col-sm-3">
-				     <button class="btn btn-primary pull-left" type="submit">Agregar</button>
+				     <button class="btn btn-primary pull-left" type="submit"  style="height: 30px">Agregar</button>
 				 </div>   
             </th:form>
 			 
 		</div>
 	     
-    	    
+    	    <style>
+
+</style>
     	    
     	    <table class="table table-striped">
 			<thead>
@@ -51,9 +52,9 @@
 
 				  
 				  <button class="btn btn-primary"
-                                          onclick="location.href='${updateUrl}'">Update</button>
+                                          onclick="location.href='${updateUrl}'" style="height: 25px">Editar</button>
 				  <button class="btn btn-danger"
-                                          onclick="this.disabled=true;post('${deleteUrl}')">Delete</button>
+                                          onclick="this.disabled=true;post('${deleteUrl}')"  style="height: 25px">elimiar</button>
                                 </td>
 			    </tr>
 			</c:forEach>

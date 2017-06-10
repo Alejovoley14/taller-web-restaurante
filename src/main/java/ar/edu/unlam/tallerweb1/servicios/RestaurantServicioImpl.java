@@ -1,6 +1,8 @@
 package ar.edu.unlam.tallerweb1.servicios;
 
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -9,9 +11,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import ar.edu.unlam.tallerweb1.dao.DomicilioDao;
+import ar.edu.unlam.tallerweb1.dao.MedioPagoDao;
 import ar.edu.unlam.tallerweb1.dao.RestaurantDao;
 
 import ar.edu.unlam.tallerweb1.modelo.Domicilio;
+import ar.edu.unlam.tallerweb1.modelo.MedioPago;
 import ar.edu.unlam.tallerweb1.modelo.Restaurant;
 
 /**
@@ -28,10 +32,18 @@ public class RestaurantServicioImpl implements RestaurantServicio{
 	private DomicilioDao domicilioDao;
 	
 	@Override
-	public void add(Restaurant item,Domicilio domicilio){
-		restaurantDao.add(item);
+	public void add(Restaurant item,Domicilio domicilio,Collection<MedioPago> mediosPago){
+		item.setMediosPago(mediosPago);
+	
+		Long id=restaurantDao.addRestaurant(item);
 		domicilio.setRestaurant(item);
+		
 		domicilioDao.add(domicilio);
+		
+		for (MedioPago medioPago : mediosPago) {
+			restaurantDao.addMedioPago(id,medioPago.getId());
+		}
+		
 	}
 
 	@Override

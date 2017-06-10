@@ -4,7 +4,8 @@ import java.security.Principal;
 
 import javax.inject.Inject;
 
-
+import java.util.ArrayList;
+import java.util.Collection;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -16,10 +17,12 @@ import org.springframework.web.servlet.ModelAndView;
 
 import ar.edu.unlam.tallerweb1.modelo.Domicilio;
 import ar.edu.unlam.tallerweb1.modelo.Localidad;
+import ar.edu.unlam.tallerweb1.modelo.MedioPago;
 import ar.edu.unlam.tallerweb1.modelo.Restaurant;
 import ar.edu.unlam.tallerweb1.modelo.Usuario;
-
+import ar.edu.unlam.tallerweb1.modelo.extensions.MedioPagoEnum;
 import ar.edu.unlam.tallerweb1.servicios.LocalidadServicio;
+import ar.edu.unlam.tallerweb1.servicios.MedioPagoServicio;
 import ar.edu.unlam.tallerweb1.servicios.ProvinciaServicio;
 import ar.edu.unlam.tallerweb1.servicios.RestaurantServicio;
 import ar.edu.unlam.tallerweb1.viewModels.RestaurantViewModel;
@@ -32,6 +35,8 @@ public class RestaurantController extends BaseController{
 	private ProvinciaServicio provinciaServicio;
 	@Inject 
 	private LocalidadServicio localidadServicio;
+	@Inject 
+	private MedioPagoServicio medioPagoServicio;
 	
 	@RequestMapping(value = "/restaurant", method = RequestMethod.GET)
 	public ModelAndView getRestaurant(Principal principal){
@@ -47,6 +52,7 @@ public class RestaurantController extends BaseController{
 		System.out.println("restaurant Controller");///Delete
 		ModelMap model =new ModelMap();
 		model.put("provincias", provinciaServicio.getAll());
+		model.put("medioPagos", medioPagoServicio.getAll());
 		model.put("restaurant", new RestaurantViewModel());
 		return new ModelAndView("restaurant/create",model);
 	}		
@@ -59,7 +65,16 @@ public class RestaurantController extends BaseController{
 		Localidad localidad=localidadServicio.get(new Long(1));
 		Restaurant restaurant = viewModel.toRestaurant(new Restaurant());
 		restaurant.setUsuario(getCurrentUser(principal));
-		restaurantServicio.add(restaurant, viewModel.toDomicilio(new Domicilio(), localidad));
+		Long[] medioDePagoIds=viewModel.getMedioDePagoIds();
+		
+		Collection<MedioPago> mp = new ArrayList<MedioPago>();
+		
+		MedioPago mediopago=new MedioPago();
+		for (Long id : medioDePagoIds) {
+			mediopago.setId(id);
+		    mp.add(mediopago);
+		}
+		restaurantServicio.add(restaurant, viewModel.toDomicilio(new Domicilio(), localidad),mp);
 		
 		return new ModelAndView("redirect:/restaurant");		
 	}
@@ -69,7 +84,10 @@ public class RestaurantController extends BaseController{
 		System.out.println("restaurant Controller");///Delete
 		ModelMap model =new ModelMap();
 		Usuario user=getCurrentUser(principal);
+		
+
 		model.put("provincias", provinciaServicio.getAll());
+		//model.put("medioPagos", medioPagoServicio.getAll());
 
 		if(restaurantServicio.exist(restaurantId)){
 			RestaurantViewModel viewModel= new RestaurantViewModel();
@@ -88,6 +106,8 @@ public class RestaurantController extends BaseController{
 		//Usuario user=getCurrentUser(principal);
 		Restaurant restaurant=restaurantServicio.get(viewModel.getId());
 		//Domicilio domicilio=restaurant.getDomicilios().iterator().next();
+		Long[] selectedNumbers = viewModel.getMedioDePagoIds();
+		
 		Domicilio domicilio=new Domicilio();
 		domicilio.setCalle("Islas Malvinas");
 		domicilio.setNumero(123);
@@ -98,4 +118,16 @@ public class RestaurantController extends BaseController{
 		
 		return new ModelAndView("redirect:/restaurant");
 	}
+	
+/*	
+	@RequestMapping(value = "/prueba", method = RequestMethod.GET)
+	public ModelAndView saveMedioPago(Principal principal){
+
+		MedioPago mp =new MedioPago();
+		mp.setDescripcion("Efectivo");
+		mp.setTipo(MedioPagoEnum.TARJETACREDITO);
+		medioPagoServicio.add(mp);
+		return new ModelAndView("redirect:/restaurant");
+	}
+	*/
 }

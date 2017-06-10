@@ -6,9 +6,13 @@ import java.util.List;
 
 import org.springframework.stereotype.Repository;
 
+import ar.edu.unlam.tallerweb1.modelo.MedioPago;
 import ar.edu.unlam.tallerweb1.modelo.Restaurant;
 
 @Repository
 public interface RestaurantDao extends GenericDao<Restaurant, Long>{
-	List<Restaurant> getAllByUsuario(Long usuarioId);
+	List<Restaurant> getAllByUsuario(Long usuarioId);	
+	 void addMedioPago(Long restaurantId, Long medioPagoId);
+	Long addRestaurant(Restaurant restaurant);
+    
 }

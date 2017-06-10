@@ -62,7 +62,8 @@ public class Restaurant  {
     public void setDomicilios(Collection<Domicilio> domicilios) {
         this.domicilios = domicilios;
     }
-
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "mediopago_restaurant", joinColumns = @JoinColumn(name = "mediopago_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "restaurants_id", referencedColumnName = "id"))
     public Collection<MedioPago> getMediosPago() {
         return mediosPago;
     }
