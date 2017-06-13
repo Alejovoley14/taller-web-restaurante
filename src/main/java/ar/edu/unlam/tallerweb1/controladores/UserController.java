@@ -66,7 +66,7 @@ public class UserController {
         SecurityUtil.logInUser(user);
         providerSignInUtils.doPostSignUp(user.getEmail(), request);
 
-        return new ModelAndView("redirect:/cliente");
+        return new ModelAndView("redirect:/");
     }
 
     private Usuario doSocialRegister(Connection<?> connection){

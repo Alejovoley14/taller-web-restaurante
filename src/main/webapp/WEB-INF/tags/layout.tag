@@ -35,7 +35,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#">Mesa VIP</a>
+            <a class="navbar-brand" href="/">Mesa VIP</a>
         </div>
         <security:authorize access="!isAuthenticated()">
             <th:form class="navbar-form navbar-right" action="login" method="POST" id="login-nav">
@@ -63,7 +63,7 @@
                             class="caret"></span></a>
                     <ul class="dropdown-menu">
                         <li><a href="/cliente">Datos de cliente</a></li>
-                        <security:authorize access="hasRole('RESTAURANT')">
+                        <security:authorize access="hasRole('ROLE_RESTAURANT')">
                             <li><a href="/restaurant">Datos de restaurant</a></li>
                         </security:authorize>
                         <security:authorize access="!hasRole('RESTAURANT')">
