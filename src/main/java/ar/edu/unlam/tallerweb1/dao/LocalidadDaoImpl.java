@@ -24,7 +24,7 @@ public class LocalidadDaoImpl extends GenericDaoImpl<Localidad, Long> implements
     @Override
     public List<Localidad> getAllByDepartamentoId(Long departamentoId) {
 
-        final Session session = sessionFactory.openSession();
+        final Session session = sessionFactory.getCurrentSession();
         return session.createCriteria(Localidad.class)
                 .addOrder(Order.desc("descripcion"))
                 .createCriteria("departamento")

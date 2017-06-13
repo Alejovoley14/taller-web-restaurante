@@ -132,13 +132,13 @@
         });
 
         <c:choose>
-        <c:when test="${!empty(cliente.provinciaId) && !empty(cliente.departamentoId) && !empty(cliente.localidadId)}">
+        <c:when test="${!empty(cliente.domicilio.provinciaId) && !empty(cliente.domicilio.departamentoId) && !empty(cliente.domicilio.localidadId)}">
         modal.showPleaseWait();
-        $.when(getDepartamentos(${cliente.provinciaId}), getLocalidades(${cliente.departamentoId}))
+        $.when(getDepartamentos(${cliente.domicilio.provinciaId}), getLocalidades(${cliente.domicilio.departamentoId}))
             .done(function (deptos, localidades) {
-                $("#provinciaId").val(${cliente.provinciaId});
-                $("#localidadId").val(${cliente.localidadId});
-                $("#departamentoId").val(${cliente.departamentoId});
+                $("#provinciaId").val(${cliente.domicilio.provinciaId});
+                $("#localidadId").val(${cliente.domicilio.localidadId});
+                $("#departamentoId").val(${cliente.domicilio.departamentoId});
                 $.when(setMarker()).always(function () {
                     modal.hidePleaseWait();
                 });
@@ -147,10 +147,10 @@
         });
 
 
-        map.setCenter(new google.maps.LatLng('${cliente.latitud}', '${cliente.longitud}'));
+        map.setCenter(new google.maps.LatLng('${cliente.domicilio.latitud}', '${cliente.domicilio.longitud}'));
 
         </c:when>
-        <c:when test="${empty(cliente.provinciaId) && empty(cliente.departamentoId) && empty(cliente.localidadId)}">
+        <c:when test="${empty(cliente.domicilio.provinciaId) && empty(cliente.domicilio.departamentoId) && empty(cliente.domicilio.localidadId)}">
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(function (position) {
                 var pos = {

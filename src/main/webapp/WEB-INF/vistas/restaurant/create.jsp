@@ -11,7 +11,7 @@
     </jsp:attribute>
     <jsp:body>
         <div class="container">
-            <th:form class="form-horizontal" action="/taller-web-restaurante/restaurant/add" method="POST" modelAttribute="restaurant">
+            <th:form class="form-horizontal" action="/restaurant/add" method="POST" modelAttribute="restaurant">
                 <jsp:include page="createeditpartial.jsp"></jsp:include>
             </th:form>
         </div>

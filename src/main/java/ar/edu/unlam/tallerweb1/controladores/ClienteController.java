@@ -52,31 +52,31 @@ public class ClienteController extends BaseController {
     @RequestMapping(value = "/cliente/add", method = RequestMethod.POST)
     public ModelAndView addCliente(Principal principal, @ModelAttribute("cliente") ClienteViewModel viewModel) {
 
-        Localidad localidad = localidadServicio.get(viewModel.getLocalidadId());
+        Localidad localidad = localidadServicio.get(viewModel.getDomicilio().getLocalidadId());
 
         Cliente cliente = viewModel.toCliente(new Cliente());
 
         cliente.setUsuario(getCurrentUser(principal));
 
-        clienteServicio.add(cliente, viewModel.toDomicilio(new Domicilio(), localidad));
+        clienteServicio.add(cliente, viewModel.getDomicilio().toDomicilio(new Domicilio(), localidad));
 
         //Validar
-        return new ModelAndView("redirect:/cliente");
+        return new ModelAndView("redirect:/");
 
     }
 
     @RequestMapping(value = "/cliente/update", method = RequestMethod.POST)
     public ModelAndView updateCliente(Principal principal, @ModelAttribute("cliente") ClienteViewModel viewModel) {
 
-        Localidad localidad = localidadServicio.get(viewModel.getLocalidadId());
+        Localidad localidad = localidadServicio.get(viewModel.getDomicilio().getLocalidadId());
 
         Usuario user = getCurrentUser(principal);
         Cliente cliente = clienteServicio.get(user.getId());
         Domicilio domicilio = cliente.getDomicilios().iterator().next();
 
-        clienteServicio.update(viewModel.toCliente(cliente), viewModel.toDomicilio(domicilio, localidad));
+        clienteServicio.update(viewModel.toCliente(cliente), viewModel.getDomicilio().toDomicilio(domicilio, localidad));
         //Validar
-        return new ModelAndView("redirect:/cliente");
+        return new ModelAndView("redirect:/");
 
     }
 }

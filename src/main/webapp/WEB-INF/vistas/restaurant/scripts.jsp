@@ -131,14 +131,81 @@
 
         });
 
+        var selectedMediosPagoId = [];
+
+        function updateMediosPagoArray() {
+            var hiddens = "";
+            $.each(selectedMediosPagoId, function (key, value) {
+                hiddens += '<input type="hidden" name=medioDePagoIds[' + key + '] value="' + value.id + '"/>'
+            });
+
+            $("#selectedMediosPago").html(hiddens);
+        }
+
+        $("#btnAddMedioPago").click(function () {
+            var medioPagoId = $("#optMedioPago").val();
+            if (!alreadySelectedMedioPago(medioPagoId)) {
+                selectedMediosPagoId.push({id: medioPagoId});
+
+                $("#tableMediosPago tr:last").after('<tr id="' + medioPagoId + '"><td>' + $("#optMedioPago option:selected").text() + '</td><td><button  class="btnEliminar btn btn-danger" type="button" medioPagoId=' + medioPagoId + '><i class="fa fa-minus"></i></button> </td></tr>');
+
+                updateMediosPagoArray();
+            }
+        });
+
+        $('#tableMediosPago').on('click', ".btnEliminar", function () {
+            $(this).closest('tr').remove();
+
+            var idToremove = $(this).attr("medioPagoId");
+            var filtered = $.grep(selectedMediosPagoId, function (e) {
+                return e.id != idToremove;
+            });
+            selectedMediosPagoId = filtered;
+
+            updateMediosPagoArray();
+        });
+
+        function alreadySelectedMedioPago(id) {
+            var exists = false;
+            $.each(selectedMediosPagoId, function (key, value) {
+                if (value.id === id) {
+                    exists = true;
+                }
+            });
+
+            return exists
+        }
+
+
+        <c:if test="${!empty(restaurant.medioDePagoIds)}">
+        var text;
+        var id;
+        <c:forEach var="mediopago" items="${restaurant.medioDePagoIds}">
+        selectedMediosPagoId.push({id: "${mediopago}"});
+        <c:forEach items="${medioPagos}" var="item">
+        <c:if test="${item.id eq mediopago}">
+        $("#tableMediosPago tr:last").after('<tr id="' + '${item.id}' + '"><td>' + '${item.descripcion}' + '</td><td><button  class="btnEliminar btn btn-danger" type="button" medioPagoId=' + '${item.id}' + '><i class="fa fa-minus"></i></button> </td></tr>');
+        </c:if>
+        </c:forEach>
+        </c:forEach>
+        updateMediosPagoArray();
+        </c:if>
         <c:choose>
-        <c:when test="${!empty(restaurant.provinciaId) && !empty(restaurant.departamentoId) && !empty(restaurant.localidadId)}">
+        <c:when test="${!empty(restaurant.domicilio.provinciaId) && !empty(restaurant.domicilio.departamentoId) && !empty(restaurant.domicilio.localidadId)}">
         modal.showPleaseWait();
-        $.when(getDepartamentos(${cliente.provinciaId}), getLocalidades(${cliente.departamentoId}))
+
+
+
+
+        var provinciaId = '${restaurant.domicilio.provinciaId}';
+        var departamentoId = '${restaurant.domicilio.departamentoId}';
+        var localidadId = '${restaurant.domicilio.localidadId}';
+
+        $.when(getDepartamentos(provinciaId), getLocalidades(departamentoId))
             .done(function (deptos, localidades) {
-                $("#provinciaId").val(${cliente.provinciaId});
-                $("#localidadId").val(${cliente.localidadId});
-                $("#departamentoId").val(${cliente.departamentoId});
+                $("#provinciaId").val(provinciaId);
+                $("#localidadId").val(localidadId);
+                $("#departamentoId").val(departamentoId);
                 $.when(setMarker()).always(function () {
                     modal.hidePleaseWait();
                 });
@@ -146,11 +213,9 @@
             modal.hidePleaseWait();
         });
 
-
-        map.setCenter(new google.maps.LatLng('${restaurant.latitud}', '${restaurant.longitud}'));
-
         </c:when>
-        <c:when test="${empty(restaurant.provinciaId) && empty(restaurant.departamentoId) && empty(restaurant.localidadId)}">
+
+        <c:when test="${empty(restaurant.domicilio.provinciaId) && empty(restaurant.domicilio.departamentoId) && empty(restaurant.domicilio.localidadId)}">
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(function (position) {
                 var pos = {
@@ -164,6 +229,8 @@
         </c:when>
         </c:choose>
     });
+
+
 </script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDzfaxwXl0xql_XMHVs7e2m62Evn8avK3U&callback=initMap"
         async defer></script>

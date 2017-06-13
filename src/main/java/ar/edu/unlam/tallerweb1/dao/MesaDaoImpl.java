@@ -22,7 +22,7 @@ public class MesaDaoImpl extends GenericDaoImpl<Mesa,Long> implements MesaDao{
 	@Override
 	public ArrayList<Mesa> getMesas(Long idRestaurante){
 		
-		final Session session = sessionFactory.openSession();
+		final Session session = sessionFactory.getCurrentSession();
 		
 		ArrayList<Mesa> listaDeMesas = new ArrayList<Mesa>();
 		
@@ -41,7 +41,7 @@ public class MesaDaoImpl extends GenericDaoImpl<Mesa,Long> implements MesaDao{
 	@Override
 	public Mesa getMesa(Long idMesa){
 		
-		final Session session = sessionFactory.openSession();
+		final Session session = sessionFactory.getCurrentSession();
 
 		return (Mesa) session.createCriteria(Mesa.class)
 				.add(Restrictions.eq("id", idMesa)).uniqueResult();

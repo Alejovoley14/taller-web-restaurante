@@ -3,61 +3,46 @@
 <%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
 <%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
 <t:layout>
     <jsp:body>
-		 <div class="row">
-		 	<th:form class="form-horizontal pull-left" action="/taller-web-restaurante/restaurant/create" method="GET" modelAttribute="restaurant">
-	             <div class="col-sm-offset-9 col-sm-3">
-				     <button class="btn btn-primary pull-left" type="submit"  style="height: 30px">Agregar</button>
-				 </div>   
-            </th:form>
-			 
-		</div>
-	     
-    	    <style>
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-offset-1">
+                    <a class="btn btn-success" type="submit" href="/restaurant/create">Agregar <i class="fa fa-plus"></i></a>
+                </div>
+            </div>
+            <hr>
+            <div class="row">
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Nombre Fantasia</th>
+                        <th>Razon Social</th>
+                        <th>Cuit</th>
+                        <th></th>
+                    </tr>
+                    </thead>
 
-</style>
-    	    
-    	    <table class="table table-striped">
-			<thead>
-				<tr>
-					<th>Id</th>
-					<th>Nombre Fantasia</th>
-					<th>Razon Social</th>
-					<th>Cuit</th>
-					<th>Action</th>
-				</tr>
-			</thead>
-
-			<c:forEach var="restaurant" items="${lista}">
-			    <tr>
-				<td>${restaurant.getId()}</td>
-				<td>${restaurant.getNombreFantasia()}</td>
-				<td>${restaurant.getRazonSocial()}</td>
-				<td>${restaurant.getCuit()}</td>
-				<td>
-                <c:forEach var="framework" items="${user.framework}"
-                                                             varStatus="loop">
-					${framework}
-    				        <c:if test="${not loop.last}">,</c:if>
-				  </c:forEach>
-                                </td>
-				<td>
-				
-				  <spring:url value="/restaurant/${restaurant.getId()}/delete" var="deleteUrl" />
-				  <spring:url value="/restaurant/edit/${restaurant.getId()}" var="updateUrl" />
-
-				  
-				  <button class="btn btn-primary"
-                                          onclick="location.href='${updateUrl}'" style="height: 25px">Editar</button>
-				  <button class="btn btn-danger"
-                                          onclick="this.disabled=true;post('${deleteUrl}')"  style="height: 25px">elimiar</button>
-                                </td>
-			    </tr>
-			</c:forEach>
-		</table>
+                    <c:forEach var="restaurant" items="${lista}">
+                        <tr>
+                            <td>${restaurant.id}</td>
+                            <td>${restaurant.nombreFantasia}</td>
+                            <td>${restaurant.razonSocial}</td>
+                            <td>${restaurant.cuit}</td>
+                            <td>
+                                <a class="btn btn-info" href="/restaurant/edit/${restaurant.id}">Editar <i class="fa fa-edit"></i>
+                                </a>
+                                <a class="btn btn-danger">Elimiar <i class="fa fa-minus"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    </c:forEach>
+                </table>
+            </div>
+        </div>
     </jsp:body>
 </t:layout>

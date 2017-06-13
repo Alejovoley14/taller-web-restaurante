@@ -2,166 +2,108 @@ package ar.edu.unlam.tallerweb1.viewModels;
 
 import ar.edu.unlam.tallerweb1.modelo.Domicilio;
 import ar.edu.unlam.tallerweb1.modelo.Localidad;
+import ar.edu.unlam.tallerweb1.modelo.MedioPago;
 import ar.edu.unlam.tallerweb1.modelo.Restaurant;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Iterator;
 
 
 public class RestaurantViewModel {
 
-	   
-	    private Long id;
-	    private String razonSocial;
-	    private String nombreFantasia;
-	    private String cuit;
-	   
-       //Domicilio Fields
-	    private String calle;
-	    private Integer numero;
-	    private Double Latitud;
-	    private Double Longitud;
-	    private Long localidadId;
-	    private Long provinciaId;
-	    private Long departamentoId;
-	    private Long[] medioDePagoIds;
 
-	    public Long getId() {
-	        return id;
-	    }
+    private Long id;
+    private String razonSocial;
+    private String nombreFantasia;
+    private String cuit;
+    private Long[] medioDePagoIds;
 
-	    public void setId(Long id) {
-	        this.id = id;
-	    }	   
+    private DomicilioViewModel domicilio;
 
-	    public String getCalle() {
-	        return calle;
-	    }
+    public Long getId() {
+        return id;
+    }
 
-	    public void setCalle(String calle) {
-	        this.calle = calle;
-	    }
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-	    public Integer getNumero() {
-	        return numero;
-	    }
 
-	    public void setNumero(Integer numero) {
-	        this.numero = numero;
-	    }
+    public String getRazonSocial() {
+        return razonSocial;
+    }
 
-	    public Double getLatitud() {
-	        return Latitud;
-	    }
+    public void setRazonSocial(String razonSocial) {
+        this.razonSocial = razonSocial;
+    }
 
-	    public void setLatitud(Double latitud) {
-	        Latitud = latitud;
-	    }
+    public String getNombreFantasia() {
+        return nombreFantasia;
+    }
 
-	    public Double getLongitud() {
-	        return Longitud;
-	    }
+    public void setNombreFantasia(String nombreFantasia) {
+        this.nombreFantasia = nombreFantasia;
+    }
 
-	    public void setLongitud(Double longitud) {
-	        Longitud = longitud;
-	    }
+    public String getCuit() {
+        return cuit;
+    }
 
-	    public Long getLocalidadId() {
-	        return localidadId;
-	    }
+    public void setCuit(String cuit) {
+        this.cuit = cuit;
+    }
 
-	    public void setLocalidadId(Long localidadId) {
-	        this.localidadId = localidadId;
-	    }
+    public Long[] getMedioDePagoIds() {
+        return medioDePagoIds;
+    }
 
-		public String getRazonSocial() {
-			return razonSocial;
-		}
+    public void setMedioDePagoIds(Long[] medioDePagoIds) {
+        this.medioDePagoIds = medioDePagoIds;
+    }
 
-		public void setRazonSocial(String razonSocial) {
-			this.razonSocial = razonSocial;
-		}
+    public void setDomicilio(DomicilioViewModel domicilio) {
+        this.domicilio = domicilio;
+    }
 
-		public String getNombreFantasia() {
-			return nombreFantasia;
-		}
+    public DomicilioViewModel getDomicilio() {
+        return domicilio;
+    }
 
-		public void setNombreFantasia(String nombreFantasia) {
-			this.nombreFantasia = nombreFantasia;
-		}
+    public Restaurant toRestaurant(Restaurant restaurant) {
+        restaurant.setRazonSocial(this.razonSocial);
+        restaurant.setNombreFantasia(this.nombreFantasia);
+        restaurant.setCuit(this.cuit);
 
-		public String getCuit() {
-			return cuit;
-		}
+        return restaurant;
+    }
 
-		public void setCuit(String cuit) {
-			this.cuit = cuit;
-		}
-	    public Long getProvinciaId() {
-	        return provinciaId;
-	    }
-	
-	    public void setProvinciaId(Long provinciaId) {
-	        this.provinciaId = provinciaId;
-	    }
-	
-	    public Long getDepartamentoId() {
-	        return departamentoId;
-	    }
-	
-	    public void setDepartamentoId(Long departamentoId) {
-	        this.departamentoId = departamentoId;
-	    }
-	    
-	    public Restaurant toRestaurant(Restaurant restaurant){
-	    	restaurant.setRazonSocial(this.razonSocial);
-	    	restaurant.setNombreFantasia(this.nombreFantasia);
-	    	restaurant.setCuit(this.cuit);
-	    	return restaurant;
-	    }
-	    public Domicilio toDomicilio(Domicilio domicilio, Localidad localidad){
+    public RestaurantViewModel toViewModel(Restaurant restaurant) {
+        RestaurantViewModel model = new RestaurantViewModel();
 
-	        domicilio.setCalle(this.calle);
-	        domicilio.setNumero(this.numero);
-	        domicilio.setLatitud(this.Latitud);
-	        domicilio.setLongitud(this.Longitud);
+        model.setId(restaurant.getId());
+        model.setRazonSocial(restaurant.getRazonSocial());
+        model.setNombreFantasia(restaurant.getNombreFantasia());
+        model.setCuit(restaurant.getCuit());
 
-	        domicilio.setLocalidad(localidad);
+        Long[] mediosPagoIds = new Long[restaurant.getMediosPago().size()];
+        Collection<Long> ids = new ArrayList<>();
+        for (Iterator<MedioPago> it = restaurant.getMediosPago().iterator(); it.hasNext(); ) {
+            MedioPago medioPago = it.next();
+            ids.add(medioPago.getId());
 
-	        return domicilio;
-	    }
-	    public RestaurantViewModel toViewModel(Restaurant restaurant) {
-	    	RestaurantViewModel model = new RestaurantViewModel();
+        }
+        ids.toArray(mediosPagoIds);
+        model.setMedioDePagoIds(mediosPagoIds);
 
-	        model.setId(restaurant.getId());
-	        model.setRazonSocial(restaurant.getRazonSocial());
-	        model.setNombreFantasia(restaurant.getNombreFantasia());
-	        model.setCuit(restaurant.getCuit());
-	        /*
-	        Domicilio domicilio = restaurant.getDomicilios().iterator().next();
-	        model.setCalle(domicilio.getCalle());
-	        model.setNumero(domicilio.getNumero());
-	        model.setLatitud(domicilio.getLatitud());
-	        model.setLongitud(domicilio.getLongitud());
-	        model.setLocalidadId(domicilio.getLocalidad().getId());
-	        model.setDepartamentoId(domicilio.getLocalidad().getDepartamento().getId());
-	        model.setProvinciaId(domicilio.getLocalidad().getDepartamento().getProvincia().getId());
-*/
-	        model.setCalle("Islas Malvinas");
-	        model.setNumero(1234);
-	        model.setLatitud(new Double (0));
-	        model.setLongitud(new Double (0));
-	        model.setLocalidadId(new Long (1));
-	        model.setDepartamentoId(new Long (1));
-	        model.setProvinciaId(new Long (1));
-	        
-	        return model;
-	    }
+        Domicilio domicilio = restaurant.getDomicilios().iterator().next();
+        if (domicilio != null){
+            DomicilioViewModel domicilioViewModel = new DomicilioViewModel();
+            model.setDomicilio(domicilioViewModel.toDomicilioViewmodel(domicilio));
+        }
 
-		public Long[] getMedioDePagoIds() {
-			return medioDePagoIds;
-		}
 
-		public void setMedioDePagoIds(Long[] medioDePagoIds) {
-			this.medioDePagoIds = medioDePagoIds;
-		}
-
-		
+        return model;
+    }
 }

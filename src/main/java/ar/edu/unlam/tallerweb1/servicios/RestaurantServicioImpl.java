@@ -3,6 +3,7 @@ package ar.edu.unlam.tallerweb1.servicios;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -19,65 +20,81 @@ import ar.edu.unlam.tallerweb1.modelo.MedioPago;
 import ar.edu.unlam.tallerweb1.modelo.Restaurant;
 
 /**
- *  Creado por matias 
+ * Creado por matias
  */
 
 @Service
 @Transactional
-public class RestaurantServicioImpl implements RestaurantServicio{
-	@Inject 
-	private RestaurantDao restaurantDao;
+public class RestaurantServicioImpl implements RestaurantServicio {
+    @Inject
+    private RestaurantDao restaurantDao;
 
-	@Inject
-	private DomicilioDao domicilioDao;
-	
-	@Override
-	public void add(Restaurant item,Domicilio domicilio,Collection<MedioPago> mediosPago){
-		item.setMediosPago(mediosPago);
-	
-		Long id=restaurantDao.addRestaurant(item);
-		domicilio.setRestaurant(item);
-		
-		domicilioDao.add(domicilio);
-		
-		for (MedioPago medioPago : mediosPago) {
-			restaurantDao.addMedioPago(id,medioPago.getId());
-		}
-		
-	}
+    @Inject
+    private DomicilioDao domicilioDao;
+    @Inject
+    private MedioPagoDao medioPagoDao;
 
-	@Override
-	public void update(Restaurant item, Domicilio domicilio) {
-		restaurantDao.update(item);
-		domicilioDao.update(domicilio);		
-	}
+    @Override
+    public void add(Restaurant item, Domicilio domicilio, Long[] mediosPagoId) {
 
-	
-	@Override
-	public Restaurant get(Long restaurantId) {
-		Restaurant restaurant=restaurantDao.find(restaurantId);
-		
-		return restaurant;
-		
-	}
-	
-	
-	@Override
-	public List<Restaurant> getAll(Long userId) {
-		
-		List<Restaurant> restaurants= restaurantDao.getAllByUsuario(userId);
-		return restaurants; 
-		
-	}
+        Collection<MedioPago> mediosPago = new ArrayList<>();
+        for (Long medioPago: mediosPagoId) {
+            mediosPago.add(medioPagoDao.find(medioPago));
+        }
 
-	
-	@Override
-	public Boolean exist(Long restaurantId) {
-		Restaurant restaurant= restaurantDao.find(restaurantId);
+        item.setMediosPago(mediosPago);
 
-		return restaurant.getId()>0;	
-	}
-	
-	
+        restaurantDao.add(item);
+
+        domicilio.setRestaurant(item);
+
+        domicilioDao.add(domicilio);
+
+//		for (MedioPago medioPago : mediosPago) {
+//			restaurantDao.addMedioPago(id,medioPago.getId());
+//		}
+
+    }
+
+    @Override
+    public void update(Restaurant item, Domicilio domicilio,Long[] mediosPagoId) {
+        Collection<MedioPago> mediosPago = new ArrayList<>();
+        for (Long medioPago: mediosPagoId) {
+            mediosPago.add(medioPagoDao.find(medioPago));
+        }
+
+        item.setMediosPago(mediosPago);
+
+        restaurantDao.update(item);
+        domicilioDao.update(domicilio);
+
+    }
+
+
+    @Override
+    public Restaurant get(Long restaurantId) {
+        Restaurant restaurant = restaurantDao.find(restaurantId);
+
+        return restaurant;
+
+    }
+
+
+    @Override
+    public List<Restaurant> getAll(Long userId) {
+
+        List<Restaurant> restaurants = restaurantDao.getAllByUsuario(userId);
+        return restaurants;
+
+    }
+
+
+    @Override
+    public Boolean exist(Long userId,Long restaurantId) {
+        Restaurant restaurant = restaurantDao.restaurantFromUser(userId,restaurantId);
+        return restaurant != null;
+    }
+
+
 }
 

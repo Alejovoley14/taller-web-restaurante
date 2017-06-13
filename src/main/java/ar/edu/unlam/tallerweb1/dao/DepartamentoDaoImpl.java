@@ -22,7 +22,7 @@ public class DepartamentoDaoImpl extends GenericDaoImpl<Departamento, Long> impl
 
     @Override
     public List<Departamento> getAllByProvincia(Long provinciaId) {
-        final Session session = sessionFactory.openSession();
+        final Session session = sessionFactory.getCurrentSession();
         return session.createCriteria(Departamento.class)
                 .addOrder(Order.desc("descripcion"))
                 .createCriteria("provincia")

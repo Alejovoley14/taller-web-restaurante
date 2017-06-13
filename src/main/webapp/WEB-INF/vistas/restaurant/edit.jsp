@@ -7,7 +7,7 @@
     </jsp:attribute>
     <jsp:body>
         <div class="container">
-            <th:form class="form-horizontal" action="/taller-web-restaurante/restaurant/update" method="POST" modelAttribute="restaurant">
+            <th:form class="form-horizontal" action="/restaurant/update" method="POST" modelAttribute="restaurant">
                 <th:input path="id" type="hidden"></th:input>
                 <jsp:include page="createeditpartial.jsp"></jsp:include>
             </th:form>

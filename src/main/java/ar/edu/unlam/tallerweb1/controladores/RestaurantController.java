@@ -43,13 +43,12 @@ public class RestaurantController extends BaseController{
 		ModelMap model =new ModelMap();
 		Usuario user=getCurrentUser(principal);
 		model.put("lista", restaurantServicio.getAll(user.getId()));
-		System.out.println("getRestaurant Controller"+ user.getId());///Delete
+
 		return new ModelAndView("restaurant/getall",model);
 	}
 	
 	@RequestMapping(value = "/restaurant/create", method = RequestMethod.GET)
-	public ModelAndView CreateRestaurant(Principal principal){
-		System.out.println("restaurant Controller");///Delete
+	public ModelAndView CreateRestaurant(){
 		ModelMap model =new ModelMap();
 		model.put("provincias", provinciaServicio.getAll());
 		model.put("medioPagos", medioPagoServicio.getAll());
@@ -60,74 +59,56 @@ public class RestaurantController extends BaseController{
 	
 	@RequestMapping(value="/restaurant/add", method = RequestMethod.POST)
 	public ModelAndView addRestaurant(Principal principal,@ModelAttribute("restaurant") RestaurantViewModel viewModel){
-		System.out.println("restaurant/add Controller");
-		//Localidad localidad=localidadServicio.get(viewModel.getLocalidadId());		
-		Localidad localidad=localidadServicio.get(new Long(1));
+
+		Localidad localidad = localidadServicio.get(viewModel.getDomicilio().getLocalidadId());
+
 		Restaurant restaurant = viewModel.toRestaurant(new Restaurant());
 		restaurant.setUsuario(getCurrentUser(principal));
-		Long[] medioDePagoIds=viewModel.getMedioDePagoIds();
-		
-		Collection<MedioPago> mp = new ArrayList<MedioPago>();
-		
-		MedioPago mediopago=new MedioPago();
-		for (Long id : medioDePagoIds) {
-			mediopago.setId(id);
-		    mp.add(mediopago);
-		}
-		restaurantServicio.add(restaurant, viewModel.toDomicilio(new Domicilio(), localidad),mp);
+
+		restaurantServicio.add(restaurant,viewModel.getDomicilio().toDomicilio(new Domicilio(),localidad),viewModel.getMedioDePagoIds());
 		
 		return new ModelAndView("redirect:/restaurant");		
 	}
 	
 	@RequestMapping(value = "/restaurant/edit/{restaurantId}", method = RequestMethod.GET)
-	public ModelAndView EditRestaurant(@PathVariable("restaurantId") Long restaurantId,Principal principal){
-		System.out.println("restaurant Controller");///Delete
+	public ModelAndView EditRestaurant(Principal principal,@PathVariable("restaurantId") Long restaurantId){
+
 		ModelMap model =new ModelMap();
 		Usuario user=getCurrentUser(principal);
-		
 
 		model.put("provincias", provinciaServicio.getAll());
-		//model.put("medioPagos", medioPagoServicio.getAll());
+		model.put("medioPagos", medioPagoServicio.getAll());
 
-		if(restaurantServicio.exist(restaurantId)){
+		if(restaurantServicio.exist(user.getId(),restaurantId)){
 			RestaurantViewModel viewModel= new RestaurantViewModel();
 			Restaurant restaurant=restaurantServicio.get(restaurantId);
-			
-			restaurant.setUsuario(user);
+
 			model.put("restaurant",viewModel.toViewModel(restaurant));
+
 			return new ModelAndView("restaurant/edit",model);
 		}
+
 		return new ModelAndView("redirect:/restaurant");
 	}	
 	
 	@RequestMapping(value="/restaurant/update",method=RequestMethod.POST)
 	public ModelAndView updateRestaurant(Principal principal,@ModelAttribute("restaurant") RestaurantViewModel viewModel){
-		Localidad localidad=localidadServicio.get(new Long(1));
-		//Usuario user=getCurrentUser(principal);
-		Restaurant restaurant=restaurantServicio.get(viewModel.getId());
-		//Domicilio domicilio=restaurant.getDomicilios().iterator().next();
-		Long[] selectedNumbers = viewModel.getMedioDePagoIds();
-		
-		Domicilio domicilio=new Domicilio();
-		domicilio.setCalle("Islas Malvinas");
-		domicilio.setNumero(123);
-		domicilio.setLatitud(new Double(0));
-		domicilio.setLongitud(new Double(0));
-		
-		restaurantServicio.update(viewModel.toRestaurant(restaurant), viewModel.toDomicilio(domicilio, localidad));
-		
-		return new ModelAndView("redirect:/restaurant");
-	}
-	
-/*	
-	@RequestMapping(value = "/prueba", method = RequestMethod.GET)
-	public ModelAndView saveMedioPago(Principal principal){
 
-		MedioPago mp =new MedioPago();
-		mp.setDescripcion("Efectivo");
-		mp.setTipo(MedioPagoEnum.TARJETACREDITO);
-		medioPagoServicio.add(mp);
+
+		Localidad localidad = localidadServicio.get(viewModel.getDomicilio().getLocalidadId());
+
+		Usuario user=getCurrentUser(principal);
+		if(restaurantServicio.exist(user.getId(),viewModel.getId())){
+
+			Restaurant restaurant=restaurantServicio.get(viewModel.getId());
+
+
+			restaurantServicio.update(viewModel.toRestaurant(restaurant),viewModel.getDomicilio().toDomicilio(new Domicilio(),localidad),viewModel.getMedioDePagoIds());
+
+		}
+
+
 		return new ModelAndView("redirect:/restaurant");
 	}
-	*/
+
 }

@@ -1,5 +1,8 @@
 package ar.edu.unlam.tallerweb1.modelo;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -18,15 +21,20 @@ public class Restaurant  {
     private String nombreFantasia;
     @Column(nullable = false,length = 50)
     private String cuit;
-    @OneToMany(mappedBy = "restaurant")
+    @OneToMany(fetch = FetchType.EAGER,mappedBy = "restaurant")
+    @Fetch(FetchMode.SELECT)
     private Collection<Domicilio> domicilios = new ArrayList<>();
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
+    @Fetch(FetchMode.SELECT)
+    @JoinTable(name="mediopago_restaurant",joinColumns = {@JoinColumn(name = "restaurants_id")},inverseJoinColumns = {@JoinColumn(name = "MedioPago_id")})
     private Collection<MedioPago> mediosPago = new ArrayList<>();
-    @OneToMany(mappedBy = "restaurant")
+    @OneToMany(fetch = FetchType.EAGER,mappedBy = "restaurant")
+    @Fetch(FetchMode.SELECT)
     private Collection<Mesa> mesas = new ArrayList<>();
     @ManyToOne(optional = false)
     private Usuario usuario;
-    @OneToMany(mappedBy = "restaurant")
+    @OneToMany(fetch = FetchType.EAGER,mappedBy = "restaurant")
+    @Fetch(FetchMode.SELECT)
     private Collection<Carta> carta = new ArrayList<>();
 
 

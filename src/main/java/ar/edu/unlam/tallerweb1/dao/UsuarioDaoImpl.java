@@ -23,7 +23,7 @@ public class UsuarioDaoImpl extends GenericDaoImpl<Usuario,Long> implements Usua
     @Override
     public Usuario consultarUsuario(Usuario usuario) {
 
-        final Session session = sessionFactory.openSession();
+        final Session session = sessionFactory.getCurrentSession();
         return (Usuario) session.createCriteria(Usuario.class)
                 .add(Restrictions.eq("email", usuario.getEmail()))
                 .add(Restrictions.eq("password", usuario.getPassword()))
@@ -32,7 +32,7 @@ public class UsuarioDaoImpl extends GenericDaoImpl<Usuario,Long> implements Usua
 
     @Override
     public Usuario getByName(String name) {
-        final Session session = sessionFactory.openSession();
+        final Session session = sessionFactory.getCurrentSession();
         return (Usuario) session.createCriteria(Usuario.class)
                 .add(Restrictions.eq("email", name))
                 .uniqueResult();

@@ -29,11 +29,6 @@ public class ClienteServicioImpl implements ClienteServicio {
     @Override
     public void add(Cliente item, Domicilio domicilio) {
 
-
-//        Collection<Domicilio> domicilios = new ArrayList<Domicilio>();
-//        domicilios.add(domicilio);
-//        item.setDomicilios(domicilios);
-
         clienteDao.add(item);
 
         domicilio.setCliente(item);

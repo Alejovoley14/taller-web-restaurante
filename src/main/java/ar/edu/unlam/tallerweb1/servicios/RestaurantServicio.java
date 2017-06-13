@@ -7,10 +7,10 @@ import ar.edu.unlam.tallerweb1.modelo.MedioPago;
 import ar.edu.unlam.tallerweb1.modelo.Restaurant;
 
 public interface RestaurantServicio {
-	void add(Restaurant item,Domicilio domicilio,Collection<MedioPago> mediosPago);
-	void update(Restaurant item,Domicilio domicilio);
+	void add(Restaurant item,Domicilio domicilio,Long[] mediosPagoId);
+	void update(Restaurant item,Domicilio domicilio,Long[] mediosPagoId);
 	Restaurant get(Long restaurantId);
-	Boolean exist(Long userId);
+	Boolean exist(Long userId,Long restaurantId);
 	List<Restaurant> getAll(Long userId);
 	
 }

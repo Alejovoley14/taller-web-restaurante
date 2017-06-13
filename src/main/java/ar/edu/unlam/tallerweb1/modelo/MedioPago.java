@@ -20,7 +20,7 @@ public class MedioPago  {
     private MedioPagoEnum tipo;
     @Column(nullable = false,length = 200)
     private String descripcion;
-    @ManyToMany
+    @ManyToMany(mappedBy = "mediosPago")
     private Collection<Restaurant> restaurants = new ArrayList<>();
 
 

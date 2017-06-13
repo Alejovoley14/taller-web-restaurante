@@ -22,35 +22,17 @@ public class RestaurantDaoImpl extends GenericDaoImpl<Restaurant, Long> implemen
 	    private SessionFactory sessionFactory;
 	  @Override
 	    public List<Restaurant> getAllByUsuario(Long usuarioId) {
-	        final Session session = sessionFactory.openSession();
+	        final Session session = sessionFactory.getCurrentSession();
 	        return session.createCriteria(Restaurant.class)
 	                .createCriteria("usuario")
 	                .add(Restrictions.eq("id", usuarioId)).list();
+	    }
 
-
-	    }
-	  
-	  public void addMedioPago(Long restaurantId, Long medioPagoId) {
-	        final Session session = sessionFactory.openSession();	        
-	        session.beginTransaction();
-	        Restaurant restaurant=(Restaurant)session.get(Restaurant.class, restaurantId);
-	        MedioPago mediopago=(MedioPago)session.get(MedioPago.class,medioPagoId);
-	        restaurant.getMediosPago().add(mediopago);
-	        session.save(restaurant);
-	        session.getTransaction().commit();
-	    }
-	  @Override
-	  public Long addRestaurant(Restaurant restaurant) {
-		  Long id=new Long(0);
-	        final Session session = sessionFactory.openSession();
-	       //Transaction trans=session.beginTransaction();
-	        try{
-	        session.save(restaurant);
-	        id=restaurant.getId();     
-	      //  trans.commit();  
-	        }
-	        catch(HibernateException he){}
-	        return id;
-	    }
-	
+	    public Restaurant restaurantFromUser(Long userId,Long restaurantId){
+			final Session session = sessionFactory.getCurrentSession();
+			return (Restaurant) session.createCriteria(Restaurant.class)
+					.add(Restrictions.eq("id",restaurantId))
+					.createCriteria("usuario")
+					.add(Restrictions.eq("id", userId)).uniqueResult();
+		}
 }

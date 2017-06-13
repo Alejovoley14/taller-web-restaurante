@@ -3,8 +3,8 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 
-<th:input path="Latitud" type="hidden" id="lat"></th:input>
-<th:input path="Longitud" type="hidden" id="long"></th:input>
+<th:input path="domicilio.Latitud" type="hidden" id="lat"></th:input>
+<th:input path="domicilio.Longitud" type="hidden" id="long"></th:input>
 
 <hr>
 <div class="row">
@@ -52,7 +52,7 @@
             <div class="form-group">
                 <label for="provinciaId" class="col-sm-2 col-md-3 control-label">Provincia</label>
                 <div class="col-sm-10 col-md-9">
-                    <select id="provinciaId" name="provinciaId" class="form-control">
+                    <select id="provinciaId" name="domicilio.provinciaId" class="form-control">
                         <option>Seleccione una provincia...</option>
                         <c:forEach items="${provincias}" var="item">
                             <option value="${item.id}">${item.descripcion}</option>
@@ -63,14 +63,14 @@
             <div class="form-group">
                 <label for="departamentoId" class="col-sm-2 col-md-3 control-label">Departamento</label>
                 <div class="col-sm-10 col-md-9">
-                    <select id="departamentoId" name="departamentoId" class="form-control">
+                    <select id="departamentoId" name="domicilio.departamentoId" class="form-control">
                     </select>
                 </div>
             </div>
             <div class="form-group">
                 <label for="localidadId" class="col-sm-2 col-md-3 control-label">Localidad</label>
                 <div class="col-sm-10 col-md-9">
-                    <select id="localidadId" name="localidadId" class="form-control">
+                    <select id="localidadId" name="domicilio.localidadId" class="form-control">
                     </select>
                 </div>
             </div>
@@ -78,7 +78,7 @@
 
                 <label for="calle" class="col-sm-2 col-md-2 control-label">Calle</label>
                 <div class="col-sm-10 col-md-5">
-                    <th:input path="calle" cssClass="form-control" type="text" id="calle"></th:input>
+                    <th:input path="domicilio.calle" cssClass="form-control" type="text" id="calle"></th:input>
 
                     <%--@if ($errors->has('calle'))--%>
                     <%--<span class="help-block">--%>
@@ -88,7 +88,7 @@
                 </div>
                 <label for="numero" class="col-sm-2 col-md-2 control-label">Nro</label>
                 <div class="col-sm-9 col-md-2">
-                    <th:input path="numero" cssClass="form-control" type="text" id="numero"></th:input>
+                    <th:input path="domicilio.numero" cssClass="form-control" type="text" id="numero"></th:input>
 
                     <%--@if ($errors->has('numero'))--%>
                     <%--<span class="help-block"><strong>{{ $errors->first('numero') }}</strong></span>--%>
@@ -106,6 +106,7 @@
     <div class="col-sm-offset-3 col-sm-6">
         <div class="panel">
             <div class="panel-body">
+
                 <div id="map" class="embed-responsive-16by9"></div>
             </div>
         </div>
@@ -116,4 +117,5 @@
         <button class="btn btn-primary" type="submit">Guardar</button>
     </div>
 </div>
+
 
