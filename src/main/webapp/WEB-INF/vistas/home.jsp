@@ -13,7 +13,6 @@
                 <h1>Bienvenido a MESA VIP
                     <small>tu sitio de reservas on-line</small>
                 </h1>
-
                 <c:if test="${!existeCliente}">
 
                     <div class="bs-callout bs-callout-info">

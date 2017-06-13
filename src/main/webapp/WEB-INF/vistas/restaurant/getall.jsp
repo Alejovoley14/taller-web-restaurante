@@ -11,7 +11,8 @@
         <div class="container">
             <div class="row">
                 <div class="col-sm-offset-1">
-                    <a class="btn btn-success" type="submit" href="/restaurant/create">Agregar <i class="fa fa-plus"></i></a>
+                    <a class="btn btn-success" type="submit" href="/restaurant/create">Agregar <i
+                            class="fa fa-plus"></i></a>
                 </div>
             </div>
             <hr>
@@ -34,10 +35,12 @@
                             <td>${restaurant.razonSocial}</td>
                             <td>${restaurant.cuit}</td>
                             <td>
-                                <a class="btn btn-info" href="/restaurant/edit/${restaurant.id}">Editar <i class="fa fa-edit"></i>
-                                </a>
-                                <a class="btn btn-danger">Elimiar <i class="fa fa-minus"></i>
-                                </a>
+                                <div class="btn-group">
+                                    <a class="btn btn-warning" href="/carta/${restaurant.id}">Carta <i class="fa fa-glass" aria-hidden="true"></i></a>
+                                    <a class="btn btn-info" href="/restaurant/edit/${restaurant.id}">Editar <i class="fa fa-edit"></i></a>
+                                    <a class="btn btn-danger">Elimiar <i class="fa fa-minus"></i>
+                                    </a>
+                                </div>
                             </td>
                         </tr>
                     </c:forEach>

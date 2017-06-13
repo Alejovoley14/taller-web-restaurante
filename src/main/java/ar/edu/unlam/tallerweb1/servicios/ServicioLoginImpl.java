@@ -73,11 +73,12 @@ public class ServicioLoginImpl implements ServicioLogin, UserDetailsService {
         return usuarioDao.getByName(username);
     }
 
+
     private List<GrantedAuthority> getGrantedAuthorities(Usuario user) {
         List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
 
         if (!user.getRestaurants().isEmpty()) {
-            authorities.add(new SimpleGrantedAuthority("ROLE_Restaurant"));
+            authorities.add(new SimpleGrantedAuthority("ROLE_RESTAURANT"));
         }
 
         return authorities;

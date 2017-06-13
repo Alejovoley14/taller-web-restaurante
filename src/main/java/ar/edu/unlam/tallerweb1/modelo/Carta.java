@@ -2,6 +2,9 @@ package ar.edu.unlam.tallerweb1.modelo;
 
 //import clojure.lang.IFn;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -20,9 +23,11 @@ public class Carta {
     private String descripcion;
     @Column(nullable = false)
     private Double precio;
-    @ManyToOne(optional = false)
+    @ManyToOne(fetch = FetchType.EAGER,optional = false)
+    @Fetch(FetchMode.SELECT)
     private TipoProducto tipoProducto;
-    @ManyToOne(optional = false)
+    @ManyToOne(fetch = FetchType.EAGER,optional = false)
+    @Fetch(FetchMode.SELECT)
     private Restaurant restaurant;
     @ManyToMany
     private Collection<Comensal> comensales = new ArrayList<>();

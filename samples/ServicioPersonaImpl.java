@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import ar.edu.unlam.tallerweb1.modelo.Persona;
 
 @Service("ServicioPersona")// agrega el servicio que debe ser implementado
+@Transactional
 public class ServicioPersonaImpl implements ServicioPersona{
 	
 	@Override
