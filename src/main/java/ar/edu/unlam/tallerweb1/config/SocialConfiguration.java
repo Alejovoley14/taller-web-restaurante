@@ -16,8 +16,10 @@ import org.springframework.social.connect.ConnectionRepository;
 import org.springframework.social.connect.UsersConnectionRepository;
 import org.springframework.social.connect.jdbc.JdbcUsersConnectionRepository;
 import org.springframework.social.connect.web.ConnectController;
+import org.springframework.social.connect.web.ProviderSignInController;
 import org.springframework.social.connect.web.ProviderSignInUtils;
 import org.springframework.social.facebook.connect.FacebookConnectionFactory;
+import org.springframework.social.google.connect.GoogleConnectionFactory;
 import org.springframework.social.security.AuthenticationNameUserIdSource;
 import org.springframework.social.twitter.connect.TwitterConnectionFactory;
 
@@ -46,6 +48,10 @@ public class SocialConfiguration implements SocialConfigurer {
         connectionFactoryConfigurer.addConnectionFactory(new TwitterConnectionFactory(
                 "SNlWrIPkAdp5RVJSQQUmeROv1",
                 "3Am8mT3JoNe2IpWYQvmVq7ZVGSusmBCc8vZ2ZPxBlWrXV7TvrQ"));
+
+
+        connectionFactoryConfigurer.addConnectionFactory(new GoogleConnectionFactory("520722018815-6bb1itlkdas86jpjalff8utm8jsned88.apps.googleusercontent.com",
+               "pZXNgQjaP33nA9Tnjy4v5sCI"));
     }
 
     @Override
