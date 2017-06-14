@@ -6,16 +6,24 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
+<c:set var="context" value="${pageContext.request.contextPath}"/>
+
 <t:layout>
     <jsp:body>
         <div class="container">
-            <div class="row">
-                <div class="col-sm-offset-1">
-                    <a class="btn btn-success" type="submit" href="/restaurant/create">Agregar <i
-                            class="fa fa-plus"></i></a>
+            <div class="page-header">
+                <div class="row">
+                    <h1>Restaurants</h1>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="btn-group">
+                            <a href="${context}/" class="btn btn-primary"><i class="fa fa-backward"></i> </a>
+                            <a class="btn btn-success" type="submit" href="${context}/restaurant/create">Agregar <i class="fa fa-plus"></i></a>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <hr>
             <div class="row">
                 <table class="table table-striped">
                     <thead>
@@ -36,8 +44,9 @@
                             <td>${restaurant.cuit}</td>
                             <td>
                                 <div class="btn-group">
-                                    <a class="btn btn-warning" href="/carta/${restaurant.id}">Carta <i class="fa fa-glass" aria-hidden="true"></i></a>
-                                    <a class="btn btn-info" href="/restaurant/edit/${restaurant.id}">Editar <i class="fa fa-edit"></i></a>
+                                    <a class="btn btn-primary" href="${context}/mesas/${restaurant.id}">Mesas <i class="fa fa-cutlery" aria-hidden="true"></i></i></a>
+                                    <a class="btn btn-warning" href="${context}/carta/${restaurant.id}">Carta <i class="fa fa-glass" aria-hidden="true"></i></a>
+                                    <a class="btn btn-info" href="${context}/restaurant/edit/${restaurant.id}">Editar <i class="fa fa-edit"></i></a>
                                     <a class="btn btn-danger">Elimiar <i class="fa fa-minus"></i>
                                     </a>
                                 </div>

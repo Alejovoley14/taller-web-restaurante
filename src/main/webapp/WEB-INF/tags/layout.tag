@@ -62,15 +62,15 @@
                        aria-expanded="false"><security:authentication property="principal.username"/> <span
                             class="caret"></span></a>
                     <ul class="dropdown-menu">
-                        <li><a href="/cliente">Datos de cliente</a></li>
+                        <li><a href="${context}/cliente">Datos de cliente</a></li>
                         <security:authorize access="hasRole('RESTAURANT')">
-                            <li><a href="/restaurant">Datos de restaurant</a></li>
+                            <li><a href="${context}/restaurant">Datos de restaurant</a></li>
                         </security:authorize>
                         <security:authorize access="!hasRole('RESTAURANT')">
-                            <li><a href="/restaurant">Crear restaurant</a></li>
+                            <li><a href="${context}/restaurant">Crear restaurant</a></li>
                         </security:authorize>
                         <li class="divider" role="separator"></li>
-                        <li><a href="/logout">Cerrar Sesión</a></li>
+                        <li><a href="${context}/logout">Cerrar Sesión</a></li>
                     </ul>
                 </li>
             </ul>

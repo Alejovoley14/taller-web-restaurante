@@ -4,9 +4,9 @@ import java.util.List;
 
 import ar.edu.unlam.tallerweb1.modelo.Mesa;
 
-public interface ServicioMesa {
+public interface MesaServicio {
 	
-	public List<Mesa> getMesas(Long idRestaurant);
+	public List<Mesa> getMesas(Long restaurantId,Long userId);
 	
 	public Mesa getMesa(Long idMesa);
 	

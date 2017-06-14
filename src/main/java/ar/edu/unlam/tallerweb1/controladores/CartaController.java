@@ -53,6 +53,7 @@ public class CartaController extends BaseController {
         CartaViewModel viewModel = new CartaViewModel();
         viewModel.setRestaurantId(restaurantId);
         model.put("carta", viewModel);
+        model.put("restaurant",restaurantServicio.get(restaurantId));
         model.put("tiposProducto", tipoProductoServicio.getAllOrderByNombre());
 
         return new ModelAndView("carta/create", model);
@@ -83,6 +84,7 @@ public class CartaController extends BaseController {
         CartaViewModel viewModel = new CartaViewModel();
 
         model.put("carta", viewModel.toViewModel(carta));
+        model.put("restaurant",restaurantServicio.get(carta.getRestaurant().getId()));
         model.put("tiposProducto", tipoProductoServicio.getAllOrderByNombre());
 
         return new ModelAndView("carta/edit", model);
@@ -102,7 +104,6 @@ public class CartaController extends BaseController {
 
         return new ModelAndView("redirect:/carta/" + model.getRestaurantId());
     }
-
 
     //eliminar menu
 //    @RequestMapping(path = "/eliminar-menu", method = RequestMethod.POST)

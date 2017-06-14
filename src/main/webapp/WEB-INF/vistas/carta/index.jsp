@@ -6,8 +6,12 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
+
+
+<c:set var="context" value="${pageContext.request.contextPath}"/>
 <t:layout>
     <jsp:body>
+
         <div class="container">
             <div class="page-header">
                 <div class="row">
@@ -16,8 +20,8 @@
                 <div class="row">
                     <div class="col-md-6">
                         <div class="btn-group">
-                        <a href="/restaurant" class="btn btn-primary"><i class="fa fa-backward"></i> </a>
-                            <a class="btn btn-success" type="submit" href="/carta/create/${ restaurant.id}">Agregar <i class="fa fa-plus"></i></a>
+                        <a href="${context}/restaurant" class="btn btn-primary"><i class="fa fa-backward"></i> </a>
+                            <a class="btn btn-success" type="submit" href="${context}/carta/create/${ restaurant.id}">Agregar <i class="fa fa-plus"></i></a>
                         </div>
                     </div>
                 </div>
@@ -44,7 +48,7 @@
                             <td>${carta.tipoProducto.descripcion}</td>
                             <td>${carta.precio}</td>
                             <td>
-                                <a class="btn btn-info" href="/carta/edit/${carta.id}">Editar <i class="fa fa-edit"></i>
+                                <a class="btn btn-info" href="${context}/carta/edit/${carta.id}">Editar <i class="fa fa-edit"></i>
                                 </a>
                                 <a class="btn btn-danger">Elimiar <i class="fa fa-minus"></i>
                                 </a>

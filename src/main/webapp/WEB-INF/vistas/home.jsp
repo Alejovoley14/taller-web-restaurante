@@ -2,8 +2,9 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
 <%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
-<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+
+<c:set var="context" value="${pageContext.request.contextPath}"/>
 
 <t:layout>
     <jsp:body>
@@ -21,7 +22,7 @@
                             <i class="fa fa-info-circle"></i> Para poder hacer reservas tenés que completar tus
                             datos de cliente.
                         </p>
-                        <a href="/cliente" class="btn btn-info">Completar ahora!</a>
+                        <a href="${context}/cliente" class="btn btn-info">Completar ahora!</a>
                     </div>
                 </c:if>
                 </div>

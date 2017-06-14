@@ -5,7 +5,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 
-<c:set var="context" value="${pageContext.request.contextPath}"></c:set>
+<c:set var="context" value="${pageContext.request.contextPath}"/>
 <t:layout>
 
     <jsp:attribute name="styles">
@@ -24,9 +24,9 @@
 			<div class="row">
 				<div class="col-sm-6 col-sm-offset-3">
 					<div class="panel panel-default">
-						<div class="panel-heading"><h1 class="panel-title text-center">Editar mesa</h1></div>
+						<div class="panel-heading"><h1 class="panel-title text-center">Añadir nueva mesa</h1></div>
 							<div class="panel-body">
-								<form:form method="POST" action="${context}/modificar-mesa/${idRestaurant}/${idMesa}" modelAttribute="mesa" cssClass="form form-horizontal">
+								<form:form method="POST" action="${context}/registrar-mesa/${idRestaurant}" modelAttribute="mesaNueva" cssClass="form form-horizontal">
 									<label class="col-xs-9">Ingrese número de mesa</label>
 									<div class="form-group col-xs-3">
 										<form:input path="numero" cssClass="form-control"/>

@@ -4,7 +4,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
-<c:set var="context" value="${pageContext.request.contextPath}"></c:set>
+<c:set var="context" value="${pageContext.request.contextPath}"/>
 
 <t:layout>
 
@@ -22,27 +22,44 @@
     <jsp:body>
 		<section>
 			<div class="container">
-				<h1 class="text-center">Listado de mesas</h1>
+				<div class="page-header">
+					<div class="row">
+						<h1>Restaurant: ${restaurant.nombreFantasia}</h1> <small>Mesas</small>
+					</div>
+					<div class="row">
+						<div class="col-md-6">
+							<div class="btn-group">
+								<a href="${context}/restaurant" class="btn btn-primary"><i class="fa fa-backward"></i> </a>
+								<a class="btn btn-success" type="submit" href="${context}/mesa-nueva/${restaurant.id}">Agregar <i class="fa fa-plus"></i></a>
+							</div>
+						</div>
+					</div>
+				</div>
 				
 				<div class="row">
-					<a href="${context}/mesa-nueva/${idRestaurant}" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-plus"></span>Agregar nueva mesa</a>
 					<table class="table table-striped table-responsive">
 						<tr>
 							<th>Nro de mesa</th>
-							<th>Cant. de comensales</th>
 							<th>Ubicación</th>
 							<th>acciones</th>
 						</tr>
 						<c:forEach items="${listadoDeMesas}" var="mesa">
 							<tr>
 								<td>${mesa.getNumero()}</td>
-								<td></td>
+
 								<td>
-									${mesa.getAfuera()}
+									<c:choose>
+										<c:when test="${mesa.getAfuera()}">
+											Afuera
+										</c:when>
+										<c:when test="${!mesa.getAfuera()}">
+											Adentro
+										</c:when>
+									</c:choose>
 								</td>
 								<td>
-									<a href="${context}/editar-mesa/${idRestaurant}/${mesa.getId()}"><span class="glyphicon glyphicon-pencil"></span></a>
-									<a href="${context}/eliminar-mesa/${idRestaurant}/${mesa.getId()}"><span class="glyphicon glyphicon-remove"></span></a>
+									<a href="${context}/editar-mesa/${restaurant.id}/${mesa.getId()}"><span class="glyphicon glyphicon-pencil"></span></a>
+									<a href="${context}/eliminar-mesa/${restaurant.id}/${mesa.getId()}"><span class="glyphicon glyphicon-remove"></span></a>
 								</td>
 							</tr>
 						</c:forEach>

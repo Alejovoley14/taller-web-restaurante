@@ -12,16 +12,15 @@ import ar.edu.unlam.tallerweb1.modelo.Mesa;
 
 @Service("ServicioMesa")
 @Transactional
-public class ServicioMesaImpl implements ServicioMesa{
+public class MesaServicioImpl implements MesaServicio {
 	
 	@Inject
 	private MesaDao mesaDao;
 	
 	
-	public List<Mesa> getMesas(Long idRestaurant){
-		
-		//return mesaDao.getMesas();
-		return mesaDao.getAll();
+	public List<Mesa> getMesas(Long restaurantId,Long userId){
+
+		return mesaDao.getMesas(restaurantId,userId);
 	}
 
 	public Mesa getMesa(Long idMesa){

@@ -82,7 +82,7 @@ public class CartaViewModel {
         model.setId(carta.getId());
         model.setDescripcion(carta.getDescripcion());
         model.setTitulo(carta.getTitulo());
-        carta.setPrecio(carta.getPrecio());
+        model.setPrecio(carta.getPrecio());
         model.setTipoProductoId(carta.getTipoProducto().getId());
         model.setRestaurantId(carta.getRestaurant().getId());
 

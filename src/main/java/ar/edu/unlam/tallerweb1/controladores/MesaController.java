@@ -1,10 +1,12 @@
 package ar.edu.unlam.tallerweb1.controladores;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
 
+import ar.edu.unlam.tallerweb1.modelo.Usuario;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -16,10 +18,10 @@ import org.springframework.web.servlet.ModelAndView;
 import ar.edu.unlam.tallerweb1.modelo.Mesa;
 import ar.edu.unlam.tallerweb1.modelo.Restaurant;
 import ar.edu.unlam.tallerweb1.servicios.RestaurantServicio;
-import ar.edu.unlam.tallerweb1.servicios.ServicioMesa;
+import ar.edu.unlam.tallerweb1.servicios.MesaServicio;
 
 @Controller
-public class MesaController {
+public class MesaController extends BaseController{
 	
 	//hay REquestMappings a los que debo agregarles variables de path restaurante y nro de mesa para que puedan funcionar
 	//debo modificar la base de datos y el modelo Mesa para que pueda registrar los comensales por cada registro
@@ -27,54 +29,23 @@ public class MesaController {
 	//defino datos de prueba
 	//private Long idRestaurant = (long) 24;
 	@Inject
-	private ServicioMesa servicioMesa;
+	private MesaServicio servicioMesa;
 	
 	@Inject
 	private RestaurantServicio servicioRestaurant;
 	
-	private ArrayList<Mesa> listaPrueba(){
-		
-		ArrayList<Mesa> lista = new ArrayList<Mesa>();
-		
-		Mesa mesa1 = new Mesa();
-		Mesa mesa2 = new Mesa();
-		Mesa mesa3 = new Mesa();
-		
-		mesa1.setId((long) 1);
-		mesa2.setId((long) 2);
-		mesa3.setId((long) 3);
-		
-		mesa1.setAfuera(true);
-		mesa2.setAfuera(true);
-		mesa3.setAfuera(false);
-		
-		mesa1.setNumero(1);
-		mesa2.setNumero(2);
-		mesa3.setNumero(3);
-		
-		lista.add(mesa1);
-		lista.add(mesa2);
-		lista.add(mesa3);
-		
-		return lista;
-	}
 	
 	
-	
-	@RequestMapping(value = "/mesas/{idRestaurant}")
-	public ModelAndView grillaDeMesas(@PathVariable("idRestaurant") Long idRestaurant){
+	@RequestMapping(value = "/mesas/{restaurantId}")
+	public ModelAndView grillaDeMesas(Principal principal,@PathVariable("restaurantId") Long restaurantId){
 		
 		ModelMap model = new ModelMap();
-
-		List<Mesa> listadoDeMesas = new ArrayList<Mesa>();
-		//listadoDeMesas = listaPrueba(); //solo se utiliza para insertar datos de prueba
+		Usuario user = getCurrentUser(principal);
+		model.put("listadoDeMesas",servicioMesa.getMesas(restaurantId,user.getId())); //se le pasara una coleccion de mesas para usar dentro de un foreach
+		model.put("restaurant",servicioRestaurant.get(restaurantId));
+		model.put("idRestaurant", restaurantId);
 		
-		listadoDeMesas = servicioMesa.getMesas(idRestaurant); //metodo pendiente de testeo
-		
-		model.put("listadoDeMesas",listadoDeMesas); //se le pasara una coleccion de mesas para usar dentro de un foreach
-		model.put("idRestaurant", idRestaurant);
-		
-		return new ModelAndView("mesas",model);
+		return new ModelAndView("mesa/mesas",model);
 	}
 
 	
@@ -82,20 +53,18 @@ public class MesaController {
 	public ModelAndView nuevaMesa(@PathVariable("idRestaurant") Long idRestaurant){
 		
 		ModelMap model = new ModelMap();
-		Mesa mesaNueva = new Mesa(); //esta mesa es la que se envia como ModelAttribute
-		model.put("mesaNueva",mesaNueva);
+
+		model.put("mesaNueva",new Mesa());
 		model.put("idRestaurant", idRestaurant);
 		
-		return new ModelAndView("mesa-nueva",model);
+		return new ModelAndView("mesa/mesa-nueva",model);
 	}
 	
 	@RequestMapping(value = "/registrar-mesa/{idRestaurant}", method = RequestMethod.POST)//guardado de la mesa en bd
 	public ModelAndView registrarMesa(@ModelAttribute("mesaNueva") Mesa mesaNueva,
 			@PathVariable("idRestaurant") Long idRestaurant){
 		
-		Restaurant restaurant = servicioRestaurant.get(idRestaurant);
-
-		mesaNueva.setRestaurant(restaurant);
+		mesaNueva.setRestaurant(servicioRestaurant.get(idRestaurant));
 		
 		servicioMesa.saveMesa(mesaNueva);
 		
@@ -105,8 +74,7 @@ public class MesaController {
 	@RequestMapping(value="/eliminar-mesa/{idRestaurant}/{idMesa}", method = RequestMethod.GET)
 	public ModelAndView eliminarMesa(@PathVariable("idMesa") Long idMesa,
 			@PathVariable("idRestaurant") Long idRestaurant){
-		
-		//System.out.println("se eliminará la mesa " + numeroMesa);
+
 		
 		Mesa mesa = servicioMesa.getMesa(idMesa);
 		
@@ -127,7 +95,7 @@ public class MesaController {
 		model.put("idRestaurant", idRestaurant);
 		model.put("idMesa", idMesa);
 		
-		return new ModelAndView("editar-mesa",model);
+		return new ModelAndView("mesa/editar-mesa",model);
 	}
 	
 	@RequestMapping(value="modificar-mesa/{idRestaurant}/{idMesa}", method = RequestMethod.POST)

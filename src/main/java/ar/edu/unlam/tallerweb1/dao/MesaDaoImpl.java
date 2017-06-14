@@ -20,20 +20,16 @@ public class MesaDaoImpl extends GenericDaoImpl<Mesa,Long> implements MesaDao{
     private SessionFactory sessionFactory;//un servicio que fabrica sesiones
 
 	@Override
-	public ArrayList<Mesa> getMesas(Long idRestaurante){
+	public List<Mesa> getMesas(Long restaurantId,Long userId){
 		
 		final Session session = sessionFactory.getCurrentSession();
-		
-		ArrayList<Mesa> listaDeMesas = new ArrayList<Mesa>();
-		
-		listaDeMesas.add((Mesa) session.createCriteria(Mesa.class).list());
+
 	
-		return listaDeMesas;
-		/*
-		return (List<Mesa>) session.createCriteria(Mesa.class)
-				.add(Restrictions.eq("",idRestaurante))//val1  val2 es el valor a buscar
-				.list();
-		*/
+		return session.createCriteria(Mesa.class)
+				.createCriteria("restaurant")
+				.add(Restrictions.eq("id", restaurantId)).createCriteria("usuario")
+				.add(Restrictions.eq("id", userId)).list();
+
 	}
 	
 	//los metodos de generic dao no me traen las cosas que quiero, defino nuevo metodo

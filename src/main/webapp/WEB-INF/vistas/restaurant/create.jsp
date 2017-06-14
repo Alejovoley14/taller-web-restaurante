@@ -4,14 +4,14 @@
 <%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
-
+<c:set var="context" value="${pageContext.request.contextPath}"/>
 <t:layout>
     <jsp:attribute name="scripts">
         <jsp:include page="scripts.jsp"></jsp:include>
     </jsp:attribute>
     <jsp:body>
         <div class="container">
-            <th:form class="form-horizontal" action="/restaurant/add" method="POST" modelAttribute="restaurant">
+            <th:form class="form-horizontal" action="${context}/restaurant/add" method="POST" modelAttribute="restaurant">
                 <jsp:include page="createeditpartial.jsp"></jsp:include>
             </th:form>
         </div>
