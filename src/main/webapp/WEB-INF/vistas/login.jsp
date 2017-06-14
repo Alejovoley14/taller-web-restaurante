@@ -87,14 +87,14 @@
 
                                 <div class="col-md-2">
                                     <!-- Add Facebook sign in button -->
-                                    <a href="${pageContext.request.contextPath}/auth/facebook?scope=email">
+                                    <a href="${context}/auth/facebook?scope=email">
                                         <button class="btn btn-primary"><i class="fa fa-facebook"></i> |
                                             Facebook
                                         </button>
                                     </a>
                                 </div>
                                 <div class="col-md-2">
-                                    <a href="${pageContext.request.contextPath}/auth/twitter">
+                                    <a href="${context}/auth/twitter">
                                         <button class="btn btn-info"><i class="fa fa-twitter"></i> |
                                             Tiwtter
                                         </button>
@@ -106,7 +106,7 @@
                                             <%--Google--%>
                                         <%--</button>--%>
                                     <%--</form>--%>
-                                    <a href="${pageContext.request.contextPath}/auth/google?scope=email">
+                                    <a href="${context}/auth/google?scope=email">
                                         <button class="btn btn-danger"><i class="fa fa-google"></i> |
                                             Google
                                         </button>
