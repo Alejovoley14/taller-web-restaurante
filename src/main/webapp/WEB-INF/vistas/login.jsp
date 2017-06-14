@@ -93,20 +93,20 @@
                                         </button>
                                     </a>
                                 </div>
-                                <div class="col-md-2">
-                                    <a href="${pageContext.request.contextPath}/auth/twitter?socipe=email">
-                                        <button class="btn btn-info"><i class="fa fa-twitter"></i> |
-                                            Tiwtter
-                                        </button>
-                                    </a>
-                                </div>
-                                <div class="col-md-2">
-                                    <a href="${pageContext.request.contextPath}/auth/twitter?socipe=email">
-                                        <button class="btn btn-danger"><i class="fa fa-google"></i> |
-                                            Google
-                                        </button>
-                                    </a>
-                                </div>
+                                <%--<div class="col-md-2">--%>
+                                    <%--<a href="${pageContext.request.contextPath}/auth/twitter?socipe=email">--%>
+                                        <%--<button class="btn btn-info"><i class="fa fa-twitter"></i> |--%>
+                                            <%--Tiwtter--%>
+                                        <%--</button>--%>
+                                    <%--</a>--%>
+                                <%--</div>--%>
+                                <%--<div class="col-md-2">--%>
+                                    <%--<a href="${pageContext.request.contextPath}/auth/twitter?socipe=email">--%>
+                                        <%--<button class="btn btn-danger"><i class="fa fa-google"></i> |--%>
+                                            <%--Google--%>
+                                        <%--</button>--%>
+                                    <%--</a>--%>
+                                <%--</div>--%>
 
                             </div>
                         </div>
