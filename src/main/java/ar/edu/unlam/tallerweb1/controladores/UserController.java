@@ -8,6 +8,9 @@ import org.springframework.social.connect.Connection;
 import org.springframework.social.connect.ConnectionKey;
 import org.springframework.social.connect.UserProfile;
 import org.springframework.social.connect.web.ProviderSignInUtils;
+import org.springframework.social.twitter.api.Twitter;
+import org.springframework.social.twitter.api.TwitterProfile;
+import org.springframework.social.twitter.api.impl.TwitterTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -46,19 +49,19 @@ public class UserController {
         return new ModelAndView("login", model);
     }
 
-    @RequestMapping(value = "/access",method = RequestMethod.GET)
-    public ModelAndView acces(WebRequest request){
+    @RequestMapping(value = "/access", method = RequestMethod.GET)
+    public ModelAndView acces(WebRequest request) {
 
         String[] bits = request.getDescription(true).split(";");
-        String username = bits[bits.length-1].replace("user=","");
+        String username = bits[bits.length - 1].replace("user=", "");
         Usuario user = servicioLogin.getByName(username);
         SecurityUtil.logInUser(user);
 
         return new ModelAndView("redirect:/");
     }
 
-    @RequestMapping(value = "/signup",method = RequestMethod.GET)
-    public ModelAndView registerAndSignIn(WebRequest request, Model model){
+    @RequestMapping(value = "/signup", method = RequestMethod.GET)
+    public ModelAndView registerAndSignIn(WebRequest request, Model model) {
         Connection<?> connection = providerSignInUtils.getConnectionFromSession(request);
 
         Usuario user = doSocialRegister(connection);
@@ -69,20 +72,28 @@ public class UserController {
         return new ModelAndView("redirect:/");
     }
 
-    private Usuario doSocialRegister(Connection<?> connection){
+    private Usuario doSocialRegister(Connection<?> connection) {
         UserProfile socialMediaProfile = connection.fetchUserProfile();
 
         ConnectionKey providerKey = connection.getKey();
 
-        if(!servicioLogin.userExist(socialMediaProfile.getEmail())){
-            Usuario user = new Usuario();
-            user.setEmail(socialMediaProfile.getEmail());
-            user.setProvider(providerKey.getProviderId());
-            user.setPassword("");
-            return servicioLogin.crearUsuario(user);
-        }
 
-        return servicioLogin.getByName(socialMediaProfile.getEmail());
+        Usuario user = new Usuario();
+        if (providerKey.getProviderId().equals("twitter")) {
+            TwitterTemplate twitter = (TwitterTemplate) connection.getApi();
+            TwitterProfile twitterProfile = twitter.getRestTemplate().getForObject("https://api.twitter.com/1.1/account/verify_credentials.json?include_email=true", TwitterProfile.class);
+            user.setEmail((String) twitterProfile.getExtraData().get("email"));
+
+        } else {
+            user.setEmail(socialMediaProfile.getEmail());
+        }
+        user.setProvider(providerKey.getProviderId());
+        user.setPassword("");
+        if (!servicioLogin.userExist(user.getEmail()))
+            return servicioLogin.crearUsuario(user);
+
+
+        return servicioLogin.getByName(user.getEmail());
     }
 
 }

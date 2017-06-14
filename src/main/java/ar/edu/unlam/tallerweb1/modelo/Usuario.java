@@ -1,5 +1,8 @@
 package ar.edu.unlam.tallerweb1.modelo;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -16,9 +19,11 @@ public class Usuario {
     @Column(length = 64)
     private String password;
     private String provider;
-    @OneToMany(mappedBy = "usuario")
+    @OneToMany(fetch = FetchType.EAGER,mappedBy = "usuario")
+    @Fetch(FetchMode.SELECT)
     private Collection<Restaurant> restaurants = new ArrayList<>();
-    @OneToMany(mappedBy = "usuario")
+    @OneToMany(fetch = FetchType.EAGER,mappedBy = "usuario")
+    @Fetch(FetchMode.SELECT)
     private Collection<Cliente> cliente = new ArrayList<>();
 
 

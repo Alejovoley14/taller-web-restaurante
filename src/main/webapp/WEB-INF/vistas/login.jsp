@@ -94,7 +94,7 @@
                                     </a>
                                 </div>
                                 <div class="col-md-2">
-                                    <a href="${pageContext.request.contextPath}/auth/twitter?socpe=email">
+                                    <a href="${pageContext.request.contextPath}/auth/twitter">
                                         <button class="btn btn-info"><i class="fa fa-twitter"></i> |
                                             Tiwtter
                                         </button>
