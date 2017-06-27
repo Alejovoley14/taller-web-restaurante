@@ -61,7 +61,7 @@
             var latLng;
             return $.get("https://maps.googleapis.com/maps/api/geocode/json", {
                 address: address,
-                key: "AIzaSyDzfaxwXl0xql_XMHVs7e2m62Evn8avK3U"
+                key: "AIzaSyCwh1Iw_UoMk5RGKEDc-6YVLsK6XCOUvxw"
             }).done(function (data) {
                 if (data.status == 'OK') {
                     latLng = new google.maps.LatLng(data.results[0].geometry.location.lat, data.results[0].geometry.location.lng);
@@ -165,5 +165,5 @@
         </c:choose>
     });
 </script>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDzfaxwXl0xql_XMHVs7e2m62Evn8avK3U&callback=initMap"
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCwh1Iw_UoMk5RGKEDc-6YVLsK6XCOUvxw&callback=initMap"
         async defer></script>

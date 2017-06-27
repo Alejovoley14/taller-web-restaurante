@@ -19,9 +19,11 @@ public class SecurityUtil {
     public static void logInUser(Usuario user) {
 
         Set<GrantedAuthority> authorities = new HashSet<>();
-        authorities.add (new SimpleGrantedAuthority(Role.ROLE_USER.toString()));
+        if (user.getRestaurants().size() > 1) {
+            authorities.add(new SimpleGrantedAuthority("ROLE_RESTAURANT"));
+        }
 
-        SocialUser userDetails = new SocialUser(user.getEmail(),user.getPassword(),authorities);
+        SocialUser userDetails = new SocialUser(user.getEmail(), user.getPassword(), authorities);
 
         Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
         SecurityContextHolder.getContext().setAuthentication(authentication);

@@ -15,33 +15,21 @@
                 <label for="nombre" class="col-sm-2 col-md-3 control-label">Nombre</label>
                 <div class="col-sm-10 col-md-9">
                     <th:input path="nombre" cssClass="form-control" type="text" id="nombre"></th:input>
-                    <%--@if ($errors->has('nombre'))--%>
-                    <%--<span class="help-block">--%>
-                    <%--<strong>{{ $errors->first('nombre') }}</strong>--%>
-                    <%--</span>--%>
-                    <%--@endif--%>
+
                 </div>
             </div>
             <div class="form-group">
                 <label for="apellido" class="col-sm-2 col-md-3 control-label">Apellido</label>
                 <div class="col-sm-10 col-md-9">
                     <th:input path="apellido" cssClass="form-control" type="text" id="apellido"></th:input>
-                    <%--@if ($errors->has('apellido'))--%>
-                    <%--<span class="help-block">--%>
-                    <%--<strong>{{ $errors->first('apellido') }}</strong>--%>
-                    <%--</span>--%>
-                    <%--@endif--%>
+
                 </div>
             </div>
             <div class="form-group">
                 <label for="telefono" class="col-sm-2 col-md-3 control-label">Telefono</label>
                 <div class="col-sm-10 col-md-9">
                     <th:input path="telefono" cssClass="form-control" type="text" id="telefono"></th:input>
-                    <%--@if ($errors->has('telefono'))--%>
-                    <%--<span class="help-block">--%>
-                    <%--<strong>{{ $errors->first('telefono') }}</strong>--%>
-                    <%--</span>--%>
-                    <%--@endif--%>
+
                 </div>
             </div>
         </div>
@@ -80,19 +68,11 @@
                 <div class="col-sm-10 col-md-5">
                     <th:input path="domicilio.calle" cssClass="form-control" type="text" id="calle"></th:input>
 
-                    <%--@if ($errors->has('calle'))--%>
-                    <%--<span class="help-block">--%>
-                    <%--<strong>{{ $errors->first('calle') }}</strong>--%>
-                <%--</span>--%>
-                    <%--@endif--%>
                 </div>
                 <label for="numero" class="col-sm-2 col-md-2 control-label">Nro</label>
                 <div class="col-sm-9 col-md-2">
                     <th:input path="domicilio.numero" cssClass="form-control" type="text" id="numero"></th:input>
 
-                    <%--@if ($errors->has('numero'))--%>
-                    <%--<span class="help-block"><strong>{{ $errors->first('numero') }}</strong></span>--%>
-                    <%--@endif--%>
                 </div>
                 <div class="col-sm-1">
                     <button type="button" id="btnSetMarker" class="btn btn-info"><span

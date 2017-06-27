@@ -14,33 +14,21 @@
                 <label for="razonSocial" class="col-sm-2 col-md-3 control-label">Razon Social</label>
                 <div class="col-sm-10 col-md-9">
                     <th:input path="razonSocial" cssClass="form-control" type="text" id="razonSocial"></th:input>
-                    <%--@if ($errors->has('nombre'))--%>
-                    <%--<span class="help-block">--%>
-                    <%--<strong>{{ $errors->first('nombre') }}</strong>--%>
-                    <%--</span>--%>
-                    <%--@endif--%>
+
                 </div>
             </div>
             <div class="form-group">
                 <label for="nombreFantasia" class="col-sm-2 col-md-3 control-label">Nombre Fantasia</label>
                 <div class="col-sm-10 col-md-9">
                     <th:input path="nombreFantasia" cssClass="form-control" type="text" id="nombreFantasia"></th:input>
-                    <%--@if ($errors->has('apellido'))--%>
-                    <%--<span class="help-block">--%>
-                    <%--<strong>{{ $errors->first('apellido') }}</strong>--%>
-                    <%--</span>--%>
-                    <%--@endif--%>
+
                 </div>
             </div>
             <div class="form-group">
                 <label for="cuit" class="col-sm-2 col-md-3 control-label">Cuit</label>
                 <div class="col-sm-10 col-md-9">
                     <th:input path="cuit" cssClass="form-control" type="text" id="cuit"></th:input>
-                    <%--@if ($errors->has('telefono'))--%>
-                    <%--<span class="help-block">--%>
-                    <%--<strong>{{ $errors->first('telefono') }}</strong>--%>
-                    <%--</span>--%>
-                    <%--@endif--%>
+
                 </div>
             </div>
 
@@ -59,11 +47,7 @@
                     <button type="button" class="btn btn-success" id="btnAddMedioPago"><i class="fa fa-plus"></i>
                     </button>
                 </div>
-                <%--<div class="col-sm-10 col-md-9">--%>
-                <%----%>
-                <%--<th:select path="medioDePagoIds" multiple="true" items="${medioPagos}" itemLabel="descripcion" itemValue="id" cssClass="form-control"/>--%>
-                <%----%>
-                <%--</div>--%>
+
             </div>
             <div class="col-sm-12">
                 <table class="table" id="tableMediosPago">
@@ -112,19 +96,11 @@
                 <div class="col-sm-10 col-md-5">
                     <th:input path="domicilio.calle" cssClass="form-control" type="text" id="calle"></th:input>
 
-                    <%--@if ($errors->has('calle'))--%>
-                    <%--<span class="help-block">--%>
-                    <%--<strong>{{ $errors->first('calle') }}</strong>--%>
-                    <%--</span>--%>
-                    <%--@endif--%>
                 </div>
                 <label for="numero" class="col-sm-2 col-md-2 control-label">Nro</label>
                 <div class="col-sm-9 col-md-2">
                     <th:input path="domicilio.numero" cssClass="form-control" type="text" id="numero"></th:input>
 
-                    <%--@if ($errors->has('numero'))--%>
-                    <%--<span class="help-block"><strong>{{ $errors->first('numero') }}</strong></span>--%>
-                    <%--@endif--%>
                 </div>
 
                 <div class="col-sm-1">
