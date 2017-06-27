@@ -1,31 +1,24 @@
 package ar.edu.unlam.tallerweb1.controladores;
 
-import java.security.Principal;
-
-import javax.inject.Inject;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.servlet.ModelAndView;
-
-
 import ar.edu.unlam.tallerweb1.modelo.Domicilio;
 import ar.edu.unlam.tallerweb1.modelo.Localidad;
-import ar.edu.unlam.tallerweb1.modelo.MedioPago;
 import ar.edu.unlam.tallerweb1.modelo.Restaurant;
 import ar.edu.unlam.tallerweb1.modelo.Usuario;
-import ar.edu.unlam.tallerweb1.modelo.extensions.MedioPagoEnum;
 import ar.edu.unlam.tallerweb1.servicios.LocalidadServicio;
 import ar.edu.unlam.tallerweb1.servicios.MedioPagoServicio;
 import ar.edu.unlam.tallerweb1.servicios.ProvinciaServicio;
 import ar.edu.unlam.tallerweb1.servicios.RestaurantServicio;
 import ar.edu.unlam.tallerweb1.viewModels.RestaurantViewModel;
+import ar.edu.unlam.tallerweb1.viewModels.serializables.RestaurantSerializable;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
+
+import javax.inject.Inject;
+import java.security.Principal;
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 public class RestaurantController extends BaseController{
@@ -109,6 +102,25 @@ public class RestaurantController extends BaseController{
 
 
 		return new ModelAndView("redirect:/restaurant");
+	}
+	@RequestMapping(value = "/restaurant/search")
+	public ModelAndView searcgRestaurants(){
+
+		ModelMap model = new ModelMap();
+		model.put("provincias", provinciaServicio.getAll());
+		return new ModelAndView("restaurant/search",model);
+	}
+
+	@RequestMapping(value = "/restaurant/query",method = RequestMethod.GET)
+	@ResponseBody
+	public List<RestaurantSerializable> queryRestaurants(@RequestParam(value = "nombre",required = false)String nombre, @RequestParam(value = "localidadId",required = false)Long localidadId){
+
+		List<Restaurant> restaurants = restaurantServicio.search(nombre,localidadId);
+		List<RestaurantSerializable> returnList = new ArrayList<>();
+		for (Restaurant restaurant: restaurants) {
+			returnList.add(new RestaurantSerializable(restaurant));
+		}
+		return returnList;
 	}
 
 }

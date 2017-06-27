@@ -88,6 +88,11 @@ public class RestaurantServicioImpl implements RestaurantServicio {
 
     }
 
+    @Override
+    public List<Restaurant> search(String nombre, Long localidadId) {
+        return restaurantDao.search(nombre,localidadId);
+    }
+
 
     @Override
     public Boolean exist(Long userId,Long restaurantId) {

@@ -1,5 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<c:set var="context" value="${pageContext.request.contextPath}"></c:set>
 
 <script type="text/javascript">
 
@@ -19,7 +20,7 @@
         var marker;
 
         function getLocalidades(departamentoId) {
-            return $.get("/localidad/" + departamentoId + "/all").done(function (data) {
+            return $.get("${context}/localidad/" + departamentoId + "/all").done(function (data) {
                 var localidades = '<option>Seleccione una localidad...</option>';
                 for (i = 0; i < data.length; i++) {
                     localidades = localidades + '<option value="' + data[i].id + '">' + data[i].descripcion + '</option>';
@@ -31,7 +32,7 @@
 
         function getDepartamentos(provinciaId) {
 
-            return $.get("/departamento/" + provinciaId + "/all").done(function (data) {
+            return $.get("${context}/departamento/" + provinciaId + "/all").done(function (data) {
                 var deptos = '<option>Seleccione un departamento...</option>';
                 for (i = 0; i < data.length; i++) {
                     deptos = deptos + '<option value="' + data[i].id + '">' + data[i].descripcion + '</option>';
@@ -90,22 +91,6 @@
 
             })
         }
-
-        function readURL(input) {
-            if (input.files && input.files[0]) {
-                var reader = new FileReader();
-
-                reader.onload = function (e) {
-                    $('#img').attr('src', e.target.result);
-                }
-
-                reader.readAsDataURL(input.files[0]);
-            }
-        }
-
-        $("#photo").change(function () {
-            readURL(this);
-        });
 
 
         $("#provinciaId").change(function () {
