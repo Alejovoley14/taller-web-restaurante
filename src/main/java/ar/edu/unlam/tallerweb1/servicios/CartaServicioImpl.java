@@ -29,6 +29,11 @@ public class CartaServicioImpl implements CartaServicio {
     }
 
     @Override
+    public List<Carta> getAll(Long restaurantId) {
+        return cartaDao.getAll(restaurantId);
+    }
+
+    @Override
     public void create(Carta item) {
         cartaDao.add(item);
     }

@@ -9,4 +9,5 @@ import java.util.List;
  */
 public interface CartaDao extends GenericDao<Carta,Long> {
     List<Carta> getAll(Long restaurantId, Long userId);
+    List<Carta> getAll(Long restaurantId);
 }

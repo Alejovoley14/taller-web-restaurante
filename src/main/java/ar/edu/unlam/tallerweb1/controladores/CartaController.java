@@ -3,6 +3,7 @@ package ar.edu.unlam.tallerweb1.controladores;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 
 import ar.edu.unlam.tallerweb1.modelo.Restaurant;
 import ar.edu.unlam.tallerweb1.modelo.Usuario;
@@ -10,12 +11,10 @@ import ar.edu.unlam.tallerweb1.servicios.CartaServicio;
 import ar.edu.unlam.tallerweb1.servicios.RestaurantServicio;
 import ar.edu.unlam.tallerweb1.servicios.TipoProductoServicio;
 import ar.edu.unlam.tallerweb1.viewModels.CartaViewModel;
+import ar.edu.unlam.tallerweb1.viewModels.serializables.CartaSerializable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import ar.edu.unlam.tallerweb1.modelo.Carta;
 import ar.edu.unlam.tallerweb1.modelo.TipoProducto;
@@ -105,6 +104,17 @@ public class CartaController extends BaseController {
         return new ModelAndView("redirect:/carta/" + model.getRestaurantId());
     }
 
+    @RequestMapping(value = "/carta/restaurant/{restaurantId}")
+    @ResponseBody
+    public List<CartaSerializable> getCartaForRestaurant(@PathVariable(value = "restaurantId")Long restaurantId){
+        List<Carta> cartas = cartaServicio.getAll(restaurantId);
+        List<CartaSerializable> cartasSerializable = new ArrayList<>();
+        for (Carta carta: cartas) {
+            cartasSerializable.add(new CartaSerializable(carta));
+        }
+
+        return cartasSerializable;
+    }
     //eliminar menu
 //    @RequestMapping(path = "/eliminar-menu", method = RequestMethod.POST)
 //    public ModelAndView eliminarMenu(@ModelAttribute("carta") Carta carta) {

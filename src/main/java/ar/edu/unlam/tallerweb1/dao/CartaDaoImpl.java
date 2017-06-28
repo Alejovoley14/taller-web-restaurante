@@ -29,4 +29,12 @@ public class CartaDaoImpl extends GenericDaoImpl<Carta,Long> implements CartaDao
                 .createCriteria("usuario")
                 .add(Restrictions.eq("id", userId)).list();
     }
+
+    @Override
+    public List<Carta> getAll(Long restaurantId) {
+        final Session session = sessionFactory.getCurrentSession();
+        return session.createCriteria(Carta.class)
+                .createCriteria("restaurant")
+                .add(Restrictions.eq("id", restaurantId)).list();
+    }
 }

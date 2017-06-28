@@ -10,6 +10,7 @@ import java.util.List;
 public interface CartaServicio {
     Carta get(Long id);
     List<Carta> getAll(Long restaurantId, Long userId);
+    List<Carta> getAll(Long restaurantId);
     void create(Carta item);
     void update(Carta item);
 }

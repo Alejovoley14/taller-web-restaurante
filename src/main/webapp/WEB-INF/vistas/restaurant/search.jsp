@@ -64,23 +64,44 @@
                             $("#alertNoResults").hide();
                             $("#alertParameters").hide();
                             $("#tableResults").show();
-                            $("#tableResults").html('<tr><th>Nombre</th><th>Dirección</th><th></th></tr>');
+                            $("#tableResults").html('<tr><th>Nombre</th><th>Dirección</th><th>Ver Carta</th><th>Reservar</th></tr>');
 
                             $.each(data, function (key, value) {
                                 $("#tableResults tr:last").after(
                                     '<tr>' +
                                     '<td>' + value.nombre + '</td>' +
                                     '<td>' + value.domicilio + '</td>' +
-                                    '<td><a href="'+ value.id +'" class="btn btn-warning">Reservar</a></td>');
+                                    '<td><a href="#" class="btn btn-info btnCarta" restaurantId="' + value.id + '"><i class="fa fa-eye"></i></a></td>' +
+                                    '<td><a href="' + value.id + '" class="btn btn-warning">Reservar</a></td>');
                             });
                         } else {
                             $("#alertNoResults").show();
                             $("#alertParameters").hide();
                             $("#tableResults").hide();
                         }
-
                     })
                 });
+
+                $("#tableResults").on("click", ".btnCarta", function () {
+                    $.get("${context}/carta/restaurant/" + $(this).attr("restaurantId")).done(function (data) {
+                        if (data.length > 0) {
+
+                            $("#cartaModalTable").html('<tr><th>Plato</th><th>Tipo</th><th>Precio</th></tr>');
+
+                            $.each(data, function (key, value) {
+                                $("#cartaModalTable tr:last").after(
+                                    '<tr>' +
+                                    '<td><p>' + value.titulo + '<br><small>' + value.descripcion + '</small></p></td>' +
+                                    '<td>' + value.tipo + '</td>' +
+                                    '<td>' + value.precio + '$</td>');
+                            });
+
+                            $("#cartaModal").modal("show");
+                        }
+                    });
+                })
+
+
             })
         </script>
     </jsp:attribute>
@@ -122,17 +143,39 @@
                     <button class="btn btn-primary" type="button" id="btnBuscar"><i class="fa fa-search"></i></button>
                 </div>
             </div>
+            <hr>
             <div class="row">
                 <div class="alert alert-info" id="alertParameters">
-                    <h1><i class="fa fa-info-circle"></i><strong>Ingrese los parametros para buscar</strong></h1>
+                    <h3><i class="fa fa-info-circle"></i><strong>Ingrese los parametros para buscar</strong></h3>
                 </div>
                 <div class="alert alert-warning" id="alertNoResults">
-                    <h1><i class="fa fa-info-circle"></i><strong>Su busqueda no arrojo resultados</strong></h1>
+                    <h3><i class="fa fa-info-circle"></i><strong>Su busqueda no arrojo resultados</strong></h3>
                 </div>
                 <div class="row" id="results">
                     <table id="tableResults" class="table table-striped">
 
                     </table>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="modal fade" tabindex="-1" role="dialog" id="cartaModal"
+             aria-labelledby="modalCarta">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title">Carta</h4>
+                    </div>
+                    <div class="modal-body">
+                        <table id="cartaModalTable" class="table table-striped">
+
+                        </table>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                    </div>
                 </div>
             </div>
         </div>
