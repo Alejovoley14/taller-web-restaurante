@@ -3,11 +3,26 @@
 <%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+
 <c:set var="context" value="${pageContext.request.contextPath}"></c:set>
 
 <t:layout>
      <jsp:attribute name="scripts">
         <script type="text/javascript">
+            var directionsDisplay;
+            var directionsService;
+            var map;
+            function initMap() {
+                directionsService = new google.maps.DirectionsService()
+                directionsDisplay = new google.maps.DirectionsRenderer();
+                map = new google.maps.Map(document.getElementById('map'), {
+                    center: {lat: -34.397, lng: 150.644},
+                    zoom: 8,
+                    disableDefaultUI: true,
+                    draggable: true
+                });
+            }
+
             $(document).ready(function () {
 
                 function getLocalidades(departamentoId) {
@@ -64,15 +79,17 @@
                             $("#alertNoResults").hide();
                             $("#alertParameters").hide();
                             $("#tableResults").show();
-                            $("#tableResults").html('<tr><th>Nombre</th><th>Dirección</th><th>Ver Carta</th><th>Reservar</th></tr>');
+                            $("#tableResults").html('<tr><th>Nombre</th><th>Dirección</th><th>¿Como llegar?</th><th>Ver Carta</th><th>Reservar</th></tr>');
 
                             $.each(data, function (key, value) {
+                                var url =  '${context}/reserva/' + value.id;
                                 $("#tableResults tr:last").after(
                                     '<tr>' +
                                     '<td>' + value.nombre + '</td>' +
                                     '<td>' + value.domicilio + '</td>' +
+                                    '<td><a href="#" class="btn btn-primary btnLlegar" latLong="' + value.latLong + '"><i class="fa fa-eye"></i></a></td>' +
                                     '<td><a href="#" class="btn btn-info btnCarta" restaurantId="' + value.id + '"><i class="fa fa-eye"></i></a></td>' +
-                                    '<td><a href="' + value.id + '" class="btn btn-warning">Reservar</a></td>');
+                                    '<td><a href="' + url + '" class="btn btn-warning"><i class="fa fa-bell" aria-hidden="true"></i></a></td>');
                             });
                         } else {
                             $("#alertNoResults").show();
@@ -101,11 +118,74 @@
                     });
                 })
 
+                var currentPos;
+                if (navigator.geolocation) {
+                    navigator.geolocation.getCurrentPosition(function (position) {
+                        var pos = {
+                            lat: position.coords.latitude,
+                            lng: position.coords.longitude
+                        };
+                        currentPos = pos.lat + "," + pos.lng;
+                        map.setCenter(pos);
+                    });
+                }
 
-            })
+                var from, to, medioTransporte;
+
+                function calcRoute() {
+
+                    var request = {
+                        origin: from,
+                        destination: to,
+                        travelMode: google.maps.TravelMode[medioTransporte]
+                    };
+                    directionsService.route(request, function (result, status) {
+                        if (status == 'OK') {
+                            directionsDisplay.setDirections(result);
+                            directionsDisplay.setMap(map);
+                        }
+                    });
+                }
+
+                $("#tableResults").on("click", ".btnLlegar", function () {
+                    to = $(this).attr("latLong");
+                    from = $("#myLatLong").val();
+                    medioTransporte = 'DRIVING';
+                    calcRoute();
+                    $("#mapModal").modal("show");
+
+
+                });
+
+                $("#mapModal").on("shown.bs.modal", function () {
+                    google.maps.event.trigger(map, "resize");
+                    map.setCenter(new google.maps.LatLng($("#myLatLong").val().split(",")[0], $("#myLatLong").val().split(",")[1]));
+                });
+
+
+                $('input[type=radio][name=medioTransporte]').change(function () {
+                    medioTransporte = $('input[name=medioTransporte]:checked').val()
+                    calcRoute();
+                });
+
+                $('input[type=radio][name=fromWhere]').change(function () {
+                    if ($('input[name=fromWhere]:checked').val() == 'current') {
+                        from = currentPos;
+                    } else {
+                        from = $("#myLatLong").val();
+                    }
+
+                    calcRoute();
+                });
+
+
+            });
         </script>
+         <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBwsdz2QoD3Bk4JhQNShw1GZ2cTsuY61vE&callback=initMap"
+                 async defer></script>
     </jsp:attribute>
     <jsp:body>
+        <input id="myLatLong" type="hidden" value="${latLong}">
         <div class="container">
             <div class="row">
                 <div class="form-horizontal">
@@ -140,7 +220,8 @@
                             </select>
                         </div>
                     </div>
-                    <button class="btn btn-primary" type="button" id="btnBuscar"><i class="fa fa-search"></i></button>
+                    <button class="btn btn-primary" type="button" id="btnBuscar">Buscar <i class="fa fa-search"></i>
+                    </button>
                 </div>
             </div>
             <hr>
@@ -165,7 +246,8 @@
             <div class="modal-dialog modal-lg" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                aria-hidden="true">&times;</span></button>
                         <h4 class="modal-title">Carta</h4>
                     </div>
                     <div class="modal-body">
@@ -174,7 +256,62 @@
                         </table>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                        <button type="button" class="btn btn-info" data-dismiss="modal">Cerrar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" tabindex="-1" role="dialog" id="mapModal"
+             aria-labelledby="modalCarta">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title">¿Como llegar?</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-offset-2 col-md-4">
+
+                                <div class="btn-group" data-toggle="buttons">
+                                    <label class="btn btn-default">
+                                        <input type="radio" name="medioTransporte" value="TRANSIT"> <i
+                                            class="fa fa-bus"></i>
+                                    </label>
+                                    <label class="btn btn-default active">
+                                        <input type="radio" name="medioTransporte" value="DRIVING"
+                                               checked><i class="fa fa-car"></i>
+                                    </label>
+                                    <label class="btn btn-default">
+                                        <input type="radio" name="medioTransporte" value="WALKING"><i
+                                            class="fa fa-male"></i>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-md-offset-2 col-md-4">
+                                <div class="btn-group" data-toggle="buttons">
+                                    <label class="btn btn-default">
+                                        <input type="radio" name="fromWhere" value="current"> Mi ubicación
+                                    </label>
+                                    <label class="btn btn-default active">
+                                        <input type="radio" name="fromWhere" value="fixed" checked> Mi domicilio
+                                    </label>
+
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-md-offset-1 col-md-10">
+                                <div id="map" class="embed-responsive-16by9"></div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-dismiss="modal">Cerrar</button>
                     </div>
                 </div>
             </div>

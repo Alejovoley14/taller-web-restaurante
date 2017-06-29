@@ -62,6 +62,7 @@
             var latLng;
             return $.get("https://maps.googleapis.com/maps/api/geocode/json", {
                 address: address,
+                //todo:Api key alt AIzaSyCwh1Iw_UoMk5RGKEDc-6YVLsK6XCOUvxw(working) AIzaSyBwsdz2QoD3Bk4JhQNShw1GZ2cTsuY61vE(NOT WORKING)
                 key: "AIzaSyCwh1Iw_UoMk5RGKEDc-6YVLsK6XCOUvxw"
             }).done(function (data) {
                 if (data.status == 'OK') {
@@ -166,5 +167,5 @@
         </c:choose>
     });
 </script>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCwh1Iw_UoMk5RGKEDc-6YVLsK6XCOUvxw&callback=initMap"
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBwsdz2QoD3Bk4JhQNShw1GZ2cTsuY61vE&callback=initMap"
         async defer></script>

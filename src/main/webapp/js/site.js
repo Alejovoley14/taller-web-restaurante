@@ -9,6 +9,13 @@ function toogleWarinngModal(innerText, headerText, buttonText) {
     $("#alertModal").modal('show');
 }
 
+function toogleErrorModal(innerText, headerText, buttonText) {
+    $("#alertModalContent").html(innerText);
+    $("#alertModalHeader").html(headerText);
+    $("#btnAertModal").addClass('btn-danger').html(buttonText);
+    $("#alertModal").modal('show');
+}
+
 var modal;
 modal = modal || (function () {
         var isOnScreen = false;

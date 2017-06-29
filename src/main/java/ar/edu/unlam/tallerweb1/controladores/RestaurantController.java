@@ -104,9 +104,12 @@ public class RestaurantController extends BaseController{
 		return new ModelAndView("redirect:/restaurant");
 	}
 	@RequestMapping(value = "/restaurant/search")
-	public ModelAndView searcgRestaurants(){
+	public ModelAndView searcgRestaurants(Principal principal){
 
 		ModelMap model = new ModelMap();
+		Usuario user = getCurrentUser(principal);
+		Domicilio clienteDomicilio = user.getCliente().iterator().next().getDomicilios().iterator().next();
+		model.put("latLong",clienteDomicilio.getLatitud() + "," + clienteDomicilio.getLongitud());
 		model.put("provincias", provinciaServicio.getAll());
 		return new ModelAndView("restaurant/search",model);
 	}

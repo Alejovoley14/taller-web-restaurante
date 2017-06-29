@@ -10,6 +10,7 @@ public class RestaurantSerializable {
     private String nombre;
     private String domicilio;
     private Long id;
+    private String latLong;
 
     public RestaurantSerializable(Restaurant restaurant) {
         this.nombre = restaurant.getNombreFantasia();
@@ -19,6 +20,7 @@ public class RestaurantSerializable {
                 domicilio.getLocalidad().getDepartamento().getDescripcion() + ", " +
                 domicilio.getLocalidad().getDepartamento().getProvincia().getDescripcion();
         this.id = restaurant.getId();
+        this.latLong = domicilio.getLatitud() + "," + domicilio.getLongitud();
     }
 
     public String getNombre() {
@@ -32,4 +34,6 @@ public class RestaurantSerializable {
     public Long getId(){
         return this.id;
     }
+
+    public String getLatLong(){return this.latLong;}
 }
