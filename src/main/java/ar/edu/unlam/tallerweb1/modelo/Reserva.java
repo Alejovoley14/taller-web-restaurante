@@ -19,8 +19,8 @@ public class Reserva {
     private Date fechaCreacion = new Date();
     @Column(nullable = false)
     private Date fecha;
-    @OneToMany(mappedBy = "reserva")
-    private Collection<Comensal> comensales = new ArrayList<>();
+    @ManyToMany
+    private Collection<Carta> carta = new ArrayList<>();
     private Integer calificacion;
 
     public Long getId() {
@@ -45,14 +45,6 @@ public class Reserva {
 
     public void setFecha(Date fecha) {
         this.fecha = fecha;
-    }
-
-    public Collection<Comensal> getComensales() {
-        return comensales;
-    }
-
-    public void setComensales(Collection<Comensal> comensales) {
-        this.comensales = comensales;
     }
 
     public Integer getCalificacion() {

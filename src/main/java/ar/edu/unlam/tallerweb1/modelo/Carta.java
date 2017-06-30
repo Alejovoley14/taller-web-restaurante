@@ -30,7 +30,7 @@ public class Carta {
     @Fetch(FetchMode.SELECT)
     private Restaurant restaurant;
     @ManyToMany
-    private Collection<Comensal> comensales = new ArrayList<>();
+    private Collection<Reserva> reservas = new ArrayList<>();
 
 
     public Long getId() {
@@ -82,11 +82,11 @@ public class Carta {
         this.restaurant = restaurant;
     }
 
-    public Collection<Comensal> getComensales() {
-        return comensales;
+    public Collection<Reserva> getReservas() {
+        return reservas;
     }
 
-    public void setComensales(Collection<Comensal> comensales) {
-        this.comensales = comensales;
+    public void setReservas(Collection<Reserva> comensales) {
+        this.reservas = reservas;
     }
 }
