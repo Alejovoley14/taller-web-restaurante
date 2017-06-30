@@ -31,6 +31,25 @@ public class RestaurantController extends BaseController{
 	@Inject 
 	private MedioPagoServicio medioPagoServicio;
 	
+
+public void setRestaurantServicio(RestaurantServicio restaurantServicio) {
+		this.restaurantServicio = restaurantServicio;
+	}
+
+	public void setProvinciaServicio(ProvinciaServicio provinciaServicio) {
+		this.provinciaServicio = provinciaServicio;
+	}
+
+	public void setLocalidadServicio(LocalidadServicio localidadServicio) {
+		this.localidadServicio = localidadServicio;
+	}
+
+	public void setMedioPagoServicio(MedioPagoServicio medioPagoServicio) {
+		this.medioPagoServicio = medioPagoServicio;
+	}
+
+
+	
 	@RequestMapping(value = "/restaurant", method = RequestMethod.GET)
 	public ModelAndView getRestaurant(Principal principal){
 		ModelMap model =new ModelMap();

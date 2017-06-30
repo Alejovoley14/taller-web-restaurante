@@ -18,4 +18,8 @@ public class BaseController {
     protected Usuario getCurrentUser(Principal principal){
         return servicioLogin.getByName(principal.getName());
     }
+    public void setServicioLogin(ServicioLogin servicioLogin) {
+		this.servicioLogin = servicioLogin;
+	}
+
 }

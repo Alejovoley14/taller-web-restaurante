@@ -19,6 +19,10 @@ public class ControladorLogin {
 	@Inject
 	private ServicioLogin servicioLogin;
 	
+	public void setServicioLogin(ServicioLogin servicioLogin) {
+		this.servicioLogin = servicioLogin;
+	}
+
 	@RequestMapping("/autenticar")
 	public ModelAndView irALogin() {
 
