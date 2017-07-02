@@ -29,7 +29,7 @@ public class Carta {
     @ManyToOne(fetch = FetchType.EAGER,optional = false)
     @Fetch(FetchMode.SELECT)
     private Restaurant restaurant;
-    @ManyToMany
+    @ManyToMany(mappedBy = "carta")
     private Collection<Reserva> reservas = new ArrayList<>();
 
 

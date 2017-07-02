@@ -1,14 +1,8 @@
 package ar.edu.unlam.tallerweb1.viewModels;
 
-import ar.edu.unlam.tallerweb1.modelo.Domicilio;
-import ar.edu.unlam.tallerweb1.modelo.Localidad;
-import ar.edu.unlam.tallerweb1.modelo.MedioPago;
-import ar.edu.unlam.tallerweb1.modelo.Restaurant;
+import ar.edu.unlam.tallerweb1.modelo.*;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Iterator;
+import java.util.*;
 
 
 public class RestaurantViewModel {
@@ -19,6 +13,9 @@ public class RestaurantViewModel {
     private String nombreFantasia;
     private String cuit;
     private Long[] medioDePagoIds;
+    private List<CartaViewModel> carta;
+    private List<MedioPagoViewModel> mediosPago;
+
 
     private DomicilioViewModel domicilio;
 
@@ -82,6 +79,31 @@ public class RestaurantViewModel {
     public RestaurantViewModel toViewModel(Restaurant restaurant) {
         RestaurantViewModel model = new RestaurantViewModel();
 
+        mapCommon(model, restaurant);
+
+        return model;
+    }
+
+    public RestaurantViewModel toViewModelWithcarta(Restaurant restaurant) {
+        RestaurantViewModel model = new RestaurantViewModel();
+
+        mapCommon(model, restaurant);
+        model.carta = new ArrayList<>();
+        for (Carta carta : restaurant.getCarta()) {
+            CartaViewModel cartaModel = new CartaViewModel();
+            model.carta.add(cartaModel.toViewModel(carta));
+        }
+
+        model.mediosPago = new ArrayList<>();
+        for (MedioPago medioPago: restaurant.getMediosPago()) {
+            MedioPagoViewModel medioPagoViewModel = new MedioPagoViewModel();
+            model.mediosPago.add(medioPagoViewModel.toViemodel(medioPago));
+        }
+
+        return model;
+    }
+
+    private void mapCommon(RestaurantViewModel model, Restaurant restaurant) {
         model.setId(restaurant.getId());
         model.setRazonSocial(restaurant.getRazonSocial());
         model.setNombreFantasia(restaurant.getNombreFantasia());
@@ -98,12 +120,25 @@ public class RestaurantViewModel {
         model.setMedioDePagoIds(mediosPagoIds);
 
         Domicilio domicilio = restaurant.getDomicilios().iterator().next();
-        if (domicilio != null){
+        if (domicilio != null) {
             DomicilioViewModel domicilioViewModel = new DomicilioViewModel();
             model.setDomicilio(domicilioViewModel.toDomicilioViewmodel(domicilio));
         }
+    }
 
+    public List<CartaViewModel> getCarta() {
+        return carta;
+    }
 
-        return model;
+    public void setCarta(List<CartaViewModel> carta) {
+        this.carta = carta;
+    }
+
+    public List<MedioPagoViewModel> getMediosPago() {
+        return mediosPago;
+    }
+
+    public void setMediosPago(List<MedioPagoViewModel> mediosPago) {
+        this.mediosPago = mediosPago;
     }
 }

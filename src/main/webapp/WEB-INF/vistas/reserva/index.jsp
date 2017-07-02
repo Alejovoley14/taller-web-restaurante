@@ -20,63 +20,69 @@
                     <div class="panel-body">
                         <ul>
                             <li>Domicilio :
-                                <strong>${restaurant.domicilio.calle} ${restaurant.domicilio.numero} ${restaurant.domicilio.localidad.descripcion}</strong>
+                                <strong>${restaurant.domicilio.calle} ${restaurant.domicilio.numero} ${restaurant.domicilio.localidadDescripcion}, ${restaurant.domicilio.departamentoDescripcion},${restaurant.domicilio.provinciaDescripcion}</strong>
                             </li>
                         </ul>
                     </div>
                 </div>
             </div>
             <div class="row">
-                <div class="form-horizontal">
+                <th:form cssClass="form-horizontal" action="${context}/reserva/confirmar" method="post">
                     <div class="form-group">
                         <label for="txtComensales" class="col-md-2">Cantidad de comensales</label>
                         <div class="col-md-3"><input type="number" id="txtComensales" class="form-control"></div>
-                        <button type="button" id="btnConfirmarComensales" class="btn btn-primary">Confirmar</button>
                     </div>
-                </div>
+                    <div class="form-group">
+                        <label class="col-md-2">Fecha</label>
+                        <div class='input-group date col-md-4' id='fechaPicker'>
+                            <input type='text' class="form-control" name="fecha" />
+                            <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-md-2">Medio de pago</label>
+                        <div class="col-md-8">
+                            <select class="form-control" name="medioPagoId">
+                                <c:forEach var="item" items="${restaurant.mediosPago}">
+                                    <option value="${item.id}">${item.descripcion}</option>
+                                </c:forEach>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-2">Plato/Bebida</label>
+                        <div class="col-md-8">
+                            <select class="form-control" id="optPlatos">
+                                <c:forEach var="item" items="${restaurant.carta}">
+                                    <option value="${item.id}" precio="${item.precio}">${item.titulo}</option>
+                                </c:forEach>
+                            </select>
+                        </div>
+                        <div class="col-md-2">
+                            <button type="button" class="btn btn-success" id="btnAddPlato"><i class="fa fa-plus"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div id="selectedPlatos"></div>
+                </th:form>
             </div>
             <div class="row">
-                <table class="table table-striped" id="comensalesTable">
+                <table class="table table-striped" id="tablePlatos">
                     <tr>
-                        <th>Comensal</th>
-                        <th>Menu</th>
-                        <th>Total</th>
+                        <th>Plato</th>
+                        <th>Valor</th>
+                        <th></th>
                     </tr>
                 </table>
             </div>
-
-
+            <p>
+                Total: <strong id="totalPrecio"></strong>
+            </p>
         </div>
 
-        <div class="modal fade" tabindex="-1" role="dialog" id="menuModal"
-             aria-labelledby="modalMenu">
-            <div class="modal-dialog modal-lg" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                                aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title">Menu</h4>
-                    </div>
-                    <div class="modal-body">
-                       <div class="form-horizontal">
-                           <div class="form-group">
-                               <label class="col-md-2">Item</label>
-                               <div class="col-md-10">
-                                   <select class="form-control">
-                                       <c:forEach var="item" items="${restaurant.carta}">
-                                           <option value="${item.id}">${item.descripcion}</option>
-                                       </c:forEach>
-                                   </select>
-                               </div>
 
-                           </div>
-                       </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-info" data-dismiss="modal">Cerrar</button>
-                    </div>
-                </div>
-            </div>
-        </div>
     </jsp:body>
 </t:layout>

@@ -10,8 +10,8 @@ import ar.edu.unlam.tallerweb1.modelo.Restaurant;
 
 @Repository
 public interface MesaDao extends GenericDao<Mesa, Long>{
+
+	List<Mesa> getMesas(Long restaurantId, Long userId);
 	
-	public List<Mesa> getMesas(Long restaurantId,Long userId);
-	
-	public Mesa getMesa(Long idMesa);
+	Mesa getMesa(Long idMesa);
 	}

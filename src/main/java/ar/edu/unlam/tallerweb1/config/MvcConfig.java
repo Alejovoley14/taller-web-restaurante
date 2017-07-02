@@ -23,10 +23,10 @@ public class MvcConfig extends WebMvcConfigurerAdapter {
         return new CheckClienteInterceptor();
     }
 
-    @Override
-    public  void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(checkClienteInterceptor()).addPathPatterns("/reserva/*");
-    }
+//    @Override
+//    public  void addInterceptors(InterceptorRegistry registry) {
+//        registry.addInterceptor(checkClienteInterceptor()).addPathPatterns("/reserva/*");
+//    }
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {

@@ -22,6 +22,8 @@ public class MedioPago  {
     private String descripcion;
     @ManyToMany(mappedBy = "mediosPago")
     private Collection<Restaurant> restaurants = new ArrayList<>();
+    @OneToMany(mappedBy = "medioPago")
+    private Collection<Reserva> reservas = new ArrayList<>();
 
 
     public Long getId() {
@@ -55,5 +57,13 @@ public class MedioPago  {
 
     public void setRestaurants(Collection<Restaurant> restaurants) {
         this.restaurants = restaurants;
+    }
+
+    public Collection<Reserva> getReservas() {
+        return reservas;
+    }
+
+    public void setReservas(Collection<Reserva> reservas) {
+        this.reservas = reservas;
     }
 }

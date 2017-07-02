@@ -5,14 +5,14 @@ import java.util.List;
 import ar.edu.unlam.tallerweb1.modelo.Mesa;
 
 public interface MesaServicio {
+
+	List<Mesa> getMesas(Long restaurantId, Long userId);
 	
-	public List<Mesa> getMesas(Long restaurantId,Long userId);
+	Mesa getMesa(Long idMesa);
 	
-	public Mesa getMesa(Long idMesa);
+	void update(Mesa mesa);
 	
-	public void update(Mesa mesa);
+	void deleteMesa(Mesa mesa);
 	
-	public void deleteMesa(Mesa mesa);
-	
-	public void saveMesa(Mesa mesa);
+	void saveMesa(Mesa mesa);
 }

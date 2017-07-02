@@ -15,6 +15,10 @@ public class DomicilioViewModel {
     private Long localidadId;
     private Long provinciaId;
     private Long departamentoId;
+    private String localidadDescripcion;
+    private String departamentoDescripcion;
+    private String provinciaDescripcion;
+
 
 
     public String getCalle() {
@@ -83,6 +87,9 @@ public class DomicilioViewModel {
         model.setLocalidadId(domicilio.getLocalidad().getId());
         model.setDepartamentoId(domicilio.getLocalidad().getDepartamento().getId());
         model.setProvinciaId(domicilio.getLocalidad().getDepartamento().getProvincia().getId());
+        model.setLocalidadDescripcion(domicilio.getLocalidad().getDescripcion());
+        model.setDepartamentoDescripcion(domicilio.getLocalidad().getDepartamento().getDescripcion());
+        model.setProvinciaDescripcion(domicilio.getLocalidad().getDepartamento().getProvincia().getDescripcion());
         return model;
     }
 
@@ -97,5 +104,29 @@ public class DomicilioViewModel {
         domicilio.setLocalidad(localidad);
 
         return domicilio;
+    }
+
+    public String getLocalidadDescripcion() {
+        return localidadDescripcion;
+    }
+
+    public void setLocalidadDescripcion(String localidadDescripcion) {
+        this.localidadDescripcion = localidadDescripcion;
+    }
+
+    public String getDepartamentoDescripcion() {
+        return departamentoDescripcion;
+    }
+
+    public void setDepartamentoDescripcion(String departamentoDescripcion) {
+        this.departamentoDescripcion = departamentoDescripcion;
+    }
+
+    public String getProvinciaDescripcion() {
+        return provinciaDescripcion;
+    }
+
+    public void setProvinciaDescripcion(String provinciaDescripcion) {
+        this.provinciaDescripcion = provinciaDescripcion;
     }
 }

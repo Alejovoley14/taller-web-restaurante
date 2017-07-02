@@ -1,6 +1,8 @@
 package ar.edu.unlam.tallerweb1.modelo;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.Collection;
 
 /**
  * Created by Sebastian on 04/05/2017.
@@ -16,6 +18,8 @@ public class Mesa {
     private Boolean afuera;
     @ManyToOne(optional = false)
     private Restaurant restaurant;
+    @OneToMany(mappedBy = "mesa",fetch = FetchType.EAGER)
+    private Collection<Reserva> reservas = new ArrayList<>();
 
 
     public Long getId() {
@@ -49,5 +53,13 @@ public class Mesa {
 
     public void setRestaurant(Restaurant restaurant) {
         this.restaurant = restaurant;
+    }
+
+    public Collection<Reserva> getReservas() {
+        return reservas;
+    }
+
+    public void setReservas(Collection<Reserva> reservas) {
+        this.reservas = reservas;
     }
 }

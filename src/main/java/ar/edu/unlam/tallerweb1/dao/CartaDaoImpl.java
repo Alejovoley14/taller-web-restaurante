@@ -1,6 +1,7 @@
 package ar.edu.unlam.tallerweb1.dao;
 
 import ar.edu.unlam.tallerweb1.modelo.Carta;
+import ar.edu.unlam.tallerweb1.modelo.Mesa;
 import ar.edu.unlam.tallerweb1.modelo.Restaurant;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -20,6 +21,14 @@ public class CartaDaoImpl extends GenericDaoImpl<Carta,Long> implements CartaDao
     @Inject
     private SessionFactory sessionFactory;
 
+    @Override
+    public List<Carta> getCartas(List<Long> cartasId) {
+        final Session session = sessionFactory.getCurrentSession();
+
+
+        return session.createCriteria(Carta.class)
+                .add(Restrictions.in("id", cartasId)).list();
+    }
     @Override
     public List<Carta> getAll(Long restaurantId, Long userId) {
         final Session session = sessionFactory.getCurrentSession();

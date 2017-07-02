@@ -15,9 +15,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Title</title>
     <link href="${context}/css/bootstrap.min.css" rel="stylesheet" type="text/css">
-    <link href="${context}/css/bootstrap-theme.min.css" rel="stylesheet" type="text/css">
+    <%--<link href="${context}/css/bootstrap-theme.min.css" rel="stylesheet" type="text/css">--%>
     <link href="${context}/css/font-awesome.min.css" rel="stylesheet" type="text/css">
     <link href="${context}/css/site.css" rel="stylesheet" type="text/css">
+    <link href="${context}/css/bootstrap-datetimepicker.css" rel="stylesheet" type="text/css">
     <jsp:invoke fragment="styles"/>
 
 
@@ -146,6 +147,8 @@
 
 <script src="${context}/js/jquery-1.11.3.min.js" type="text/javascript"></script>
 <script src="${context}/js/bootstrap.min.js" type="text/javascript"></script>
+<script src="${context}/js/momentjs-with-locale.js" type="text/javascript"></script>
+<script src="${context}/js/bootstrap-datetimepicker.min.js" type="text/javascript"></script>
 <script src="${context}/js/site.js" type="text/javascript"></script>
 
 

@@ -2,6 +2,7 @@ package ar.edu.unlam.tallerweb1.servicios;
 
 import ar.edu.unlam.tallerweb1.dao.CartaDao;
 import ar.edu.unlam.tallerweb1.modelo.Carta;
+import ar.edu.unlam.tallerweb1.modelo.Mesa;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,6 +18,10 @@ public class CartaServicioImpl implements CartaServicio {
     @Inject
     private CartaDao cartaDao;
 
+    @Override
+    public List<Carta> getCartas(List<Long> cartasId) {
+        return cartaDao.getCartas(cartasId);
+    }
 
     @Override
     public Carta get(Long id) {
