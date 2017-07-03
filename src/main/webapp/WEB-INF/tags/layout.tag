@@ -15,7 +15,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Title</title>
     <link href="${context}/css/bootstrap.min.css" rel="stylesheet" type="text/css">
-    <%--<link href="${context}/css/bootstrap-theme.min.css" rel="stylesheet" type="text/css">--%>
+    <link href="${context}/css/bootstrap-yeti-theme.css" rel="stylesheet" type="text/css">
     <link href="${context}/css/font-awesome.min.css" rel="stylesheet" type="text/css">
     <link href="${context}/css/site.css" rel="stylesheet" type="text/css">
     <link href="${context}/css/bootstrap-datetimepicker.css" rel="stylesheet" type="text/css">
