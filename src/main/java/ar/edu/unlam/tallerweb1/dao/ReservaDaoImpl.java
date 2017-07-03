@@ -2,6 +2,7 @@ package ar.edu.unlam.tallerweb1.dao;
 
 import ar.edu.unlam.tallerweb1.modelo.Mesa;
 import ar.edu.unlam.tallerweb1.modelo.Reserva;
+import ar.edu.unlam.tallerweb1.modelo.Restaurant;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
@@ -21,13 +22,13 @@ public class ReservaDaoImpl extends GenericDaoImpl<Reserva,Long> implements Rese
     private SessionFactory sessionFactory;
 
     @Override
-    public List<Mesa> getMesasOcupadas(Date fecha, Long restaurantId) {
+    public List<Mesa> getMesasOcupadas(Date fecha, List<Long> mesasId) {
         final Session session = sessionFactory.getCurrentSession();
-        return session.createCriteria(Mesa.class)
-                .createCriteria("restaurant")
-                .add(Restrictions.eq("id",restaurantId))
-                .createCriteria("reserva")
-                .add(Restrictions.eq("fecha",fecha)).list();
+        return session.createCriteria(Reserva.class)
+                .add(Restrictions.eq("fecha",fecha))
+                .createCriteria("mesa")
+                .add(Restrictions.in("id",mesasId))
+                .list();
 
 
     }

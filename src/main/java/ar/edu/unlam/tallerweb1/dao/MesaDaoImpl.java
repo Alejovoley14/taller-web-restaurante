@@ -31,6 +31,18 @@ public class MesaDaoImpl extends GenericDaoImpl<Mesa,Long> implements MesaDao{
 				.add(Restrictions.eq("id", userId)).list();
 
 	}
+
+	@Override
+	public List<Mesa> getMesas(Long restaurantId){
+
+		final Session session = sessionFactory.getCurrentSession();
+
+
+		return session.createCriteria(Mesa.class)
+				.createCriteria("restaurant")
+				.add(Restrictions.eq("id", restaurantId)).list();
+
+	}
 	
 	//los metodos de generic dao no me traen las cosas que quiero, defino nuevo metodo
 	

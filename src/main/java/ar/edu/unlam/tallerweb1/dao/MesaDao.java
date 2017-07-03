@@ -12,6 +12,7 @@ import ar.edu.unlam.tallerweb1.modelo.Restaurant;
 public interface MesaDao extends GenericDao<Mesa, Long>{
 
 	List<Mesa> getMesas(Long restaurantId, Long userId);
+	List<Mesa> getMesas(Long restaurantId);
 	
 	Mesa getMesa(Long idMesa);
 	}

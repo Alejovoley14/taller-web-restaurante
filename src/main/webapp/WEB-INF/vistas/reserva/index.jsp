@@ -26,20 +26,31 @@
                     </div>
                 </div>
             </div>
-            <div class="row">
-                <th:form cssClass="form-horizontal" action="${context}/reserva/confirmar" method="post">
+
+            <th:form cssClass="form-horizontal" action="${context}/reserva/confirmar" method="post">
+                <div class="row">
                     <div class="form-group">
                         <label for="txtComensales" class="col-md-2">Cantidad de comensales</label>
-                        <div class="col-md-3"><input type="number" id="txtComensales" class="form-control"></div>
+                        <div class="col-md-3"><input type="number" id="txtComensales" name="cantidadComensales" class="form-control"></div>
                     </div>
                     <div class="form-group">
                         <label class="col-md-2">Fecha</label>
                         <div class='input-group date col-md-4' id='fechaPicker'>
-                            <input type='text' class="form-control" name="fecha" />
+                            <input type='text' class="form-control" name="fecha" id="fecha"/>
                             <span class="input-group-addon">
-                        <span class="glyphicon glyphicon-calendar"></span>
-                    </span>
+                                <span class="glyphicon glyphicon-calendar"></span>
+                            </span>
                         </div>
+                    </div>
+                    <div class="form-group" id="divMesas">
+                        <label class="col-md-2">Mesa</label>
+                        <div class="col-md-8">
+                            <select class="form-control" name="mesaId" id="selectMesa">
+                            </select>
+                        </div>
+                    </div>
+                    <div class="alert alert-info" id="divMesaNoDisponible">
+                        <h4>No hay mesas disponibles</h4>
                     </div>
 
                     <div class="form-group">
@@ -67,8 +78,12 @@
                         </div>
                     </div>
                     <div id="selectedPlatos"></div>
-                </th:form>
-            </div>
+                </div>
+                <div class="row">
+                    <button type="submit" class="btn btn-primary">Guardar</button>
+                </div>
+            </th:form>
+
             <div class="row">
                 <table class="table table-striped" id="tablePlatos">
                     <tr>

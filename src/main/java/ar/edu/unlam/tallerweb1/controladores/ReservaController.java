@@ -8,12 +8,10 @@ import ar.edu.unlam.tallerweb1.servicios.*;
 import ar.edu.unlam.tallerweb1.viewModels.ReservaViewModel;
 import ar.edu.unlam.tallerweb1.viewModels.RestaurantViewModel;
 import ar.edu.unlam.tallerweb1.viewModels.serializables.MesaSerializable;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.inject.Inject;
@@ -65,7 +63,8 @@ public class ReservaController extends BaseController {
     }
 
     @RequestMapping(value = "/reserva/mesas/{restaurantId}/{fecha}", method = RequestMethod.GET)
-    public List<MesaSerializable> getMesas(@PathVariable(value = "restaurantId") Long restaurantId, @PathVariable(value = "fecha") Date fecha) {
+    @ResponseBody
+    public List<MesaSerializable> getMesas(@PathVariable(value = "restaurantId") Long restaurantId, @PathVariable(value = "fecha") @DateTimeFormat(pattern="ddMMyyyy")Date fecha) {
         List<Mesa> mesas = reservaServicio.getMesasDisponibles(fecha, restaurantId);
         List<MesaSerializable> mesasDisponibles = new ArrayList<>();
         for (Mesa mesa : mesas) {
