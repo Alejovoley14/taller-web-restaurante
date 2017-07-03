@@ -63,6 +63,9 @@
                        aria-expanded="false">Reservas <span class="caret"></span></a>
                     <ul class="dropdown-menu">
                         <li><a href="${context}/restaurant/search">Buscar restaurant</a></li>
+                        <security:authorize access="hasRole('RESTAURANT')">
+                            <li><a href="${context}/reserva/restaurant">Ver reservas</a></li>
+                        </security:authorize>
                     </ul>
                 </li>
                 <li class="dropdown">

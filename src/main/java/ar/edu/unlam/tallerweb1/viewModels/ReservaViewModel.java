@@ -4,6 +4,7 @@ import ar.edu.unlam.tallerweb1.modelo.Carta;
 import ar.edu.unlam.tallerweb1.modelo.MedioPago;
 import ar.edu.unlam.tallerweb1.modelo.Mesa;
 import ar.edu.unlam.tallerweb1.modelo.Reserva;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 import java.util.List;
@@ -14,6 +15,7 @@ import java.util.List;
 public class ReservaViewModel {
 
     private Date fechaCreacion;
+    @DateTimeFormat(pattern = "dd/MM/yyyy")
     private Date fecha;
     private List<Long> platosSeleccionados;
     private Integer calificacion;

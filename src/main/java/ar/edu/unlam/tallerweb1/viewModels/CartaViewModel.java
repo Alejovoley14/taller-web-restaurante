@@ -14,6 +14,7 @@ public class CartaViewModel {
     private String descripcion;
     private Double precio;
     private Long tipoProductoId;
+    private String tipoProducto;
     private Long restaurantId;
 
     public Long getId() {
@@ -85,9 +86,17 @@ public class CartaViewModel {
         model.setPrecio(carta.getPrecio());
         model.setTipoProductoId(carta.getTipoProducto().getId());
         model.setRestaurantId(carta.getRestaurant().getId());
+        model.setTipoProducto(carta.getTipoProducto().getDescripcion());
 
         return model;
     }
 
 
+    public String getTipoProducto() {
+        return tipoProducto;
+    }
+
+    public void setTipoProducto(String tipoProducto) {
+        this.tipoProducto = tipoProducto;
+    }
 }

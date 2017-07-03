@@ -1,10 +1,9 @@
 package ar.edu.unlam.tallerweb1.controladores;
 
-import ar.edu.unlam.tallerweb1.modelo.Carta;
-import ar.edu.unlam.tallerweb1.modelo.MedioPago;
-import ar.edu.unlam.tallerweb1.modelo.Mesa;
-import ar.edu.unlam.tallerweb1.modelo.Restaurant;
+import ar.edu.unlam.tallerweb1.modelo.*;
 import ar.edu.unlam.tallerweb1.servicios.*;
+import ar.edu.unlam.tallerweb1.viewModels.ConfirmarCancelarViewModel;
+import ar.edu.unlam.tallerweb1.viewModels.ReservaRestaurantViewModel;
 import ar.edu.unlam.tallerweb1.viewModels.ReservaViewModel;
 import ar.edu.unlam.tallerweb1.viewModels.RestaurantViewModel;
 import ar.edu.unlam.tallerweb1.viewModels.serializables.MesaSerializable;
@@ -39,8 +38,13 @@ public class ReservaController extends BaseController {
     private CartaServicio cartaServicio;
 
     @RequestMapping(value = "/reserva/{restaurantId}", method = RequestMethod.GET)
-    public ModelAndView iniciarReserva(@PathVariable(value = "restaurantId") Long restaurantId) {
+    public ModelAndView iniciarReserva(Principal principal, @PathVariable(value = "restaurantId") Long restaurantId) {
         ModelMap model = new ModelMap();
+
+        if(getCurrentUser(principal).getCliente() == null){
+            return new ModelAndView("redirect:/cliente");
+        }
+
         RestaurantViewModel viewModel = new RestaurantViewModel();
         Restaurant restaurant = restaurantServicio.get(restaurantId);
         model.put("restaurant", viewModel.toViewModelWithcarta(restaurant));
@@ -48,29 +52,66 @@ public class ReservaController extends BaseController {
     }
 
     @RequestMapping(value = "/reserva/confirmar", method = RequestMethod.POST)
-    public ModelAndView confirmarReserva(@ModelAttribute ReservaViewModel model) {
+    public ModelAndView confirmarReserva(Principal principal, @ModelAttribute ReservaViewModel model) {
         Mesa mesa = mesaServicio.getMesa(model.getMesaId());
         MedioPago medioPago = medioPagoServicio.get(model.getMedioPagoId());
-        List<Carta> platosSeleccionados = cartaServicio.getCartas(model.getPlatosSeleccionados());
-        reservaServicio.save(model.toReserva(medioPago, mesa, platosSeleccionados));
 
-        return new ModelAndView("redirect:/reserva/confirmada");
+        List<Carta> platosSeleccionados = new ArrayList<>();
+
+        for (Long id : model.getPlatosSeleccionados()) {
+            platosSeleccionados.add(cartaServicio.get(id));
+        }
+
+        Reserva reserva = model.toReserva(medioPago, mesa, platosSeleccionados);
+        reserva.setCliente(getCurrentUser(principal).getCliente().iterator().next());
+        reservaServicio.save(reserva);
+
+        ModelMap returnModel = new ModelMap();
+        returnModel.put("reserva", reserva);
+        return new ModelAndView("reserva/confirmada", returnModel);
     }
 
-    @RequestMapping(value = "/reserva/confirmada")
-    public ModelAndView reservaConfirmada() {
-        return new ModelAndView("reserva/confirmada");
-    }
 
     @RequestMapping(value = "/reserva/mesas/{restaurantId}/{fecha}", method = RequestMethod.GET)
     @ResponseBody
-    public List<MesaSerializable> getMesas(@PathVariable(value = "restaurantId") Long restaurantId, @PathVariable(value = "fecha") @DateTimeFormat(pattern="ddMMyyyy")Date fecha) {
+    public List<MesaSerializable> getMesas(@PathVariable(value = "restaurantId") Long restaurantId, @PathVariable(value = "fecha") @DateTimeFormat(pattern = "ddMMyyyy") Date fecha) {
         List<Mesa> mesas = reservaServicio.getMesasDisponibles(fecha, restaurantId);
         List<MesaSerializable> mesasDisponibles = new ArrayList<>();
         for (Mesa mesa : mesas) {
             mesasDisponibles.add(new MesaSerializable(mesa));
         }
         return mesasDisponibles;
+    }
+
+    @RequestMapping(value = "/reserva/restaurant/confirmar",method = RequestMethod.POST)
+    public ModelAndView confirmarReserva(@ModelAttribute ConfirmarCancelarViewModel model){
+        Reserva reserva = reservaServicio.get(model.getId());
+        reserva.setAsistencia(true);
+        reservaServicio.save(reserva);
+        return new ModelAndView("redirect:/reserva/restaurant");
+    }
+
+    @RequestMapping(value = "/reserva/restaurant/cancelar",method = RequestMethod.POST)
+    public ModelAndView cancelarReserva(@ModelAttribute ConfirmarCancelarViewModel model){
+        Reserva reserva = reservaServicio.get(model.getId());
+        reserva.setAsistencia(false);
+        reservaServicio.save(reserva);
+        return new ModelAndView("redirect:/reserva/restaurant");
+    }
+
+
+    @RequestMapping(value = "/reserva/restaurant")
+    public ModelAndView getMisReservas(Principal principal) {
+        List<Restaurant> restaurants = restaurantServicio.getAll(getCurrentUser(principal).getId());
+        ModelMap model = new ModelMap();
+        List<ReservaRestaurantViewModel> reservasViewModel = new ArrayList<>();
+        for (Reserva reserva: reservaServicio.reservasRestaurants(restaurants)) {
+            reservasViewModel.add(new ReservaRestaurantViewModel(reserva));
+        }
+
+        model.put("reservas", reservasViewModel);
+        return new ModelAndView("reserva/listarestaurant",model);
+
     }
 
 }

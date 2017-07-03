@@ -18,7 +18,7 @@ public class Mesa {
     private Boolean afuera;
     @ManyToOne(optional = false)
     private Restaurant restaurant;
-    @OneToMany(mappedBy = "mesa",fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "mesa")
     private Collection<Reserva> reservas = new ArrayList<>();
 
 

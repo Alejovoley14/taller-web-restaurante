@@ -7,6 +7,7 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by Sebastian on 04/05/2017.
@@ -25,14 +26,17 @@ public class Reserva {
     @ManyToMany(fetch = FetchType.EAGER)
     @Fetch(FetchMode.SELECT)
     @JoinTable(name="carta_reserva",joinColumns = {@JoinColumn(name = "reserva_id")},inverseJoinColumns = {@JoinColumn(name = "carta_id")})
-    private Collection<Carta> carta = new ArrayList<>();
+    private List<Carta> carta = new ArrayList<>();
     private Integer calificacion;
     @ManyToOne(fetch = FetchType.EAGER)
     private MedioPago medioPago;
     @ManyToOne(fetch = FetchType.EAGER)
     private Mesa mesa;
+    @ManyToOne(fetch = FetchType.EAGER,optional = false)
+    private Cliente cliente;
     @Column(nullable = false)
     private Integer cantidadComensales;
+    private Boolean asistencia;
 
 
     public Long getId() {
@@ -67,11 +71,11 @@ public class Reserva {
         this.calificacion = calificacion;
     }
 
-    public Collection<Carta> getCarta() {
+    public List<Carta> getCarta() {
         return carta;
     }
 
-    public void setCarta(Collection<Carta> carta) {
+    public void setCarta(List<Carta> carta) {
         this.carta = carta;
     }
 
@@ -97,5 +101,21 @@ public class Reserva {
 
     public void setCantidadComensales(Integer cantidadComensales) {
         this.cantidadComensales = cantidadComensales;
+    }
+
+    public Cliente getCliente() {
+        return cliente;
+    }
+
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
+    }
+
+    public Boolean getAsistencia() {
+        return asistencia;
+    }
+
+    public void setAsistencia(Boolean asistencia) {
+        this.asistencia = asistencia;
     }
 }

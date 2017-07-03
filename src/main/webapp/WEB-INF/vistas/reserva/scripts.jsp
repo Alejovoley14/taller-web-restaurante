@@ -56,7 +56,7 @@
             var restuaurant = "${restaurant.id}";
             var test = e.date.format("DDMMYYYY");
 
-
+            modal.showPleaseWait();
             var fecha =  + "" + (e.date.toDate().getMonth() + 1) +  ""  + e.date.toDate().getFullYear();
 
             $.get(context + "/reserva/mesas/" + restuaurant + "/" +  e.date.format("DDMMYYYY")).done(function (data) {
@@ -72,7 +72,10 @@
                     $("#divMesas").hide();
                     $("#divmesanodisponible").show();
                 }
-            });
+            })
+                .always(function(){
+                    modal.hidePleaseWait();
+                });
         });
     });
 </script>

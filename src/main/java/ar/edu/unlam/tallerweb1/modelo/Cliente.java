@@ -18,6 +18,8 @@ public class Cliente {
     private String apellido;
     @Column(nullable = false, length = 40)
     private String telefono;
+    @OneToMany(mappedBy = "cliente",fetch = FetchType.EAGER)
+    private Collection<Reserva> reservas = new ArrayList<>();
 
     @OneToMany(mappedBy = "cliente",fetch = FetchType.EAGER)
     private Collection<Domicilio> domicilios = new ArrayList<>();
@@ -73,5 +75,13 @@ public class Cliente {
 
     public void setDomicilios(Collection<Domicilio> domicilios) {
         this.domicilios = domicilios;
+    }
+
+    public Collection<Reserva> getReservas() {
+        return reservas;
+    }
+
+    public void setReservas(Collection<Reserva> reservas) {
+        this.reservas = reservas;
     }
 }

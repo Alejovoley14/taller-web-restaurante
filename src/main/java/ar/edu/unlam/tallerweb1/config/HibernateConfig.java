@@ -69,7 +69,7 @@ public class HibernateConfig {
     {
         Properties properties = new Properties();
         properties.put("hibernate.dialect", "org.hibernate.dialect.MySQL5Dialect");
-        properties.put("hibernate.show_sql", "false");
+        properties.put("hibernate.show_sql", "true");
         properties.put("hibernate.hbm2ddl.auto", "update");
         properties.put("hibernate.validator.apply_to_ddl", "false");
         properties.put("hibernate.validator.autoregister_listeners", "false");

@@ -27,6 +27,7 @@
 
                 function getLocalidades(departamentoId) {
 
+
                     return $.get("${context}/localidad/" + departamentoId + "/all").done(function (data) {
                         var localidades = '<option>Seleccione una localidad...</option>';
                         for (i = 0; i < data.length; i++) {
@@ -68,6 +69,7 @@
 
                 $("#btnBuscar").click(function () {
                     var query = {};
+                    modal.showPleaseWait();
                     if ($("#nombre").val() != '' && $("#nombre").val() != undefined && $("#nombre").val() != null) {
                         query.nombre = $("#nombre").val();
                     }
@@ -96,10 +98,13 @@
                             $("#alertParameters").hide();
                             $("#tableResults").hide();
                         }
+                    }).always(function () {
+                        modal.hidePleaseWait();
                     })
                 });
 
                 $("#tableResults").on("click", ".btnCarta", function () {
+                    modal.showPleaseWait();
                     $.get("${context}/carta/restaurant/" + $(this).attr("restaurantId")).done(function (data) {
                         if (data.length > 0) {
 
@@ -115,6 +120,8 @@
 
                             $("#cartaModal").modal("show");
                         }
+                    }).always(function () {
+                        modal.hidePleaseWait();
                     });
                 })
 

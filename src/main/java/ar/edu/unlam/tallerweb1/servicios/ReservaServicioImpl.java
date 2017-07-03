@@ -6,6 +6,7 @@ import ar.edu.unlam.tallerweb1.dao.RestaurantDao;
 import ar.edu.unlam.tallerweb1.modelo.Mesa;
 import ar.edu.unlam.tallerweb1.modelo.Reserva;
 import ar.edu.unlam.tallerweb1.modelo.Restaurant;
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,26 +25,55 @@ public class ReservaServicioImpl implements ReservaServicio {
     private ReservaDao reservaDao;
     @Inject
     private RestaurantDao restaurantDao;
-    @Inject
-    private MesaDao mesaDao;
+
+    @Override
+    public Reserva get(Long id) {
+        return reservaDao.find(id);
+    }
+
     @Override
     public List<Mesa> getMesasDisponibles(Date fecha, Long restaurantId) {
         Restaurant restaurant = restaurantDao.find(restaurantId);
         List<Long> mesasId = new ArrayList<>();
-        for (Mesa mesa: restaurant.getMesas()) {
+        for (Mesa mesa : restaurant.getMesas()) {
             mesasId.add(mesa.getId());
         }
-        List<Mesa> mesasOcupadas = reservaDao.getMesasOcupadas(fecha,mesasId);
-        List<Long> mesasOcupadasId = new ArrayList<>();
-        for (Mesa mesa:mesasOcupadas) {
-            mesasOcupadasId.add(mesa.getId());
+        List<Reserva> mesasOcupadas = reservaDao.getMesasOcupadas(fecha);
+
+        List<Mesa> mesasDisponibles = new ArrayList<>();
+        for (Mesa mesa : restaurant.getMesas()) {
+
+            Boolean ocupada = false;
+            for (Reserva reserva : mesasOcupadas) {
+                if (reserva.getMesa().getId().equals(mesa.getId())) {
+                    ocupada = true;
+                }
+            }
+
+            if (!ocupada) {
+                mesasDisponibles.add(mesa);
+            }
         }
 
-        if(mesasOcupadas.isEmpty()){
-            return mesaDao.getMesas(restaurantId);
-        }
-        return reservaDao.getMesasDisponibles(mesasOcupadasId);
+
+//        if(mesasOcupadas.isEmpty()){
+//            return (List<Mesa>) restaurant.getMesas();
+//        }
+
+        return mesasDisponibles;
     }
+
+    @Override
+    public List<Reserva> reservasRestaurants(List<Restaurant> restaurants) {
+        List<Long> mesasId = new ArrayList<>();
+        for (Restaurant restaurant : restaurants) {
+            for (Mesa mesa : restaurant.getMesas()) {
+                mesasId.add(mesa.getId());
+            }
+        }
+        return reservaDao.getReservaByMesaId(mesasId);
+    }
+
 
     @Override
     public void save(Reserva item) {

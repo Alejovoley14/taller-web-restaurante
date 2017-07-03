@@ -22,21 +22,22 @@ public class ReservaDaoImpl extends GenericDaoImpl<Reserva,Long> implements Rese
     private SessionFactory sessionFactory;
 
     @Override
-    public List<Mesa> getMesasOcupadas(Date fecha, List<Long> mesasId) {
+    public List<Reserva> getMesasOcupadas(Date fecha) {
         final Session session = sessionFactory.getCurrentSession();
         return session.createCriteria(Reserva.class)
                 .add(Restrictions.eq("fecha",fecha))
-                .createCriteria("mesa")
-                .add(Restrictions.in("id",mesasId))
                 .list();
 
 
     }
 
     @Override
-    public List<Mesa> getMesasDisponibles(List<Long> mesasOcupadasId) {
+    public List<Reserva> getReservaByMesaId(List<Long> mesasId) {
         final Session session = sessionFactory.getCurrentSession();
-        return session.createCriteria(Mesa.class)
-                .add(Restrictions.not(Restrictions.in("id",mesasOcupadasId))).list();
+        return session.createCriteria(Reserva.class)
+                .add(Restrictions.isNull("asistencia"))
+                .createCriteria("mesa")
+                .add(Restrictions.in("id",mesasId))
+                .list();
     }
 }
