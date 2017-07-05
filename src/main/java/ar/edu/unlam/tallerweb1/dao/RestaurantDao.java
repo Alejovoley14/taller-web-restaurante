@@ -14,4 +14,6 @@ public interface RestaurantDao extends GenericDao<Restaurant, Long>{
 	List<Restaurant> getAllByUsuario(Long usuarioId);
 	Restaurant restaurantFromUser(Long userId,Long restaurantId);
 	List<Restaurant> search(String nombre,Long localidadId);
+
+    Restaurant getByMesaId(Long mesaId);
 }

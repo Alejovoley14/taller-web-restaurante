@@ -35,9 +35,13 @@
                                             <c:when test="${usuario == null}">
                                                 <input id="email" type="email" class="form-control" name="email"
                                                        value="" required>
+                                                <span th:if="${fields.hasErrors('email')}" th:errors="*{age}"
+                                                      class="help-block"></span>
                                             </c:when>
                                             <c:when test="${usuario != null}">
                                                 <th:input path="email" cssClass="form-control"></th:input>
+                                                <span th:if="${fields.hasErrors('email')}" th:errors="*{age}"
+                                                      class="help-block"></span>
                                             </c:when>
                                         </c:choose>
                                     </div>
@@ -46,6 +50,8 @@
                                     <label for="password" class="col-md-4 control-label">Contraseña</label>
                                     <div class="col-md-6">
                                         <input id="password" type="password" class="form-control" name="password">
+                                        <span th:if="${fields.hasErrors('password')}" th:errors="*{age}"
+                                              class="help-block"></span>
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -54,7 +60,10 @@
                                     <div class="col-md-6">
                                         <input id="verifyPassword" type="password" class="form-control"
                                                name="verifyPassword" required>
+                                        <span th:if="${fields.hasErrors('verifyPassword')}" th:errors="*{age}"
+                                              class="help-block"></span>
                                     </div>
+
                                 </div>
                                 <c:if test="${not empty error}">
                                     <div class="alert alert-danger">
@@ -66,6 +75,17 @@
                                         <h4><span class="glyphicon glyphicon-exclamation-sign"></span> ${success}</h4>
                                     </div>
                                 </c:if>
+                                <c:if test="${errors!= null}">
+                                    <div class="alert alert-danger">
+                                        <ul>
+                                            <c:forEach items="${errors}" var="error">
+                                                <li><strong>${error.defaultMessage}</strong></li>
+                                            </c:forEach>
+                                        </ul>
+                                    </div>
+                                </c:if>
+
+
                                 <div class="row">
 
                                     <div class="col-md-6 col-md-offset-4">
@@ -101,11 +121,11 @@
                                     </a>
                                 </div>
                                 <div class="col-md-2">
-                                    <%--<form action="${pageContext.request.contextPath}/signin/google" method="POST">--%>
+                                        <%--<form action="${pageContext.request.contextPath}/signin/google" method="POST">--%>
                                         <%--<button class="btn btn-danger" type="submit"><i class="fa fa-google"></i> |--%>
-                                            <%--Google--%>
+                                        <%--Google--%>
                                         <%--</button>--%>
-                                    <%--</form>--%>
+                                        <%--</form>--%>
                                     <a href="${context}/auth/google?scope=email">
                                         <button class="btn btn-danger"><i class="fa fa-google"></i> |
                                             Google

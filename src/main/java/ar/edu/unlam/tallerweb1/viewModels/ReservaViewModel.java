@@ -6,6 +6,8 @@ import ar.edu.unlam.tallerweb1.modelo.Mesa;
 import ar.edu.unlam.tallerweb1.modelo.Reserva;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.List;
 
@@ -14,13 +16,20 @@ import java.util.List;
  */
 public class ReservaViewModel {
 
+    private Long restaurantId;
     private Date fechaCreacion;
     @DateTimeFormat(pattern = "dd/MM/yyyy")
+    @NotNull(message = "Fecha es obligatorio")
     private Date fecha;
+    @NotNull(message = "Debe seleccionar al menos un plato")
     private List<Long> platosSeleccionados;
     private Integer calificacion;
+    @NotNull(message = "Medio de pago es obligatorio")
     private Long medioPagoId;
+    @NotNull(message = "Mesa es obligatorio")
     private Long mesaId;
+    @NotNull(message = "Comensal es obligatorio")
+    @Min(value = 1,message = "Debe poner al menos 1 comensal")
     private Integer cantidadComensales;
 
     public Reserva toReserva(MedioPago medioPago, Mesa mesa, List<Carta> platosSeleccionados){
@@ -87,5 +96,13 @@ public class ReservaViewModel {
 
     public void setCantidadComensales(Integer cantidadComensales) {
         this.cantidadComensales = cantidadComensales;
+    }
+
+    public Long getRestaurantId() {
+        return restaurantId;
+    }
+
+    public void setRestaurantId(Long restaurantId) {
+        this.restaurantId = restaurantId;
     }
 }

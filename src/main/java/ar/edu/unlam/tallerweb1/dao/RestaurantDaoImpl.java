@@ -50,4 +50,11 @@ public class RestaurantDaoImpl extends GenericDaoImpl<Restaurant, Long> implemen
 
 		return criteria.list();
 	}
+
+	@Override
+	public Restaurant getByMesaId(Long mesaId) {
+		final Session session = sessionFactory.getCurrentSession();
+		return (Restaurant) session.createCriteria(Restaurant.class)
+				.add(Restrictions.eq("mesa.id",mesaId)).uniqueResult();
+	}
 }

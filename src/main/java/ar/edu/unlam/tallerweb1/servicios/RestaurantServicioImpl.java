@@ -93,6 +93,11 @@ public class RestaurantServicioImpl implements RestaurantServicio {
         return restaurantDao.search(nombre,localidadId);
     }
 
+    @Override
+    public Restaurant getByMesaId(Long mesaId) {
+        return restaurantDao.getByMesaId(mesaId);
+    }
+
 
     @Override
     public Boolean exist(Long userId,Long restaurantId) {

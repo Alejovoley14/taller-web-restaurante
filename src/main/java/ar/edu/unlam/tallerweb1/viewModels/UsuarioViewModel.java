@@ -2,12 +2,26 @@ package ar.edu.unlam.tallerweb1.viewModels;
 
 import ar.edu.unlam.tallerweb1.modelo.Usuario;
 
+import com.intellij.ide.util.PropertyName;
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotEmpty;
+
+import javax.validation.constraints.Min;
+import javax.validation.constraints.Size;
+
+
 /**
  * Created by Sebastian on 28/05/2017.
  */
 public class UsuarioViewModel {
+    @NotEmpty(message = "E-Mail es obligatorio")
+    @Email(message = "No es un E-Mail valido")
     private String email;
+    @Size(min = 6,message = "La contraseña debe tener minimo 6 caracteres")
+    @NotEmpty(message = "Contraseña es obligatorio")
     private String password;
+    @Size(min = 6,message = "La contraseña debe tener minimo 6 caracteres")
+    @NotEmpty(message = "Verificar contraseña es obligatorio")
     private String verifyPassword;
 
     public String getEmail() {

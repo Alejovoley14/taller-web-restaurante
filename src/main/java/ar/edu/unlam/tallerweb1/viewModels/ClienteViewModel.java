@@ -3,7 +3,11 @@ package ar.edu.unlam.tallerweb1.viewModels;
 import ar.edu.unlam.tallerweb1.modelo.Cliente;
 import ar.edu.unlam.tallerweb1.modelo.Domicilio;
 import ar.edu.unlam.tallerweb1.modelo.Localidad;
+import org.hibernate.validator.constraints.NotEmpty;
 
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -14,8 +18,14 @@ public class ClienteViewModel {
 
     //Cliente Fields
     private Long id;
+    @NotEmpty(message = "Nombre es obligatorio")
+    @Size(min = 3,max = 50, message = "Nombre debe tener minimo 3 caracteres y maximo 50")
     private String nombre;
+    @NotEmpty(message = "Apellido es obligatorio")
+    @Size(min = 3,max = 50, message = "Apellido debe tener minimo 3 caracteres y maximo 50")
     private String apellido;
+    @NotEmpty(message = "Telefono es obligatorio")
+    @Size(min = 8,max = 50, message = "Telefono debe tener minimo 8 caracteres y maximo 50")
     private String telefono;
 
     private DomicilioViewModel domicilio;

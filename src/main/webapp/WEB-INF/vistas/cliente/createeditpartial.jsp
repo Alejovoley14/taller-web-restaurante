@@ -93,6 +93,17 @@
     </div>
 </div>
 <div class="row">
+    <c:if test="${errors!= null}">
+        <div class="alert alert-danger">
+            <ul>
+                <c:forEach items="${errors}" var="error">
+                    <li><strong>${error.defaultMessage}</strong></li>
+                </c:forEach>
+            </ul>
+        </div>
+    </c:if>
+</div>
+<div class="row">
     <div class="col-sm-offset-9 col-sm-3">
         <button class="btn btn-primary" type="submit">Guardar</button>
     </div>

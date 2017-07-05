@@ -1,7 +1,11 @@
 package ar.edu.unlam.tallerweb1.viewModels;
 
 import ar.edu.unlam.tallerweb1.modelo.*;
+import org.hibernate.validator.constraints.NotEmpty;
 
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.Size;
 import java.util.*;
 
 
@@ -9,8 +13,13 @@ public class RestaurantViewModel {
 
 
     private Long id;
+    @NotEmpty(message = "Razon social es obligatorio")
+    @Size(min = 3,max = 50, message = "Razon social debe tener minimo 3 caracteres y maximo 50")
     private String razonSocial;
+    @NotEmpty(message = "Nombre fantasia es obligatorio")
+    @Size(min = 3,max = 50, message = "Nombre fantasia debe tener minimo 3 caracteres y maximo 50")
     private String nombreFantasia;
+    @NotEmpty(message = "Cuit es obligatorio")
     private String cuit;
     private Long[] medioDePagoIds;
     private List<CartaViewModel> carta;

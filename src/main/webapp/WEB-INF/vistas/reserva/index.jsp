@@ -28,6 +28,7 @@
             </div>
 
             <th:form cssClass="form-horizontal" action="${context}/reserva/confirmar" method="post">
+                <input type="hidden" name="restaurantId" value="${restaurant.id}">
                 <div class="row">
                     <div class="form-group">
                         <label for="txtComensales" class="col-md-2">Cantidad de comensales</label>
@@ -78,6 +79,17 @@
                         </div>
                     </div>
                     <div id="selectedPlatos"></div>
+                </div>
+                <div class="row">
+                    <c:if test="${errors!= null}">
+                        <div class="alert alert-danger">
+                            <ul>
+                                <c:forEach items="${errors}" var="error">
+                                    <li><strong>${error.defaultMessage}</strong></li>
+                                </c:forEach>
+                            </ul>
+                        </div>
+                    </c:if>
                 </div>
                 <div class="row">
                     <button type="submit" class="btn btn-primary">Guardar</button>

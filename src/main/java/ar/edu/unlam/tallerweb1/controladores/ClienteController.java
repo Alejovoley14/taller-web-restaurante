@@ -10,6 +10,8 @@ import ar.edu.unlam.tallerweb1.servicios.ProvinciaServicio;
 import ar.edu.unlam.tallerweb1.viewModels.ClienteViewModel;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.inject.Inject;
+import javax.jws.WebParam;
 import java.security.Principal;
 
 /**
@@ -37,7 +40,7 @@ public class ClienteController extends BaseController {
         ModelMap model = new ModelMap();
         Usuario user = getCurrentUser(principal);
 
-        model.put("provincias", provinciaServicio.getAll());
+        Initialize(model);
 
         if (clienteServicio.exist(user.getId())) {
             ClienteViewModel viewModel = new ClienteViewModel();
@@ -50,7 +53,13 @@ public class ClienteController extends BaseController {
     }
 
     @RequestMapping(value = "/cliente/add", method = RequestMethod.POST)
-    public ModelAndView addCliente(Principal principal, @ModelAttribute("cliente") ClienteViewModel viewModel) {
+    public ModelAndView addCliente(Principal principal, @ModelAttribute("cliente") @Validated ClienteViewModel viewModel, BindingResult bindingResult) {
+        ModelMap model = new ModelMap();
+        if (bindingResult.hasErrors()) {
+            Initialize(model);
+            model.put("errors", bindingResult.getAllErrors());
+            return new ModelAndView("cliente/create", model);
+        }
 
         Localidad localidad = localidadServicio.get(viewModel.getDomicilio().getLocalidadId());
 
@@ -66,7 +75,15 @@ public class ClienteController extends BaseController {
     }
 
     @RequestMapping(value = "/cliente/update", method = RequestMethod.POST)
-    public ModelAndView updateCliente(Principal principal, @ModelAttribute("cliente") ClienteViewModel viewModel) {
+    public ModelAndView updateCliente(Principal principal, @ModelAttribute("cliente") @Validated ClienteViewModel viewModel, BindingResult bindingResult) {
+
+        ModelMap model = new ModelMap();
+        if (bindingResult.hasErrors()) {
+            Initialize(model);
+            model.put("errors", bindingResult.getAllErrors());
+            return new ModelAndView("cliente/edit", model);
+        }
+
 
         Localidad localidad = localidadServicio.get(viewModel.getDomicilio().getLocalidadId());
 
@@ -78,5 +95,9 @@ public class ClienteController extends BaseController {
         //Validar
         return new ModelAndView("redirect:/");
 
+    }
+
+    private void Initialize(ModelMap model){
+        model.put("provincias", provinciaServicio.getAll());
     }
 }

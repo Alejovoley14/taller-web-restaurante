@@ -14,6 +14,8 @@ import org.springframework.social.twitter.api.impl.TwitterTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -34,8 +36,13 @@ public class UserController {
     private ProviderSignInUtils providerSignInUtils;
 
     @RequestMapping(value = "CrearUsuario", method = RequestMethod.POST)
-    public ModelAndView crearUsuario(@ModelAttribute("usuario") UsuarioViewModel usuario) {
+    public ModelAndView crearUsuario(@ModelAttribute("usuario") @Validated UsuarioViewModel usuario,BindingResult bindingResult) {
         ModelMap model = new ModelMap();
+
+        if (bindingResult.hasErrors()) {
+            model.put("errors",bindingResult.getAllErrors());
+            return new ModelAndView("login", model);
+        }
 
         if (servicioLogin.userExist(usuario.getEmail())) {
             model.put("error", "Ya existe el usuario");

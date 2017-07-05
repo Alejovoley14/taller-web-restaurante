@@ -10,6 +10,8 @@ import ar.edu.unlam.tallerweb1.viewModels.serializables.MesaSerializable;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -52,7 +54,16 @@ public class ReservaController extends BaseController {
     }
 
     @RequestMapping(value = "/reserva/confirmar", method = RequestMethod.POST)
-    public ModelAndView confirmarReserva(Principal principal, @ModelAttribute ReservaViewModel model) {
+    public ModelAndView confirmarReserva(Principal principal, @ModelAttribute @Validated ReservaViewModel model, BindingResult bindingResult) {
+
+        ModelMap modelError = new ModelMap();
+        if (bindingResult.hasErrors()) {
+            RestaurantViewModel restaurantViewModel = new RestaurantViewModel();
+            modelError.put("restaurant", restaurantViewModel.toViewModelWithcarta(restaurantServicio.get(model.getRestaurantId())));
+            modelError.put("errors", bindingResult.getAllErrors());
+            return new ModelAndView("reserva/index", modelError);
+        }
+
         Mesa mesa = mesaServicio.getMesa(model.getMesaId());
         MedioPago medioPago = medioPagoServicio.get(model.getMedioPagoId());
 
@@ -102,10 +113,17 @@ public class ReservaController extends BaseController {
 
     @RequestMapping(value = "/reserva/restaurant")
     public ModelAndView getMisReservas(Principal principal) {
-        List<Restaurant> restaurants = restaurantServicio.getAll(getCurrentUser(principal).getId());
+        Usuario user = getCurrentUser(principal);
+        if(user.getRestaurants().isEmpty()){
+            return new ModelAndView("redirect:/restaurant/create");
+        }
+
+        List<Restaurant> restaurants = restaurantServicio.getAll(user.getId());
+
         ModelMap model = new ModelMap();
         List<ReservaRestaurantViewModel> reservasViewModel = new ArrayList<>();
         for (Reserva reserva: reservaServicio.reservasRestaurants(restaurants)) {
+
             reservasViewModel.add(new ReservaRestaurantViewModel(reserva));
         }
 

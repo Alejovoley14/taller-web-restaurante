@@ -2,16 +2,27 @@ package ar.edu.unlam.tallerweb1.viewModels;
 
 import ar.edu.unlam.tallerweb1.modelo.Domicilio;
 import ar.edu.unlam.tallerweb1.modelo.Localidad;
+import org.hibernate.validator.constraints.NotEmpty;
+
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 /**
  * Created by Sebastian on 12/06/2017.
  */
 public class DomicilioViewModel {
 
+    @NotEmpty(message = "Calle es obligatorio")
+    @Size(min = 6,max = 50, message = "Calle debe tener minimo 3 caracteres y maximo 50")
     private String calle;
+    @NotNull(message = "Numero es obligatorio")
     private Integer numero;
+    @NotNull(message = "Haga click en ubicar en el mapa para obtener la latitud y longitud")
     private Double Latitud;
     private Double Longitud;
+    @NotNull(message = "Localidad es obligatorio")
     private Long localidadId;
     private Long provinciaId;
     private Long departamentoId;

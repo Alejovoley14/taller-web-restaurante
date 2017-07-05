@@ -12,6 +12,8 @@ import ar.edu.unlam.tallerweb1.viewModels.RestaurantViewModel;
 import ar.edu.unlam.tallerweb1.viewModels.serializables.RestaurantSerializable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -62,15 +64,21 @@ public void setRestaurantServicio(RestaurantServicio restaurantServicio) {
 	@RequestMapping(value = "/restaurant/create", method = RequestMethod.GET)
 	public ModelAndView CreateRestaurant(){
 		ModelMap model =new ModelMap();
-		model.put("provincias", provinciaServicio.getAll());
-		model.put("medioPagos", medioPagoServicio.getAll());
+		Initialize(model);
 		model.put("restaurant", new RestaurantViewModel());
 		return new ModelAndView("restaurant/create",model);
 	}		
 	
 	
 	@RequestMapping(value="/restaurant/add", method = RequestMethod.POST)
-	public ModelAndView addRestaurant(Principal principal,@ModelAttribute("restaurant") RestaurantViewModel viewModel){
+	public ModelAndView addRestaurant(Principal principal,@ModelAttribute("restaurant") @Validated RestaurantViewModel viewModel,BindingResult bindingResult){
+
+		ModelMap model = new ModelMap();
+		if (bindingResult.hasErrors()) {
+			Initialize(model);
+			model.put("errors", bindingResult.getAllErrors());
+			return new ModelAndView("restaurant/create", model);
+		}
 
 		Localidad localidad = localidadServicio.get(viewModel.getDomicilio().getLocalidadId());
 
@@ -88,8 +96,7 @@ public void setRestaurantServicio(RestaurantServicio restaurantServicio) {
 		ModelMap model =new ModelMap();
 		Usuario user=getCurrentUser(principal);
 
-		model.put("provincias", provinciaServicio.getAll());
-		model.put("medioPagos", medioPagoServicio.getAll());
+		Initialize(model);
 
 		if(restaurantServicio.exist(user.getId(),restaurantId)){
 			RestaurantViewModel viewModel= new RestaurantViewModel();
@@ -104,9 +111,14 @@ public void setRestaurantServicio(RestaurantServicio restaurantServicio) {
 	}	
 	
 	@RequestMapping(value="/restaurant/update",method=RequestMethod.POST)
-	public ModelAndView updateRestaurant(Principal principal,@ModelAttribute("restaurant") RestaurantViewModel viewModel){
+	public ModelAndView updateRestaurant(Principal principal, @ModelAttribute("restaurant")@Validated RestaurantViewModel viewModel, BindingResult bindingResult){
 
-
+		ModelMap model = new ModelMap();
+		if (bindingResult.hasErrors()) {
+			Initialize(model);
+			model.put("errors", bindingResult.getAllErrors());
+			return new ModelAndView("restaurant/edit", model);
+		}
 		Localidad localidad = localidadServicio.get(viewModel.getDomicilio().getLocalidadId());
 
 		Usuario user=getCurrentUser(principal);
@@ -143,6 +155,11 @@ public void setRestaurantServicio(RestaurantServicio restaurantServicio) {
 			returnList.add(new RestaurantSerializable(restaurant));
 		}
 		return returnList;
+	}
+
+	private void Initialize(ModelMap model){
+		model.put("provincias", provinciaServicio.getAll());
+		model.put("medioPagos", medioPagoServicio.getAll());
 	}
 
 }

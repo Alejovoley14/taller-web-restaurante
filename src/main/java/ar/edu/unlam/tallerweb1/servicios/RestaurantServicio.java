@@ -13,5 +13,6 @@ public interface RestaurantServicio {
 	Boolean exist(Long userId,Long restaurantId);
 	List<Restaurant> getAll(Long userId);
 	List<Restaurant> search(String nombre,Long localidadId);
-	
+	Restaurant getByMesaId(Long mesaId);
+
 }
