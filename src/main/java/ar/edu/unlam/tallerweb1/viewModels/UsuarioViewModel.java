@@ -1,18 +1,13 @@
-package ar.edu.unlam.tallerweb1.viewModels;
-
-import ar.edu.unlam.tallerweb1.modelo.Usuario;
-
-import com.intellij.ide.util.PropertyName;
-import org.hibernate.validator.constraints.Email;
-import org.hibernate.validator.constraints.NotEmpty;
-
-import javax.validation.constraints.Min;
-import javax.validation.constraints.Size;
-
-
 /**
  * Created by Sebastian on 28/05/2017.
  */
+package ar.edu.unlam.tallerweb1.viewModels;
+
+import ar.edu.unlam.tallerweb1.modelo.Usuario;
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotEmpty;
+
+import javax.validation.constraints.Size;
 public class UsuarioViewModel {
     @NotEmpty(message = "E-Mail es obligatorio")
     @Email(message = "No es un E-Mail valido")
