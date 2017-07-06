@@ -9,6 +9,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.validation.constraints.Size;
 public class UsuarioViewModel {
+    //push
     @NotEmpty(message = "E-Mail es obligatorio")
     @Email(message = "No es un E-Mail valido")
     private String email;
