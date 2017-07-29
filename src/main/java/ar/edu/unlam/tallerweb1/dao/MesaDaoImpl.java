@@ -24,7 +24,7 @@ public class MesaDaoImpl extends GenericDaoImpl<Mesa,Long> implements MesaDao{
 		
 		final Session session = sessionFactory.getCurrentSession();
 
-	
+
 		return session.createCriteria(Mesa.class)
 				.createCriteria("restaurant")
 				.add(Restrictions.eq("id", restaurantId)).createCriteria("usuario")

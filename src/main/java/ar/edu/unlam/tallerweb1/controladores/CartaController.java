@@ -108,6 +108,7 @@ public class CartaController extends BaseController {
     @ResponseBody
     public List<CartaSerializable> getCartaForRestaurant(@PathVariable(value = "restaurantId")Long restaurantId){
         List<Carta> cartas = cartaServicio.getAll(restaurantId);
+
         List<CartaSerializable> cartasSerializable = new ArrayList<>();
         for (Carta carta: cartas) {
             cartasSerializable.add(new CartaSerializable(carta));
